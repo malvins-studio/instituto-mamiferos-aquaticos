@@ -3,33 +3,37 @@
 
 import { Button } from "@/components/ui/button";
 
+// Importando todos os nossos componentes de seção como placeholders estruturais
+import IdentificationSection from "./sections/identification-section";
+import TriageSection from "./sections/triage-section";
+import ClassificationSection from "./sections/classification-section";
+import ClinicalEvaluationSection from "./sections/clinical-evaluation-section";
+import NecropsySection from "./sections/necropsy-section";
+import ComplementaryExamsSection from "./sections/complementary-exams-section";
+import CaseOutcomeSection from "./sections/case-outcome-section";
+
+/**
+ * Componente principal que orquestra e renderiza todas as seções do formulário.
+ * Nesta fase, ele é puramente estrutural, sem lógica de estado ou validação.
+ */
 export function OccurrenceForm() {
+  // Uma função de submissão simples para o formulário funcionar, prevenindo o recarregamento da página.
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Estrutura do formulário pronta! Agora podemos fazer o commit.");
+    alert("Estrutura de componentes do formulário renderizada com sucesso!");
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
-      <fieldset className="rounded-lg border p-4">
-        <legend className="-ml-1 px-1 text-lg font-medium">
-          1. Identificação...
-        </legend>
-        <p className="pt-4 text-sm text-muted-foreground">
-          (Campos virão aqui)
-        </p>
-      </fieldset>
+      <IdentificationSection />
+      <TriageSection />
+      <ClassificationSection />
+      <ClinicalEvaluationSection />
+      <NecropsySection />
+      <ComplementaryExamsSection />
+      <CaseOutcomeSection />
 
-      <fieldset className="rounded-lg border p-4">
-        <legend className="-ml-1 px-1 text-lg font-medium">
-          2. Triagem...
-        </legend>
-        <p className="pt-4 text-sm text-muted-foreground">
-          (Campos virão aqui)
-        </p>
-      </fieldset>
-
-      <Button type="submit">Enviar (Teste)</Button>
+      <Button type="submit">Enviar Teste</Button>
     </form>
   );
 }
