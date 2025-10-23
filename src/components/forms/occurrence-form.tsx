@@ -33,7 +33,12 @@ export function OccurrenceForm() {
       <ComplementaryExamsSection />
       <CaseOutcomeSection />
 
-      <Button type="submit">Enviar Teste</Button>
+      <Button
+        type="submit"
+        className="bg-brand-header-bg text-brand-header-fg hover:bg-brand-header-bg/90"
+      >
+        Enviar Mockup
+      </Button>
     </form>
   );
 }
