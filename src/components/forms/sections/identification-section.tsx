@@ -1,6 +1,17 @@
 // src/components/forms/sections/identification-section.tsx
+"use client";
 
-const IdentificationSection = () => {
+import { Control } from "react-hook-form";
+
+import { OccurrenceFormValues } from "@/lib/schemas/occurrenceSchema";
+
+interface IdentificationSectionProps {
+  control: Control<OccurrenceFormValues>;
+}
+
+const IdentificationSection = ({ control }: IdentificationSectionProps) => {
+  // A prop 'control' é recebida, mas não é usada no JSX ainda.
+  // Isso evita erros no componente pai ('occurrence-form.tsx').
   return (
     <fieldset className="rounded-lg border p-4">
       <legend className="-ml-1 px-1 text-lg font-medium">
