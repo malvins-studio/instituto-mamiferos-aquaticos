@@ -17,7 +17,6 @@ import IdentificationSection from "./sections/identification-section";
 // import ComplementaryExamsSection from "./sections/complementary-exams-section";
 // import CaseOutcomeSection from "./sections/case-outcome-section";
 
-// 1. Importa o schema e o tipo do arquivo dedicado
 import {
   formSchema,
   OccurrenceFormValues,
@@ -62,7 +61,12 @@ export function OccurrenceForm() {
         <ComplementaryExamsSection control={form.control} />
         <CaseOutcomeSection control={form.control} /> */}
 
-        <Button type="submit">Enviar Mockup</Button>
+        <Button
+          type="submit"
+          className="bg-brand-button-primary-bg text-brand-button-primary-fg hover:bg-brand-button-primary-bg/90"
+        >
+          Enviar Mockup
+        </Button>
       </form>
     </Form>
   );
