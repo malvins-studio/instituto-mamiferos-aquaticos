@@ -1,13 +1,20 @@
 // src/app/layout.tsx
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Montserrat as FontSans } from "next/font/google";
+import Header from "@/components/layout/header";
 import "./globals.css";
+import { cn } from "@/lib/utils";
 
-const inter = Inter({ subsets: ["latin"] });
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["300", "400", "700"],
+});
 
 export const metadata: Metadata = {
-  title: "IMA - Registro de Ocorrências",
-  description: "Formulário para registro de ocorrências de animais marinhos.",
+  title: "SIIMA - Sistema de Informações do IMA",
+  description:
+    "Sistema de gerenciamento de dados do Instituto Mamíferos Aquáticos.",
 };
 
 export default function RootLayout({
@@ -16,8 +23,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
-      <body className={inter.className}>{children}</body>
+    <html lang="pt-BR" suppressHydrationWarning>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+      >
+        <Header />
+        <main className="pt-20 md:pt-24">{children}</main>
+      </body>
     </html>
   );
 }
