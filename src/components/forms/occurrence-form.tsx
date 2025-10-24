@@ -1,6 +1,7 @@
 // src/components/forms/occurrence-form.tsx
 "use client";
 
+import { useEffect } from "react"; // Importa o useEffect
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -17,6 +18,7 @@ import TriageSection from "./sections/triage-section";
 // import ComplementaryExamsSection from "./sections/complementary-exams-section";
 // import CaseOutcomeSection from "./sections/case-outcome-section";
 
+// Importa o schema e o tipo do arquivo dedicado
 import {
   formSchema,
   OccurrenceFormValues,
@@ -27,9 +29,10 @@ import {
  * gerenciando o estado, validação (via Zod importado) e submissão.
  */
 export function OccurrenceForm() {
+  // Inicializa o React Hook Form com o schema Zod e valores padrão.
   const form = useForm<OccurrenceFormValues>({
-    resolver: zodResolver(formSchema), // Conecta o Zod
-
+    resolver: zodResolver(formSchema),
+    // Define os valores iniciais para os campos controlados pelo formulário.
     defaultValues: {
       // Seção 1
       tomboIma: "",
@@ -47,11 +50,25 @@ export function OccurrenceForm() {
       classificacaoOcorrencia: undefined,
       codeDecomposicao: undefined,
       interacaoPesca: undefined,
-
       // TODO: Adicionar defaultValues para futuros campos do schema
     },
   });
 
+  // "Observa" o valor do status para a lógica condicional
+  const watchedStatusAnimal = form.watch("statusAnimal");
+
+  // Efeito para limpar o campo CODE se o animal estiver "Vivo"
+  useEffect(() => {
+    if (watchedStatusAnimal === "Vivo") {
+      form.setValue("codeDecomposicao", undefined);
+      form.clearErrors("codeDecomposicao");
+    }
+  }, [watchedStatusAnimal, form]); // Roda sempre que o status mudar
+
+  /**
+   * Função chamada após a validação bem-sucedida do formulário.
+   * @param data - Os dados do formulário validados pelo schema Zod.
+   */
   const onSubmit: SubmitHandler<OccurrenceFormValues> = (data) => {
     // TODO: Substituir este mockup pela chamada de API real.
     console.log("DADOS VALIDADOS:", JSON.stringify(data, null, 2));
@@ -59,16 +76,24 @@ export function OccurrenceForm() {
   };
 
   return (
+    // O provedor <Form> disponibiliza o estado do formulário para os <FormField>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        {/* Passa o 'control' para as seções */}
         <IdentificationSection control={form.control} />
-        <TriageSection control={form.control} />
 
-        {/* <ClassificationSection control={form.control} />
-        <ClinicalEvaluationSection control={form.control} />
-        <NecropsySection control={form.control} />
-        <ComplementaryExamsSection control={form.control} />
-        <CaseOutcomeSection control={form.control} /> */}
+        <TriageSection
+          control={form.control}
+          watchedStatusAnimal={watchedStatusAnimal}
+        />
+
+        {/* Placeholders para as futuras seções (ainda precisam receber 'control' quando implementadas)
+        <ClassificationSection />
+        <ClinicalEvaluationSection />
+        <NecropsySection />
+        <ComplementaryExamsSection />
+        <CaseOutcomeSection /> 
+        */}
 
         <Button
           type="submit"
