@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 
 const Header = () => {
   return (
-    <header className="fixed top-0 left-0 w-full h-24 bg-brand-header-bg text-brand-header-fg shadow-sm z-50 border-b border-white/10">
+    <header className="fixed top-0 left-0 w-full h-20 md:h-24 bg-brand-header-bg text-brand-header-fg shadow-sm z-50 border-b border-white/10">
       <div className="container h-full mx-auto px-4 flex items-center justify-between">
+        {/* Esquerda: Menu */}
         <div className="flex-1 flex justify-start">
           <Button
             variant="ghost"
@@ -19,6 +20,7 @@ const Header = () => {
           </Button>
         </div>
 
+        {/* Centro: Logo + Título (sem encolher) */}
         <div className="shrink-0">
           <div className="flex items-center gap-3">
             <Link href="/" aria-label="Página Inicial">
@@ -33,17 +35,17 @@ const Header = () => {
             </Link>
 
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold tracking-tight leading-none">
+              <h1 className="text-2xl md:text-3xl font-bold text-brand-header-fg tracking-tight leading-none">
                 SIIMA
               </h1>
-
-              <p className="hidden md:block text-sm font-normal leading-tight">
+              <p className="hidden md:block text-sm font-normal text-brand-header-fg leading-tight">
                 Sistema de Informações do Instituto Mamíferos Aquáticos
               </p>
             </div>
           </div>
         </div>
 
+        {/* Direita: Login */}
         <div className="flex-1 flex justify-end">
           <Link
             href="/login"
