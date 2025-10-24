@@ -20,7 +20,26 @@ export const formSchema = z.object({
   latitude: z.string().min(1, { message: "A latitude é obrigatória." }),
   longitude: z.string().min(1, { message: "A longitude é obrigatória." }),
 
-  // Seção 2
+  // Seção 2: identificação e triagem
+  tipoEntrada: z.enum(["Pronto Atendimento", "Repasse por terceiros"], {
+    message: "O tipo de entrada é obrigatório.",
+  }),
+  statusAnimal: z.enum(["Vivo", "Morto"], {
+    message: "É obrigatório selecionar o status do animal.",
+  }),
+  classificacaoOcorrencia: z.enum(
+    ["Resgate e Reabilitação", "Coleta", "Registro"], { 
+    message: "A classificação da ocorrência é obrigatória.",
+  }),
+  codeDecomposicao: z.coerce
+    .number({ message: "O CODE deve ser um número válido." })
+    .min(1, { message: "O CODE é obrigatório e deve ser entre 1 e 5." })
+    .max(5, { message: "O CODE deve ser entre 1 e 5." }),
+  interacaoPesca: z.enum(["Sim", "Nao"], {
+     message: "Informe sobre a interação com a pesca.",
+  }),
+
+  //TODO: próximos campos
   // Seção 3
   // Seção 4
   //...

@@ -10,7 +10,7 @@ import { Form } from "@/components/ui/form";
 
 // Componentes de Seção
 import IdentificationSection from "./sections/identification-section";
-// import TriageSection from "./sections/triage-section";
+import TriageSection from "./sections/triage-section";
 // import ClassificationSection from "./sections/classification-section";
 // import ClinicalEvaluationSection from "./sections/clinical-evaluation-section";
 // import NecropsySection from "./sections/necropsy-section";
@@ -31,6 +31,7 @@ export function OccurrenceForm() {
     resolver: zodResolver(formSchema), // Conecta o Zod
 
     defaultValues: {
+      // Seção 1
       tomboIma: "",
       responsavelRegistro: "",
       dataOcorrencia: "",
@@ -40,6 +41,13 @@ export function OccurrenceForm() {
       localEspecifico: "",
       latitude: "",
       longitude: "",
+      // Seção 2
+      tipoEntrada: undefined,
+      statusAnimal: undefined,
+      classificacaoOcorrencia: undefined,
+      codeDecomposicao: undefined,
+      interacaoPesca: undefined,
+
       // TODO: Adicionar defaultValues para futuros campos do schema
     },
   });
@@ -54,8 +62,9 @@ export function OccurrenceForm() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <IdentificationSection control={form.control} />
-        {/* <TriageSection control={form.control} />
-        <ClassificationSection control={form.control} />
+        <TriageSection control={form.control} />
+
+        {/* <ClassificationSection control={form.control} />
         <ClinicalEvaluationSection control={form.control} />
         <NecropsySection control={form.control} />
         <ComplementaryExamsSection control={form.control} />
