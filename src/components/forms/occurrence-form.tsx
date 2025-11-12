@@ -99,7 +99,7 @@ export function OccurrenceForm() {
           type="submit"
           className="bg-brand-button-primary-bg text-brand-button-primary-fg hover:bg-brand-button-primary-bg/90"
         >
-          Enviar Mockup
+          Enviar Formulário
         </Button>
       </form>
     </Form>

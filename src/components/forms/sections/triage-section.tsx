@@ -26,10 +26,6 @@ interface TriageSectionProps {
   watchedStatusAnimal: "Vivo" | "Morto" | undefined;
 }
 
-/**
- * Renderiza os campos da seção "2. Triagem e status do animal"
- * com um layout de 2 colunas para melhor harmonia.
- */
 const TriageSection = ({
   control,
   watchedStatusAnimal,
@@ -39,8 +35,6 @@ const TriageSection = ({
       <legend className="-ml-1 px-1 text-lg font-medium">
         2. Triagem e status do animal
       </legend>
-
-      {/* Grid principal de 2 colunas para desktop */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 pt-6">
         {/* === COLUNA ESQUERDA === */}
         <div className="space-y-6">
@@ -104,7 +98,6 @@ const TriageSection = ({
 
         {/* === COLUNA DIREITA === */}
         <div className="space-y-6">
-          {/* Grid aninhado para "Status" e "CODE" */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField
               control={control}
@@ -118,22 +111,18 @@ const TriageSection = ({
                       defaultValue={field.value}
                       className="flex items-center space-x-4"
                     >
-                      <FormItem className="flex items-center space-x-2">
-                        <FormControl>
-                          <RadioGroupItem value="Vivo" id="status_vivo" />
-                        </FormControl>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="Vivo" id="status_vivo" />
                         <Label htmlFor="status_vivo" className="font-normal">
                           Vivo
                         </Label>
-                      </FormItem>
-                      <FormItem className="flex items-center space-x-2">
-                        <FormControl>
-                          <RadioGroupItem value="Morto" id="status_morto" />
-                        </FormControl>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <RadioGroupItem value="Morto" id="status_morto" />
                         <Label htmlFor="status_morto" className="font-normal">
                           Morto
                         </Label>
-                      </FormItem>
+                      </div>
                     </RadioGroup>
                   </FormControl>
                   <FormMessage />
@@ -141,7 +130,6 @@ const TriageSection = ({
               )}
             />
 
-            {/* O campo CODE aparece condicionalmente aqui, ao lado do Status */}
             {watchedStatusAnimal === "Morto" && (
               <FormField
                 control={control}
@@ -177,22 +165,18 @@ const TriageSection = ({
                     defaultValue={field.value}
                     className="flex items-center space-x-4"
                   >
-                    <FormItem className="flex items-center space-x-2">
-                      <FormControl>
-                        <RadioGroupItem value="Sim" id="pesca_sim" />
-                      </FormControl>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="Sim" id="pesca_sim" />
                       <Label htmlFor="pesca_sim" className="font-normal">
                         Sim
                       </Label>
-                    </FormItem>
-                    <FormItem className="flex items-center space-x-2">
-                      <FormControl>
-                        <RadioGroupItem value="Nao" id="pesca_nao" />
-                      </FormControl>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="Nao" id="pesca_nao" />
                       <Label htmlFor="pesca_nao" className="font-normal">
                         Não
                       </Label>
-                    </FormItem>
+                    </div>
                   </RadioGroup>
                 </FormControl>
                 <FormMessage />
