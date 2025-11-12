@@ -29,10 +29,9 @@ import {
  * gerenciando o estado, validação (via Zod importado) e submissão.
  */
 export function OccurrenceForm() {
-  // Inicializa o React Hook Form com o schema Zod e valores padrão.
   const form = useForm<OccurrenceFormValues>({
     resolver: zodResolver(formSchema),
-    // Define os valores iniciais para os campos controlados pelo formulário.
+
     defaultValues: {
       // Seção 1
       tomboIma: "",
@@ -54,8 +53,13 @@ export function OccurrenceForm() {
     },
   });
 
-  // "Observa" o valor do status para a lógica condicional
+  // "Observa" o valor do status para a lógica condicional (vivo ou morto)
   const watchedStatusAnimal = form.watch("statusAnimal");
+
+  // 1. "Observa" o valor da UF para o select em cascata
+  const watchedUf = form.watch("uf");
+  // 2. Pega a função 'setValue' para passar para o filho
+  const { setValue } = form;
 
   // Efeito para limpar o campo CODE se o animal estiver "Vivo"
   useEffect(() => {
@@ -80,7 +84,11 @@ export function OccurrenceForm() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {/* Passa o 'control' para as seções */}
-        <IdentificationSection control={form.control} />
+        <IdentificationSection
+          control={form.control}
+          watchedUf={watchedUf}
+          setFormValue={setValue}
+        />
 
         <TriageSection
           control={form.control}

@@ -1,0 +1,378 @@
+{
+  "estados": [
+    {
+      "uf": "AL",
+      "nome": "Alagoas",
+      "municipios": [
+        "Barra de Santo Antônio",
+        "Barra de São Miguel",
+        "Coruripe",
+        "Feliz Deserto",
+        "Japaratinga",
+        "Jequiá da Praia",
+        "Maceió",
+        "Maragogi",
+        "Marechal Deodoro",
+        "Paripueira",
+        "Passo de Camaragibe",
+        "Piaçabuçu",
+        "Porto de Pedras",
+        "Roteiro",
+        "São Miguel dos Milagres"
+      ]
+    },
+
+    {
+      "uf": "AP",
+      "nome": "Amapá",
+      "municipios": ["Calçoene", "Oiapoque"]
+    },
+
+    {
+      "uf": "BA",
+      "nome": "Bahia",
+      "municipios": [
+        "Alcobaça",
+        "Belmonte",
+        "Camaçari",
+        "Canavieiras",
+        "Caravelas",
+        "Cairu",
+        "Candeias",
+        "Camamu",
+        "Conde",
+        "Entre Rios",
+        "Esplanada",
+        "Eunápolis",
+        "Igrapiúna",
+        "Ilhéus",
+        "Itacaré",
+        "Itajuípe",
+        "Itaparica",
+        "Ituberá",
+        "Jaguaripe",
+        "Jandaíra",
+        "Lauro de Freitas",
+        "Lençóis",
+        "Maraú",
+        "Mata de São João",
+        "Madre de Deus",
+        "Mascote",
+        "Mucuri",
+        "Nazaré",
+        "Nilo Peçanha",
+        "Nova Viçosa",
+        "Porto Seguro",
+        "Prado",
+        "Salvador",
+        "Santa Cruz Cabália",
+        "Saubara",
+        "São Francisco do Conde",
+        "Taperoá",
+        "Una",
+        "Uruçuca",
+        "Valença",
+        "Vera Cruz",
+        "Vitória da Conquista"
+      ]
+    },
+
+    {
+      "uf": "CE",
+      "nome": "Ceará",
+      "municipios": [
+        "Acaraú",
+        "Amontada",
+        "Aquiraz",
+        "Aracati",
+        "Barroquinha",
+        "Beberibe",
+        "Camocim",
+        "Cascavel",
+        "Caucaia",
+        "Chaval",
+        "Cruz",
+        "Fortaleza",
+        "Fortim",
+        "Icapuí",
+        "Itarema",
+        "Jijoca de Jericoacoara",
+        "Paracuru",
+        "Paraipaba",
+        "São Gonçalo do Amarante",
+        "Trairi"
+      ]
+    },
+
+    {
+      "uf": "ES",
+      "nome": "Espírito Santo",
+      "municipios": [
+        "Anchieta",
+        "Aracruz",
+        "Conceição da Barra",
+        "Guarapari",
+        "Itapemirim",
+        "Linhares",
+        "Marataízes",
+        "Piúma",
+        "Presidente Kennedy",
+        "São Mateus",
+        "Serra",
+        "Vila Velha",
+        "Vitória"
+      ]
+    },
+
+    {
+      "uf": "MA",
+      "nome": "Maranhão",
+      "municipios": [
+        "Alcântara",
+        "Araioses",
+        "Bacuri",
+        "Barreirinhas",
+        "Cândido Mendes",
+        "Carutapera",
+        "Cedral",
+        "Cururupu",
+        "Humberto de Campos",
+        "Icatu",
+        "Paço do Lumiar",
+        "Paulino Neves",
+        "Primeira Cruz",
+        "Raposa",
+        "Santo Amaro do Maranhão",
+        "São José de Ribamar",
+        "São Luís",
+        "Turiaçu",
+        "Tutóia"
+      ]
+    },
+
+    {
+      "uf": "PA",
+      "nome": "Pará",
+      "municipios": [
+        "Augusto Corrêa",
+        "Bragança",
+        "Curuçá",
+        "Maracanã",
+        "Marapanim",
+        "Primavera",
+        "Quatipuru",
+        "Salinópolis",
+        "São João de Pirabas",
+        "Tracuateua",
+        "Viseu"
+      ]
+    },
+
+    {
+      "uf": "PB",
+      "nome": "Paraíba",
+      "municipios": [
+        "Baía da Traição",
+        "Cabedelo",
+        "Conde",
+        "João Pessoa",
+        "Lucena",
+        "Marcação",
+        "Mataraca",
+        "Pitimbu",
+        "Rio Tinto"
+      ]
+    },
+
+    {
+      "uf": "PR",
+      "nome": "Paraná",
+      "municipios": [
+        "Guaraqueçaba",
+        "Guaratuba",
+        "Matinhos",
+        "Paranaguá",
+        "Pontal do Paraná"
+      ]
+    },
+
+    {
+      "uf": "PE",
+      "nome": "Pernambuco",
+      "municipios": [
+        "Barreiros",
+        "Cabo de Santo Agostinho",
+        "Fernando de Noronha",
+        "Goiana",
+        "Igarassu",
+        "Ilha de Itamaracá",
+        "Ipojuca",
+        "Itapissuma",
+        "Jaboatão dos Guararapes",
+        "Olinda",
+        "Paulista",
+        "Recife",
+        "Rio Formoso",
+        "Sirinhaém",
+        "São José da Coroa Grande",
+        "Tamandaré"
+      ]
+    },
+
+    {
+      "uf": "PI",
+      "nome": "Piauí",
+      "municipios": [
+        "Cajueiro da Praia",
+        "Ilha Grande",
+        "Luís Correia",
+        "Parnaíba"
+      ]
+    },
+
+    {
+      "uf": "RJ",
+      "nome": "Rio de Janeiro",
+      "municipios": [
+        "Angra dos Reis",
+        "Armação dos Búzios",
+        "Arraial do Cabo",
+        "Cabo Frio",
+        "Campos dos Goytacazes",
+        "Carapebus",
+        "Casimiro de Abreu",
+        "Macaé",
+        "Mangaratiba",
+        "Maricá",
+        "Niterói",
+        "Paraty",
+        "Quissamã",
+        "Rio de Janeiro",
+        "Rio das Ostras",
+        "Saquarema",
+        "São Francisco de Itabapoana",
+        "São João da Barra"
+      ]
+    },
+
+    {
+      "uf": "RN",
+      "nome": "Rio Grande do Norte",
+      "municipios": [
+        "Areia Branca",
+        "Baía Formosa",
+        "Caiçara do Norte",
+        "Canguaretama",
+        "Extremoz",
+        "Galinhos",
+        "Grossos",
+        "Guamaré",
+        "Macau",
+        "Maxaranguape",
+        "Natal",
+        "Nísia Floresta",
+        "Parnamirim",
+        "Pedra Grande",
+        "Porto do Mangue",
+        "Rio do Fogo",
+        "São Bento do Norte",
+        "São Miguel de Touros",
+        "Tibau",
+        "Tibau do Sul",
+        "Touros"
+      ]
+    },
+
+    {
+      "uf": "RS",
+      "nome": "Rio Grande do Sul",
+      "municipios": [
+        "Arroio do Sal",
+        "Balneário Pinhal",
+        "Capão da Canoa",
+        "Chuí",
+        "Cidreira",
+        "Imbé",
+        "Mostardas",
+        "Palmares do Sul",
+        "Rio Grande",
+        "Santa Vitória do Palmar",
+        "São José do Norte",
+        "Tavares",
+        "Torres",
+        "Tramandaí",
+        "Xangri-lá"
+      ]
+    },
+
+    {
+      "uf": "SC",
+      "nome": "Santa Catarina",
+      "municipios": [
+        "Araranguá",
+        "Balneário Arroio do Silva",
+        "Balneário Barra do Sul",
+        "Balneário Camboriú",
+        "Balneário Gaivota",
+        "Balneário Rincão",
+        "Barra Velha",
+        "Bombinhas",
+        "Florianópolis",
+        "Garopaba",
+        "Governador Celso Ramos",
+        "Imbituba",
+        "Itajaí",
+        "Itapema",
+        "Itapoá",
+        "Jaguaruna",
+        "Laguna",
+        "Navegantes",
+        "Palhoça",
+        "Passo de Torres",
+        "Paulo Lopes",
+        "Penha",
+        "Piçarras",
+        "Porto Belo",
+        "São Francisco do Sul"
+      ]
+    },
+
+    {
+      "uf": "SP",
+      "nome": "São Paulo",
+      "municipios": [
+        "Bertioga",
+        "Cananéia",
+        "Caraguatatuba",
+        "Guarujá",
+        "Iguape",
+        "Ilha Comprida",
+        "Ilhabela",
+        "Itanhaém",
+        "Mongaguá",
+        "Peruíbe",
+        "Praia Grande",
+        "Santos",
+        "São Sebastião",
+        "São Vicente",
+        "Ubatuba"
+      ]
+    },
+
+    {
+      "uf": "SE",
+      "nome": "Sergipe",
+      "municipios": [
+        "Aracaju",
+        "Barra dos Coqueiros",
+        "Brejo Grande",
+        "Estância",
+        "Indiaroba",
+        "Itaporanga D'Ajuda",
+        "Pacatuba",
+        "Pirambu",
+        "Santa Luzia do Itanhy"
+      ]
+    }
+  ]
+}
