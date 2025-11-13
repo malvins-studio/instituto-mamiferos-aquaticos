@@ -401,7 +401,6 @@ const ClassificationSection = ({
           </div>
         ) : (
           /* --- SE ANILHA OCULTA: Renderiza um grid de 2 colunas CENTRALIZADO --- */
-          // 1. Wrapper Flex para centralizar o conteúdo no desktop
           <div className="flex justify-center">
             {/* 2. Grid interno que ocupa 2/3 da largura no desktop, alinhando-se visualmente com o grid de cima */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full md:w-2/3">
