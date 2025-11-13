@@ -21,7 +21,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 
 import { useState, useEffect } from "react";
-import localidadesData from "@/data/localidades-costeiras.json";
+import localidadesData from "@/data/localidades.json";
 
 interface IdentificationSectionProps {
   control: Control<OccurrenceFormValues>;
