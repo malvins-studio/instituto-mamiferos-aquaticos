@@ -1,7 +1,7 @@
 // src/components/forms/sections/identification-section.tsx
 "use client";
 
-import { Control } from "react-hook-form";
+import { Control, UseFormSetValue } from "react-hook-form";
 import { OccurrenceFormValues } from "@/lib/schemas/occurrenceSchema";
 import {
   FormControl,
@@ -20,15 +20,42 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
+import { useState, useEffect } from "react";
+import localidadesData from "@/data/localidades.json";
+
 interface IdentificationSectionProps {
   control: Control<OccurrenceFormValues>;
+  watchedUf: string | undefined;
+  setFormValue: UseFormSetValue<OccurrenceFormValues>;
 }
 
-/**
- * Renderiza os campos da seção "Identificação e local da ocorrência".
- * Versão MVP focada nos campos principais.
- */
-const IdentificationSection = ({ control }: IdentificationSectionProps) => {
+interface Estado {
+  uf: string;
+  nome: string;
+  municipios: string[];
+}
+
+const IdentificationSection = ({
+  control,
+  watchedUf,
+  setFormValue,
+}: IdentificationSectionProps) => {
+  const estados: Estado[] = localidadesData.estados;
+
+  const [municipios, setMunicipios] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (watchedUf) {
+      const estadoSelecionado = estados.find((e) => e.uf === watchedUf);
+      setMunicipios(estadoSelecionado ? estadoSelecionado.municipios : []);
+
+      setFormValue("municipio", "");
+    } else {
+      setMunicipios([]);
+      setFormValue("municipio", "");
+    }
+  }, [watchedUf, setFormValue, estados]);
+
   return (
     <fieldset className="rounded-lg border p-4">
       <legend className="-ml-1 px-1 text-lg font-medium">
@@ -110,12 +137,11 @@ const IdentificationSection = ({ control }: IdentificationSectionProps) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {/* TODO: Popular com lista completa de UFs (talvez de API IBGE). */}
-                    <SelectItem value="BA">Bahia</SelectItem>
-                    <SelectItem value="SP">São Paulo</SelectItem>
-                    <SelectItem value="SE">Sergipe</SelectItem>
-                    <SelectItem value="RJ">Rio de Janeiro</SelectItem>
-                    {/* Adicione outros estados conforme necessário */}
+                    {estados.map((estado) => (
+                      <SelectItem key={estado.uf} value={estado.uf}>
+                        {estado.nome}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -128,10 +154,25 @@ const IdentificationSection = ({ control }: IdentificationSectionProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Município</FormLabel>
-                <FormControl>
-                  {/* TODO: Transformar em Select dinâmico (API IBGE?). */}
-                  <Input placeholder="Selecione um município..." {...field} />
-                </FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  value={field.value}
+                  disabled={municipios.length === 0}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione um município..." />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {municipios.map((municipio) => (
+                      <SelectItem key={municipio} value={municipio}>
+                        {municipio}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -146,7 +187,7 @@ const IdentificationSection = ({ control }: IdentificationSectionProps) => {
               <FormLabel>Local específico</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Descreva o local com o máximo de detalhes (praia, km, ponto de referência...)"
+                  placeholder="Descreva o local exato (distrito, bairro, vila, praia...)"
                   rows={4}
                   {...field}
                 />

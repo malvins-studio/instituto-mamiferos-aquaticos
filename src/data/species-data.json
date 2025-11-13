@@ -1,0 +1,1046 @@
+{
+  "Amphibia": {
+    "Anura": {
+      "Bufonidae": {
+        "Rhinella": [
+          {
+            "especifico": "jimi",
+            "comum": "Sapo-cururu"
+          }
+        ]
+      }
+    }
+  },
+  "Aves": {
+    "Accipitriformes": {
+      "Accipitridae": {
+        "Parabuteo": [
+          {
+            "especifico": "unicinctus",
+            "comum": "Gavião-asa-de-telha"
+          }
+        ],
+        "Rupornis": [
+          {
+            "especifico": "magnirostris",
+            "comum": "Gavião-carijó"
+          }
+        ]
+      }
+    },
+    "Caprimulgiformes": {
+      "Nyctibiidae": {
+        "Nyctibius": [
+          {
+            "especifico": "griseus",
+            "comum": "Urutau"
+          },
+          {
+            "especifico": "leucopterus",
+            "comum": "Urutau-de-asa-branca"
+          }
+        ]
+      }
+    },
+    "Charadriiformes": {
+      "Charadriidae": {
+        "Arenaria": [
+          {
+            "especifico": "interpres",
+            "comum": "Vira-pedras"
+          }
+        ],
+        "Charadrius": [
+          {
+            "especifico": "semipalmatus",
+            "comum": "Batuíra-de-bando"
+          },
+          {
+            "especifico": "sp.",
+            "comum": "Batuíra (gênero)"
+          }
+        ],
+        "Pluvialis": [
+          {
+            "especifico": "sp.",
+            "comum": "Batuíra (gênero)"
+          }
+        ],
+        "Vanellus": [
+          {
+            "especifico": "chilensis",
+            "comum": "Quero-quero"
+          }
+        ]
+      },
+      "Laridae": {
+        "Anous": [
+          {
+            "especifico": "stolidus",
+            "comum": "Trinta-réis-preto"
+          }
+        ],
+        "Larus": [
+          {
+            "especifico": "sp.",
+            "comum": "Gaivota (gênero)"
+          }
+        ],
+        "Onychoprion": [
+          {
+            "especifico": "fuscatus",
+            "comum": "Trinta-réis-escuro"
+          }
+        ],
+        "Sterna": [
+          {
+            "especifico": "eurygnatha",
+            "comum": "Trinta-réis-de-bico-amarelo"
+          },
+          {
+            "especifico": "hirundo",
+            "comum": "Trinta-réis-boreal"
+          },
+          {
+            "especifico": "sp.",
+            "comum": "Trinta-réis (gênero)"
+          }
+        ],
+        "Thalasseus": [
+          {
+            "especifico": "acuflavidus",
+            "comum": "Trinta-réis-de-bando"
+          },
+          {
+            "especifico": "maximus",
+            "comum": "Trinta-réis-real"
+          }
+        ]
+      },
+      "Scolopacidae": {
+        "Calidris": [
+          {
+            "especifico": "alba",
+            "comum": "Vira-pedra-branco"
+          },
+          {
+            "especifico": "fuscicollis",
+            "comum": "Maçarico-de-bico-fino"
+          },
+          {
+            "especifico": "sp.",
+            "comum": "Maçarico (gênero)"
+          }
+        ]
+      },
+      "Stercorariidae": {
+        "Stercorarius": [
+          {
+            "especifico": "antarcticus",
+            "comum": "Mandrião-antártico"
+          },
+          {
+            "especifico": "chilensis",
+            "comum": "Mandrião-chileno"
+          },
+          {
+            "especifico": "longicaudus",
+            "comum": "Mandrião-de-cauda-comprida"
+          },
+          {
+            "especifico": "maccormicki",
+            "comum": "Mandrião-antártico"
+          },
+          {
+            "especifico": "parasiticus",
+            "comum": "Mandrião-parasítico"
+          },
+          {
+            "especifico": "pomarinus",
+            "comum": "Mandrião-pomarino"
+          },
+          {
+            "especifico": "sp.",
+            "comum": "Mandrião (gênero)"
+          }
+        ]
+      }
+    },
+    "Coraciiformes": {
+      "Alcedinidae": {
+        "Chloroceryle": [
+          {
+            "especifico": "aenea",
+            "comum": "Martim-pescador-miúdo"
+          }
+        ],
+        "Megaceryle": [
+          {
+            "especifico": "torquata",
+            "comum": "Martim-pescador-grande"
+          }
+        ]
+      }
+    },
+    "Cuculiformes": {
+      "Cuculidae": {
+        "Coccyzus": [
+          {
+            "especifico": "melacoryphus",
+            "comum": "Papa-lagarta-de-bico-preto"
+          }
+        ],
+        "Guira": [
+          {
+            "especifico": "guira",
+            "comum": "Anu-branco"
+          }
+        ]
+      }
+    },
+    "Falconiformes": {
+      "Falconidae": {
+        "Caracara": [
+          {
+            "especifico": "plancus",
+            "comum": "Carcará"
+          }
+        ],
+        "Polyborus": [
+          {
+            "especifico": "plancus",
+            "comum": "Carcará"
+          }
+        ]
+      }
+    },
+    "Galliformes": {
+      "Cracidae": {
+        "Ortalis": [
+          {
+            "especifico": "gutatta",
+            "comum": "Aracuã-de-barriga-branca"
+          }
+        ]
+      }
+    },
+    "Gruiformes": {
+      "Rallidae": {
+        "Aramides": [
+          {
+            "especifico": "cajaneus",
+            "comum": "Saracura-três-potes"
+          }
+        ],
+        "Gallinula": [
+          {
+            "especifico": "chloropus",
+            "comum": "Galinhola-d'água"
+          }
+        ],
+        "Porphyrio": [
+          {
+            "especifico": "martinica",
+            "comum": "Frango-d'água-azul"
+          }
+        ],
+        "Porzana": [
+          {
+            "especifico": "albicollis",
+            "comum": "Sanã-de-bico-vermelho"
+          }
+        ],
+        "Rallus": [
+          {
+            "especifico": "longirostris",
+            "comum": "Saracura-do-mangue"
+          }
+        ]
+      }
+    },
+    "Passeriformes": {
+      "Fringillidae": {
+        "Euphonia": [
+          {
+            "especifico": "violacea",
+            "comum": "Gaturamo-verdadeiro"
+          }
+        ],
+        "Serinus": [
+          {
+            "especifico": "canaria",
+            "comum": "Canário"
+          }
+        ]
+      },
+      "Icteridae": {
+        "Gnorimopsar": [
+          {
+            "especifico": "chopi",
+            "comum": "Graúna"
+          }
+        ]
+      },
+      "Thraupidae": {
+        "Paroaria": [
+          {
+            "especifico": "dominicana",
+            "comum": "Cardeal-do-nordeste"
+          }
+        ],
+        "Saltator": [
+          {
+            "especifico": "similis",
+            "comum": "Trinca-ferro-verdadeiro"
+          }
+        ],
+        "Sicalis": [
+          {
+            "especifico": "flaveola",
+            "comum": "Canário-da-terra-verdadeiro"
+          }
+        ],
+        "Sporophila": [
+          {
+            "especifico": "angolensis",
+            "comum": "Curió"
+          },
+          {
+            "especifico": "bouvreuil",
+            "comum": "Caboclinho-de-papo-branco"
+          },
+          {
+            "especifico": "caerulescens",
+            "comum": "Papa-capim-de-coleira"
+          },
+          {
+            "especifico": "leucoptera",
+            "comum": "Papa-capim-do-banhado"
+          },
+          {
+            "especifico": "lineola",
+            "comum": "Bigodinho"
+          },
+          {
+            "especifico": "nigricollis",
+            "comum": "Papa-capim-de-costas-pretas"
+          }
+        ],
+        "Tangara": [
+          {
+            "especifico": "seledon",
+            "comum": "Saíra-sete-cores"
+          }
+        ],
+        "Thraupis": [
+          {
+            "especifico": "palmarum",
+            "comum": "Sanhaçu-do-coqueiro"
+          },
+          {
+            "especifico": "sp.",
+            "comum": "Sanhaçu (gênero)"
+          }
+        ]
+      },
+      "Turdidae": {
+        "Turdus": [
+          {
+            "especifico": "rufiventris",
+            "comum": "Sabiá-laranjeira"
+          }
+        ]
+      },
+      "Tyrannidae": {
+        "Pitangus": [
+          {
+            "especifico": "sulphuratus",
+            "comum": "Bem-te-vi"
+          }
+        ]
+      }
+    },
+    "Pelecaniformes": {
+      "Ardeidae": {
+        "Ardea": [
+          {
+            "especifico": "alba",
+            "comum": "Garça-branca-grande"
+          }
+        ],
+        "Bubulcus": [
+          {
+            "especifico": "ibis",
+            "comum": "Garça-vaqueira"
+          }
+        ],
+        "Butorides": [
+          {
+            "especifico": "striata",
+            "comum": "Socozinho"
+          }
+        ],
+        "Cochlearius": [
+          {
+            "especifico": "cochlearius",
+            "comum": "Arapapá"
+          }
+        ],
+        "Egretta": [
+          {
+            "especifico": "thula",
+            "comum": "Garça-branca-pequena"
+          }
+        ],
+        "Nyctanassa": [
+          {
+            "especifico": "violacea",
+            "comum": "Savacu-de-coroa"
+          }
+        ],
+        "Nycticorax": [
+          {
+            "especifico": "nycticorax",
+            "comum": "Savacu"
+          }
+        ]
+      }
+    },
+    "Phaethontiformes": {
+      "Phaethontidae": {
+        "Phaethon": [
+          {
+            "especifico": "aethereus",
+            "comum": "Rabo-de-palha-de-bico-laranja"
+          }
+        ]
+      }
+    },
+    "Piciformes": {
+      "Ramphastidae": {
+        "Pteroglossus": [
+          {
+            "especifico": "aracari",
+            "comum": "Araçari-de-bico-branco"
+          }
+        ]
+      }
+    },
+    "Podicipediformes": {
+      "Podicipedidae": {
+        "Tachybaptus": [
+          {
+            "especifico": "dominicus",
+            "comum": "Mergulhão-pequeno"
+          }
+        ]
+      }
+    },
+    "Procellariiformes": {
+      "Diomedeidae": {
+        "Diomedea": [
+          {
+            "especifico": "exulans",
+            "comum": "Albatroz-errante"
+          },
+          {
+            "especifico": "sp.",
+            "comum": "Albatroz (gênero)"
+          }
+        ]
+      },
+      "Oceanitidae": {
+        "Oceanites": [
+          {
+            "especifico": "oceanicus",
+            "comum": "Painho-de-wilson"
+          }
+        ]
+      },
+      "Procellariidae": {
+        "Ardenna": [
+          {
+            "especifico": "gravis",
+            "comum": "Pardela-de-bico-preto"
+          },
+          {
+            "especifico": "griseus",
+            "comum": "Pardela-escura"
+          }
+        ],
+        "Calonectris": [
+          {
+            "especifico": "borealis",
+            "comum": "Cagarra-do-atlântico"
+          },
+          {
+            "especifico": "sp.",
+            "comum": "Cagarra (gênero)"
+          }
+        ],
+        "Pachyptila": [
+          {
+            "especifico": "desolata",
+            "comum": "Príon-antártico"
+          }
+        ],
+        "Procellaria": [
+          {
+            "especifico": "aequinoctialis",
+            "comum": "Pardela-preta"
+          },
+          {
+            "especifico": "cinerea",
+            "comum": "Pardela-cinzenta"
+          }
+        ],
+        "Pterodroma": [
+          {
+            "especifico": "incerta",
+            "comum": "Grazina-de-barriga-branca"
+          },
+          {
+            "especifico": "mollis",
+            "comum": "Grazina-mole"
+          },
+          {
+            "especifico": "sp.",
+            "comum": "Pardela (gênero)"
+          }
+        ],
+        "Puffinus": [
+          {
+            "especifico": "puffinus",
+            "comum": "Bobo-pequeno"
+          },
+          {
+            "especifico": "sp.",
+            "comum": "Pardela (gênero)"
+          },
+          {
+            "especifico": "tenuirostris",
+            "comum": "Bobo-de-cauda-curta"
+          }
+        ]
+      }
+    },
+    "Psittaciformes": {
+      "Psittacidae": {
+        "Amazona": [
+          {
+            "especifico": "aestiva",
+            "comum": "Papagaio-verdadeiro"
+          },
+          {
+            "especifico": "vinacea",
+            "comum": "Papagaio-de-peito-roxo"
+          }
+        ],
+        "Aratinga": [
+          {
+            "especifico": "aurea",
+            "comum": "Periquito-rei"
+          }
+        ],
+        "Brotogeris": [
+          {
+            "especifico": "tirica",
+            "comum": "Periquito-verde"
+          }
+        ],
+        "Eupsittula": [
+          {
+            "especifico": "aurea",
+            "comum": "Periquito-rei"
+          },
+          {
+            "especifico": "cactorum",
+            "comum": "Periquito-da-caatinga"
+          }
+        ]
+      }
+    },
+    "Strigiformes": {
+      "Strigidae": {
+        "Asio": [
+          {
+            "especifico": "clamator",
+            "comum": "Coruja-orelhuda"
+          }
+        ],
+        "Athene": [
+          {
+            "especifico": "cunicularia",
+            "comum": "Coruja-buraqueira"
+          }
+        ],
+        "Pulsatrix": [
+          {
+            "especifico": "perspicillata",
+            "comum": "Murucututu"
+          }
+        ]
+      },
+      "Tytonidae": {
+        "Tyto": [
+          {
+            "especifico": "alba",
+            "comum": "Coruja-das-torres"
+          }
+        ]
+      }
+    },
+    "Suliformes": {
+      "Fregatidae": {
+        "Fregata": [
+          {
+            "especifico": "magnificens",
+            "comum": "Tesourão"
+          }
+        ]
+      },
+      "Phalacrocoracidae": {
+        "Phalacrocorax": [
+          {
+            "especifico": "brasilianus",
+            "comum": "Biguá"
+          }
+        ]
+      },
+      "Sulidae": {
+        "Sula": [
+          {
+            "especifico": "sula",
+            "comum": "Atobá-de-pé-vermelho"
+          }
+        ]
+      }
+    }
+  },
+  "Elasmobranchii": {
+    "Orectolobiformes": {
+      "Rhincodontidae": {
+        "Rhincodon": [
+          {
+            "especifico": "typus",
+            "comum": "Tubarão-baleia"
+          }
+        ]
+      }
+    }
+  },
+  "Mammalia": {
+    "Artiodactyla": {
+      "Delphinidae": {
+        "Delphinus": [
+          {
+            "especifico": "delphis",
+            "comum": "Golfinho-comum"
+          }
+        ]
+      }
+    },
+    "Carnivora": {
+      "Canidae": {
+        "Cerdocyon": [
+          {
+            "especifico": "thous",
+            "comum": "Cachorro-do-mato"
+          }
+        ]
+      },
+      "Felidae": {
+        "Leopardus": [
+          {
+            "especifico": "tigrinus",
+            "comum": "Gato-do-mato"
+          }
+        ]
+      },
+      "Mustelidae": {
+        "Eira": [
+          {
+            "especifico": "barbara",
+            "comum": "Irara"
+          }
+        ],
+        "Lontra": [
+          {
+            "especifico": "longicaudis",
+            "comum": "Lontra"
+          }
+        ]
+      },
+      "Otariidae": {
+        "Arctocephalus": [
+          {
+            "especifico": "australis",
+            "comum": "Lobo-marinho-sul-americano"
+          },
+          {
+            "especifico": "tropicalis",
+            "comum": "Lobo-marinho-subantártico"
+          }
+        ]
+      },
+      "Phocidae": {
+        "Lobodon": [
+          {
+            "especifico": "carcinophagus",
+            "comum": "Foca-caranguejeira"
+          }
+        ],
+        "Mirounga": [
+          {
+            "especifico": "leonina",
+            "comum": "Elefante-marinho-do-sul"
+          }
+        ]
+      },
+      "Procyonidae": {
+        "Procyon": [
+          {
+            "especifico": "cancrivorus",
+            "comum": "Mão-pelada"
+          }
+        ]
+      }
+    },
+    "Cetartiodactyla": {
+      "Balaenopteridae": {
+        "Balaenoptera": [
+          {
+            "especifico": "acutorostrata",
+            "comum": "Baleia-minke-anã"
+          },
+          {
+            "especifico": "borealis",
+            "comum": "Baleia-sei"
+          },
+          {
+            "especifico": "sp.",
+            "comum": "Baleia-de-baleia (gênero)"
+          }
+        ],
+        "Megaptera": [
+          {
+            "especifico": "novaeangliae",
+            "comum": "Baleia-jubarte"
+          }
+        ]
+      },
+      "Delphinidae": {
+        "Feresa": [
+          {
+            "especifico": "attenuata",
+            "comum": "Orca-pigmeia"
+          }
+        ],
+        "Globicephala": [
+          {
+            "especifico": "macrorhynchus",
+            "comum": "Baleia-piloto-de-aleta-curta"
+          },
+          {
+            "especifico": "sp.",
+            "comum": "Baleia-piloto (gênero)"
+          }
+        ],
+        "Grampus": [
+          {
+            "especifico": "griseus",
+            "comum": "Golfinho-de-risso"
+          }
+        ],
+        "Orcinus": [
+          {
+            "especifico": "orca",
+            "comum": "Orca"
+          }
+        ],
+        "Peponocephala": [
+          {
+            "especifico": "electra",
+            "comum": "Golfinho-cabeça-de-melão"
+          }
+        ],
+        "Pseudorca": [
+          {
+            "especifico": "crassidens",
+            "comum": "Falsa-orca"
+          }
+        ],
+        "Stenella": [
+          {
+            "especifico": "attenuata",
+            "comum": "Golfinho-pintado-pantropical"
+          },
+          {
+            "especifico": "clymene",
+            "comum": "Golfinho-clymene"
+          },
+          {
+            "especifico": "coeruleoalba",
+            "comum": "Golfinho-listrado"
+          },
+          {
+            "especifico": "longirostris",
+            "comum": "Golfinho-rotador"
+          },
+          {
+            "especifico": "sp.",
+            "comum": "Golfinho-pintado (gênero)"
+          }
+        ],
+        "Steno": [
+          {
+            "especifico": "bredanensis",
+            "comum": "Golfinho-de-dentes-rugosos"
+          }
+        ]
+      },
+      "Kogiidae": {
+        "Kogia": [
+          {
+            "especifico": "breviceps",
+            "comum": "Cachalote-Pigmeu"
+          },
+          {
+            "especifico": "sima",
+            "comum": "Cachalote-anão"
+          },
+          {
+            "especifico": "sp.",
+            "comum": "Cachalote-pigmeu/anão (gênero)"
+          }
+        ]
+      },
+      "Physeteridae": {
+        "Physeter": [
+          {
+            "especifico": "macrocephalus",
+            "comum": "Cachalote"
+          }
+        ]
+      },
+      "Ziphiidae": {
+        "Mesoplodon": [
+          {
+            "especifico": "layardii",
+            "comum": "Baleia-de-bico-de-layard"
+          }
+        ],
+        "Ziphius": [
+          {
+            "especifico": "cavirostris",
+            "comum": "Baleia-bicuda-de-Cuvier"
+          }
+        ]
+      }
+    },
+    "Didelphimorphia": {
+      "Didelphidae": {
+        "Didelphis": [
+          {
+            "especifico": "aurita",
+            "comum": "Gambá-de-orelha-preta"
+          }
+        ],
+        "Metachirus": [
+          {
+            "especifico": "nudicaudatus",
+            "comum": "Cuíca-de-quatro-olhos"
+          }
+        ]
+      }
+    },
+    "Pilosa": {
+      "Myrmecophagidae": {
+        "Tamandua": [
+          {
+            "especifico": "tetradactyla",
+            "comum": "Tamanduá-mirim"
+          }
+        ]
+      }
+    },
+    "Primates": {
+      "Callitrichidae": {
+        "Callithrix": [
+          {
+            "especifico": "jacchus",
+            "comum": "Sagui-de-tufos-brancos"
+          },
+          {
+            "especifico": "kuhlii",
+            "comum": "Sagui-de-wied"
+          },
+          {
+            "especifico": "penicillata",
+            "comum": "Sagui-de-pelo-preto"
+          },
+          {
+            "especifico": "sp.",
+            "comum": "Sagui (gênero)"
+          }
+        ],
+        "Leontopithecus": [
+          {
+            "especifico": "chrysomelas",
+            "comum": "Mico-leão-de-cara-dourada"
+          }
+        ]
+      },
+      "Cebidae": {
+        "Simia": [
+          {
+            "especifico": "apella",
+            "comum": "Macaco-prego"
+          }
+        ]
+      }
+    },
+    "Rodentia": {
+      "Caviidae": {
+        "Hydrochoerus": [
+          {
+            "especifico": "hydrochaeris",
+            "comum": "Capivara"
+          }
+        ]
+      },
+      "Echimyidae": {
+        "Chaetomys": [
+          {
+            "especifico": "subspinosus",
+            "comum": "Ouriço-preto"
+          }
+        ]
+      },
+      "Erethizontidae": {
+        "Erethizon": [
+          {
+            "especifico": "dorsatum",
+            "comum": "Porco-espinho-norte-americano"
+          }
+        ]
+      }
+    },
+    "Sirenia": {
+      "Trichechidae": {
+        "Trichechus": [
+          {
+            "especifico": "manatus",
+            "comum": "Peixe-boi-marinho"
+          }
+        ]
+      }
+    }
+  },
+  "Reptilia": {
+    "Squamata": {
+      "Boidae": {
+        "Boa": [
+          {
+            "especifico": "constrictor",
+            "comum": "Jiboia"
+          }
+        ],
+        "Eunectes": [
+          {
+            "especifico": "murinus",
+            "comum": "Sucuri-verde"
+          }
+        ]
+      },
+      "Dipsadidae": {
+        "Liophis": [
+          {
+            "especifico": "miliaris",
+            "comum": "Cobra-d'água"
+          }
+        ]
+      },
+      "Iguanidae": {
+        "Iguana": [
+          {
+            "especifico": "iguana",
+            "comum": "Iguana-verde"
+          }
+        ]
+      }
+    },
+    "Testudines": {
+      "Chelidae": {
+        "Hydromedusa": [
+          {
+            "especifico": "tectifera",
+            "comum": "Cágado-pescoço-de-cobra"
+          }
+        ],
+        "Mesoclemmys": [
+          {
+            "especifico": "tuberculata",
+            "comum": "Cágado-cabeçudo"
+          }
+        ],
+        "Phrynops": [
+          {
+            "especifico": "geoffroanus",
+            "comum": "Cágado-de-barbicha"
+          }
+        ]
+      },
+      "Cheloniidae": {
+        "Caretta": [
+          {
+            "especifico": "caretta",
+            "comum": "Tartaruga-cabeçuda"
+          }
+        ],
+        "Chelonia": [
+          {
+            "especifico": "mydas",
+            "comum": "Tartaruga-verde"
+          }
+        ],
+        "Eretmochelys": [
+          {
+            "especifico": "imbricata",
+            "comum": "Tartaruga-de-pente"
+          }
+        ],
+        "Lepidochelys": [
+          {
+            "especifico": "olivacea",
+            "comum": "Tartaruga-oliva"
+          }
+        ]
+      },
+      "Dermochelyidae": {
+        "Dermochelys": [
+          {
+            "especifico": "coriacea",
+            "comum": "Tartaruga-de-couro"
+          }
+        ]
+      },
+      "Geoemydidae": {
+        "Rhinoclemmys": [
+          {
+            "especifico": "punctularia",
+            "comum": "Tartaruga-da-guiana"
+          }
+        ]
+      },
+      "Testudinidae": {
+        "Chelonoidis": [
+          {
+            "especifico": "carbonaria",
+            "comum": "Jabuti-piranga"
+          }
+        ]
+      }
+    }
+  }
+}

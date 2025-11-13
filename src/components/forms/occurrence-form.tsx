@@ -1,7 +1,7 @@
 // src/components/forms/occurrence-form.tsx
 "use client";
 
-import { useEffect } from "react"; // Importa o useEffect
+import { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -12,27 +12,20 @@ import { Form } from "@/components/ui/form";
 // Componentes de Seção
 import IdentificationSection from "./sections/identification-section";
 import TriageSection from "./sections/triage-section";
-// import ClassificationSection from "./sections/classification-section";
+import ClassificationSection from "./sections/classification-section";
 // import ClinicalEvaluationSection from "./sections/clinical-evaluation-section";
 // import NecropsySection from "./sections/necropsy-section";
 // import ComplementaryExamsSection from "./sections/complementary-exams-section";
 // import CaseOutcomeSection from "./sections/case-outcome-section";
 
-// Importa o schema e o tipo do arquivo dedicado
 import {
   formSchema,
   OccurrenceFormValues,
 } from "@/lib/schemas/occurrenceSchema";
 
-/**
- * Componente principal que orquestra o formulário de ocorrência,
- * gerenciando o estado, validação (via Zod importado) e submissão.
- */
 export function OccurrenceForm() {
-  // Inicializa o React Hook Form com o schema Zod e valores padrão.
   const form = useForm<OccurrenceFormValues>({
     resolver: zodResolver(formSchema),
-    // Define os valores iniciais para os campos controlados pelo formulário.
     defaultValues: {
       // Seção 1
       tomboIma: "",
@@ -50,41 +43,65 @@ export function OccurrenceForm() {
       classificacaoOcorrencia: undefined,
       codeDecomposicao: undefined,
       interacaoPesca: undefined,
-      // TODO: Adicionar defaultValues para futuros campos do schema
+      // Seção 3
+      classe: undefined,
+      ordem: "",
+      familia: "",
+      genero: "",
+      especie: "",
+      nomeComum: "",
+      sexo: undefined,
+      faixaEtaria: undefined,
+      anilhaNumero: "",
     },
   });
 
-  // "Observa" o valor do status para a lógica condicional
+  // "Observa" todos os valores necessários para a lógica condicional
   const watchedStatusAnimal = form.watch("statusAnimal");
+  const watchedUf = form.watch("uf");
+  const watchedClasse = form.watch("classe");
+  const watchedOrdem = form.watch("ordem");
+  const watchedFamilia = form.watch("familia");
+  const watchedGenero = form.watch("genero");
+  const watchedEspecie = form.watch("especie");
+  const { setValue, clearErrors } = form;
 
-  // Efeito para limpar o campo CODE se o animal estiver "Vivo"
+  // Efeito para limpar o campo CODE
   useEffect(() => {
     if (watchedStatusAnimal === "Vivo") {
-      form.setValue("codeDecomposicao", undefined);
-      form.clearErrors("codeDecomposicao");
+      setValue("codeDecomposicao", undefined);
+      clearErrors("codeDecomposicao");
     }
-  }, [watchedStatusAnimal, form]); // Roda sempre que o status mudar
+  }, [watchedStatusAnimal, setValue, clearErrors]);
 
-  /**
-   * Função chamada após a validação bem-sucedida do formulário.
-   * @param data - Os dados do formulário validados pelo schema Zod.
-   */
   const onSubmit: SubmitHandler<OccurrenceFormValues> = (data) => {
-    // TODO: Substituir este mockup pela chamada de API real.
     console.log("DADOS VALIDADOS:", JSON.stringify(data, null, 2));
     alert("Formulário enviado com sucesso! Verifique o console.");
   };
 
   return (
-    // O provedor <Form> disponibiliza o estado do formulário para os <FormField>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {/* Passa o 'control' para as seções */}
-        <IdentificationSection control={form.control} />
+        <IdentificationSection
+          control={form.control}
+          watchedUf={watchedUf}
+          setFormValue={setValue}
+        />
 
         <TriageSection
           control={form.control}
           watchedStatusAnimal={watchedStatusAnimal}
+        />
+
+        {/* Passa todas as props necessárias para a Seção 3 */}
+        <ClassificationSection
+          control={form.control}
+          setFormValue={setValue}
+          watchedClasse={watchedClasse}
+          watchedOrdem={watchedOrdem}
+          watchedFamilia={watchedFamilia}
+          watchedGenero={watchedGenero}
+          watchedEspecie={watchedEspecie}
         />
 
         {/* Placeholders para as futuras seções (ainda precisam receber 'control' quando implementadas)
