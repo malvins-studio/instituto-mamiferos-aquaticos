@@ -1,11 +1,9 @@
 // src/lib/schemas/occurrenceSchema.ts
 import { z } from "zod";
 
-/*
+/**
  * Define o schema de validação e a tipagem para o formulário de ocorrência.
  */
-
-//chema
 export const formSchema = z
   .object({
     // Seção 1: Identificação
@@ -21,7 +19,7 @@ export const formSchema = z
     latitude: z.string().min(1, { message: "A latitude é obrigatória." }),
     longitude: z.string().min(1, { message: "A longitude é obrigatória." }),
 
-    // Seção 2: identificação e triagem
+    // Seção 2: Triagem e Status
     tipoEntrada: z.enum(["Pronto Atendimento", "Repasse por terceiros"], {
       message: "O tipo de entrada é obrigatório.",
     }),
@@ -36,14 +34,39 @@ export const formSchema = z
     ),
     codeDecomposicao: z.coerce
       .number({ message: "O CODE deve ser um número válido." })
-      .min(1, { message: "O CODE deve ser entre 1 e 5." })
+      .min(1, { message: "O CODE é obrigatório e deve ser entre 1 e 5." })
       .max(5, { message: "O CODE deve ser entre 1 e 5." })
       .optional(),
     interacaoPesca: z.enum(["Sim", "Nao"], {
       message: "Informe sobre a interação com a pesca.",
     }),
+
+    //  Seção 3: Classificação
+    classe: z.enum(
+      ["Amphibia", "Aves", "Elasmobranchii", "Mammalia", "Reptilia"],
+      {
+        message: "A classe é obrigatória.",
+      }
+    ),
+    ordem: z.string().min(1, { message: "A ordem é obrigatória." }),
+    familia: z.string().min(1, { message: "A família é obrigatória." }),
+    genero: z.string().min(1, { message: "O gênero é obrigatório." }),
+    especie: z.string().min(1, { message: "A espécie é obrigatória." }),
+    nomeComum: z.string().optional(),
+    sexo: z.enum(["sexo_macho", "sexo_femea", "sexo_indefinido"], {
+      message: "O sexo é obrigatório.",
+    }),
+    faixaEtaria: z.enum(
+      ["faixa_filhote", "faixa_juvenil", "faixa_subadulto", "faixa_adulto"],
+      {
+        message: "A faixa etária é obrigatória.",
+      }
+    ),
+    anilhaNumero: z.string().optional(),
+
+    // TODO: Adicionar campos das próximas seções aqui
   })
-  // REGRA CONDICIONAL
+
   .superRefine((data, ctx) => {
     if (
       data.statusAnimal === "Morto" &&
@@ -56,10 +79,7 @@ export const formSchema = z
       });
     }
 
-    //TODO: próximos campos
-    // Seção 3
-    // Seção 4
-    //...
+    // TODO: Adicionar lógica condicional da Anilha aqui
   });
 
 export type OccurrenceFormValues = z.infer<typeof formSchema>;
