@@ -64,6 +64,26 @@ export const formSchema = z
     ),
     anilhaNumero: z.string().optional(),
 
+    //Seção 4
+    pesoEntradaG: z.coerce.number().optional(),
+    pesoEntradaGUnidade: z.enum(["g", "kg"]).optional(),
+    condicaoCorporal: z.string().optional(),
+    procedimentosClinicos: z.string().optional(),
+    amostrasAntemortem: z.string().optional(),
+
+    // Biometria
+    biometriaCt: z.coerce.number().optional(),
+    biometriaCtUnidade: z.enum(["cm", "mm", "m"]).optional(),
+
+    biometriaCompBico: z.coerce.number().optional(),
+    biometriaBicoUnidade: z.enum(["cm", "mm"]).optional(),
+
+    biometriaCcc: z.coerce.number().optional(),
+    biometriaCccUnidade: z.enum(["cm", "m"]).optional(),
+
+    biometriaLcc: z.coerce.number().optional(),
+    biometriaLccUnidade: z.enum(["cm", "m"]).optional(),
+
     // TODO: Adicionar campos das próximas seções aqui
   })
 
