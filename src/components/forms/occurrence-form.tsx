@@ -13,7 +13,7 @@ import { Form } from "@/components/ui/form";
 import IdentificationSection from "./sections/identification-section";
 import TriageSection from "./sections/triage-section";
 import ClassificationSection from "./sections/classification-section";
-// import ClinicalEvaluationSection from "./sections/clinical-evaluation-section";
+import ClinicalEvaluationSection from "./sections/clinical-evaluation-section";
 // import NecropsySection from "./sections/necropsy-section";
 // import ComplementaryExamsSection from "./sections/complementary-exams-section";
 // import CaseOutcomeSection from "./sections/case-outcome-section";
@@ -53,6 +53,20 @@ export function OccurrenceForm() {
       sexo: undefined,
       faixaEtaria: undefined,
       anilhaNumero: "",
+      //seção 4
+      pesoEntradaG: undefined,
+      pesoEntradaGUnidade: undefined,
+      condicaoCorporal: "",
+      procedimentosClinicos: "",
+      amostrasAntemortem: "",
+      biometriaCt: undefined,
+      biometriaCtUnidade: undefined,
+      biometriaCompBico: undefined,
+      biometriaBicoUnidade: undefined,
+      biometriaCcc: undefined,
+      biometriaCccUnidade: undefined,
+      biometriaLcc: undefined,
+      biometriaLccUnidade: undefined,
     },
   });
 
@@ -103,10 +117,13 @@ export function OccurrenceForm() {
           watchedGenero={watchedGenero}
           watchedEspecie={watchedEspecie}
         />
+        <ClinicalEvaluationSection
+          control={form.control}
+          watchedClasse={watchedClasse}
+        />
 
         {/* Placeholders para as futuras seções (ainda precisam receber 'control' quando implementadas)
-        <ClassificationSection />
-        <ClinicalEvaluationSection />
+   
         <NecropsySection />
         <ComplementaryExamsSection />
         <CaseOutcomeSection /> 
