@@ -16,7 +16,7 @@ import ClassificationSection from "./sections/classification-section";
 import ClinicalEvaluationSection from "./sections/clinical-evaluation-section";
 import NecropsySection from "./sections/necropsy-section";
 import ComplementaryExamsSection from "./sections/complementary-exams-section";
-// import CaseOutcomeSection from "./sections/case-outcome-section";
+import CaseOutcomeSection from "./sections/case-outcome-section";
 
 import {
   formSchema,
@@ -37,12 +37,14 @@ export function OccurrenceForm() {
       localEspecifico: "",
       latitude: "",
       longitude: "",
+
       // Seção 2
       tipoEntrada: undefined,
       statusAnimal: undefined,
       classificacaoOcorrencia: undefined,
       codeDecomposicao: undefined,
       interacaoPesca: undefined,
+
       // Seção 3
       classe: undefined,
       ordem: "",
@@ -53,6 +55,7 @@ export function OccurrenceForm() {
       sexo: undefined,
       faixaEtaria: undefined,
       anilhaNumero: "",
+
       //seção 4
       pesoEntradaG: undefined,
       pesoEntradaGUnidade: undefined,
@@ -85,6 +88,14 @@ export function OccurrenceForm() {
       achadosHemograma: "",
       achadosFezesUrina: "",
       resultadoMicrobiologico: "",
+
+      //Seção 7
+      pesoFinal: undefined,
+      pesoFinalUnidade: undefined,
+      dataSaida: "",
+      destinoFinal: undefined,
+      outroDestinoEspecificar: "",
+      observacoes: "",
     },
   });
 
@@ -97,6 +108,7 @@ export function OccurrenceForm() {
   const watchedGenero = form.watch("genero");
   const watchedEspecie = form.watch("especie");
   const watchedPresencaTumores = form.watch("presencaTumores");
+  const watchedDestinoFinal = form.watch("destinoFinal");
   const { setValue, clearErrors } = form;
 
   // Efeito para limpar o campo CODE
@@ -163,9 +175,10 @@ export function OccurrenceForm() {
 
         <ComplementaryExamsSection control={form.control} />
 
-        {/* Placeholders para as futuras seções (ainda precisam receber 'control' quando implementadas)
-        <CaseOutcomeSection /> 
-        */}
+        <CaseOutcomeSection
+          control={form.control}
+          watchedDestinoFinal={watchedDestinoFinal}
+        />
 
         <Button
           type="submit"

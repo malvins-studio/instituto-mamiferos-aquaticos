@@ -98,7 +98,22 @@ export const formSchema = z
     achadosHemograma: z.string().optional(),
     achadosFezesUrina: z.string().optional(),
     resultadoMicrobiologico: z.string().optional(),
-    // TODO: Adicionar campos das próximas seções aqui
+
+    // seção 7
+    pesoFinal: z.coerce.number().optional(),
+    pesoFinalUnidade: z.enum(["g", "kg"]).optional(),
+    dataSaida: z.string().optional(),
+    destinoFinal: z
+      .enum([
+        "soltura",
+        "transferencia",
+        "obito",
+        "colecao_cientifica",
+        "outro",
+      ])
+      .optional(),
+    outroDestinoEspecificar: z.string().optional(),
+    observacoes: z.string().optional(),
   })
 
   .superRefine((data, ctx) => {
@@ -142,6 +157,18 @@ export const formSchema = z
         code: z.ZodIssueCode.custom,
         message: "A descrição dos tumores é obrigatória.",
         path: ["descricaoTumores"],
+      });
+    }
+
+    if (
+      data.destinoFinal === "outro" &&
+      (!data.outroDestinoEspecificar ||
+        data.outroDestinoEspecificar.trim() === "")
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Por favor, especifique o destino.",
+        path: ["outroDestinoEspecificar"],
       });
     }
   });
