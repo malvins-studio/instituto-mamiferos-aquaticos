@@ -15,7 +15,7 @@ import TriageSection from "./sections/triage-section";
 import ClassificationSection from "./sections/classification-section";
 import ClinicalEvaluationSection from "./sections/clinical-evaluation-section";
 import NecropsySection from "./sections/necropsy-section";
-// import ComplementaryExamsSection from "./sections/complementary-exams-section";
+import ComplementaryExamsSection from "./sections/complementary-exams-section";
 // import CaseOutcomeSection from "./sections/case-outcome-section";
 
 import {
@@ -76,6 +76,15 @@ export function OccurrenceForm() {
       descricaoTumores: "",
       causaMortis: "",
       amostrasPostmortem: "",
+
+      //Seção 6
+      resultadoRadiografia: "",
+      resultadoToxicologico: "",
+      resultadoHistopatologico: "",
+      achadosBioquimica: "",
+      achadosHemograma: "",
+      achadosFezesUrina: "",
+      resultadoMicrobiologico: "",
     },
   });
 
@@ -152,9 +161,9 @@ export function OccurrenceForm() {
           watchedPresencaTumores={watchedPresencaTumores}
         />
 
+        <ComplementaryExamsSection control={form.control} />
+
         {/* Placeholders para as futuras seções (ainda precisam receber 'control' quando implementadas)
-   
-        <ComplementaryExamsSection />
         <CaseOutcomeSection /> 
         */}
 

@@ -89,6 +89,15 @@ export const formSchema = z
     descricaoTumores: z.string().optional(),
     causaMortis: z.string().optional(),
     amostrasPostmortem: z.string().optional(),
+
+    //Seção 6
+    resultadoRadiografia: z.string().optional(),
+    resultadoToxicologico: z.string().optional(),
+    resultadoHistopatologico: z.string().optional(),
+    achadosBioquimica: z.string().optional(),
+    achadosHemograma: z.string().optional(),
+    achadosFezesUrina: z.string().optional(),
+    resultadoMicrobiologico: z.string().optional(),
     // TODO: Adicionar campos das próximas seções aqui
   })
 
