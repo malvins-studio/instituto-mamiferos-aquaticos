@@ -74,16 +74,21 @@ export const formSchema = z
     // Biometria
     biometriaCt: z.coerce.number().optional(),
     biometriaCtUnidade: z.enum(["cm", "mm", "m"]).optional(),
-
     biometriaCompBico: z.coerce.number().optional(),
     biometriaBicoUnidade: z.enum(["cm", "mm"]).optional(),
-
     biometriaCcc: z.coerce.number().optional(),
     biometriaCccUnidade: z.enum(["cm", "m"]).optional(),
-
     biometriaLcc: z.coerce.number().optional(),
     biometriaLccUnidade: z.enum(["cm", "m"]).optional(),
 
+    //Seção 5
+    responsavelNecropsia: z.string().optional(),
+    dataObito: z.string().optional(),
+    achadosNecropsia: z.string().optional(),
+    presencaTumores: z.enum(["sim", "nao"]).optional(),
+    descricaoTumores: z.string().optional(),
+    causaMortis: z.string().optional(),
+    amostrasPostmortem: z.string().optional(),
     // TODO: Adicionar campos das próximas seções aqui
   })
 
@@ -99,7 +104,37 @@ export const formSchema = z
       });
     }
 
-    // TODO: Adicionar lógica condicional da Anilha aqui
+    if (data.statusAnimal === "Morto") {
+      if (
+        !data.responsavelNecropsia ||
+        data.responsavelNecropsia.trim() === ""
+      ) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "O responsável pela necropsia é obrigatório.",
+          path: ["responsavelNecropsia"],
+        });
+      }
+      if (!data.dataObito || data.dataObito.trim() === "") {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "A data do óbito é obrigatória.",
+          path: ["dataObito"],
+        });
+      }
+    }
+
+    // Se 'presencaTumores' for 'sim', 'descricaoTumores' se torna obrigatório
+    if (
+      data.presencaTumores === "sim" &&
+      (!data.descricaoTumores || data.descricaoTumores.trim() === "")
+    ) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "A descrição dos tumores é obrigatória.",
+        path: ["descricaoTumores"],
+      });
+    }
   });
 
 export type OccurrenceFormValues = z.infer<typeof formSchema>;

@@ -14,7 +14,7 @@ import IdentificationSection from "./sections/identification-section";
 import TriageSection from "./sections/triage-section";
 import ClassificationSection from "./sections/classification-section";
 import ClinicalEvaluationSection from "./sections/clinical-evaluation-section";
-// import NecropsySection from "./sections/necropsy-section";
+import NecropsySection from "./sections/necropsy-section";
 // import ComplementaryExamsSection from "./sections/complementary-exams-section";
 // import CaseOutcomeSection from "./sections/case-outcome-section";
 
@@ -67,6 +67,15 @@ export function OccurrenceForm() {
       biometriaCccUnidade: undefined,
       biometriaLcc: undefined,
       biometriaLccUnidade: undefined,
+
+      //Seção 5
+      responsavelNecropsia: "",
+      dataObito: "",
+      achadosNecropsia: "",
+      presencaTumores: undefined,
+      descricaoTumores: "",
+      causaMortis: "",
+      amostrasPostmortem: "",
     },
   });
 
@@ -78,6 +87,7 @@ export function OccurrenceForm() {
   const watchedFamilia = form.watch("familia");
   const watchedGenero = form.watch("genero");
   const watchedEspecie = form.watch("especie");
+  const watchedPresencaTumores = form.watch("presencaTumores");
   const { setValue, clearErrors } = form;
 
   // Efeito para limpar o campo CODE
@@ -85,6 +95,21 @@ export function OccurrenceForm() {
     if (watchedStatusAnimal === "Vivo") {
       setValue("codeDecomposicao", undefined);
       clearErrors("codeDecomposicao");
+    }
+  }, [watchedStatusAnimal, setValue, clearErrors]);
+
+  useEffect(() => {
+    if (watchedStatusAnimal === "Vivo") {
+      // Limpa todos os campos da seção de necropsia
+      setValue("responsavelNecropsia", "");
+      setValue("dataObito", "");
+      setValue("achadosNecropsia", "");
+      setValue("presencaTumores", undefined);
+      setValue("descricaoTumores", "");
+      setValue("causaMortis", "");
+      setValue("amostrasPostmortem", "");
+      // Limpa os erros associados a esses campos
+      clearErrors(["responsavelNecropsia", "dataObito", "descricaoTumores"]);
     }
   }, [watchedStatusAnimal, setValue, clearErrors]);
 
@@ -121,10 +146,14 @@ export function OccurrenceForm() {
           control={form.control}
           watchedClasse={watchedClasse}
         />
+        <NecropsySection
+          control={form.control}
+          watchedStatusAnimal={watchedStatusAnimal}
+          watchedPresencaTumores={watchedPresencaTumores}
+        />
 
         {/* Placeholders para as futuras seções (ainda precisam receber 'control' quando implementadas)
    
-        <NecropsySection />
         <ComplementaryExamsSection />
         <CaseOutcomeSection /> 
         */}
