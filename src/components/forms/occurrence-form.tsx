@@ -13,9 +13,9 @@ import { Form } from "@/components/ui/form";
 import IdentificationSection from "./sections/identification-section";
 import TriageSection from "./sections/triage-section";
 import ClassificationSection from "./sections/classification-section";
-// import ClinicalEvaluationSection from "./sections/clinical-evaluation-section";
-// import NecropsySection from "./sections/necropsy-section";
-// import ComplementaryExamsSection from "./sections/complementary-exams-section";
+import ClinicalEvaluationSection from "./sections/clinical-evaluation-section";
+import NecropsySection from "./sections/necropsy-section";
+import ComplementaryExamsSection from "./sections/complementary-exams-section";
 // import CaseOutcomeSection from "./sections/case-outcome-section";
 
 import {
@@ -53,6 +53,38 @@ export function OccurrenceForm() {
       sexo: undefined,
       faixaEtaria: undefined,
       anilhaNumero: "",
+      //seção 4
+      pesoEntradaG: undefined,
+      pesoEntradaGUnidade: undefined,
+      condicaoCorporal: "",
+      procedimentosClinicos: "",
+      amostrasAntemortem: "",
+      biometriaCt: undefined,
+      biometriaCtUnidade: undefined,
+      biometriaCompBico: undefined,
+      biometriaBicoUnidade: undefined,
+      biometriaCcc: undefined,
+      biometriaCccUnidade: undefined,
+      biometriaLcc: undefined,
+      biometriaLccUnidade: undefined,
+
+      //Seção 5
+      responsavelNecropsia: "",
+      dataObito: "",
+      achadosNecropsia: "",
+      presencaTumores: undefined,
+      descricaoTumores: "",
+      causaMortis: "",
+      amostrasPostmortem: "",
+
+      //Seção 6
+      resultadoRadiografia: "",
+      resultadoToxicologico: "",
+      resultadoHistopatologico: "",
+      achadosBioquimica: "",
+      achadosHemograma: "",
+      achadosFezesUrina: "",
+      resultadoMicrobiologico: "",
     },
   });
 
@@ -64,6 +96,7 @@ export function OccurrenceForm() {
   const watchedFamilia = form.watch("familia");
   const watchedGenero = form.watch("genero");
   const watchedEspecie = form.watch("especie");
+  const watchedPresencaTumores = form.watch("presencaTumores");
   const { setValue, clearErrors } = form;
 
   // Efeito para limpar o campo CODE
@@ -71,6 +104,21 @@ export function OccurrenceForm() {
     if (watchedStatusAnimal === "Vivo") {
       setValue("codeDecomposicao", undefined);
       clearErrors("codeDecomposicao");
+    }
+  }, [watchedStatusAnimal, setValue, clearErrors]);
+
+  useEffect(() => {
+    if (watchedStatusAnimal === "Vivo") {
+      // Limpa todos os campos da seção de necropsia
+      setValue("responsavelNecropsia", "");
+      setValue("dataObito", "");
+      setValue("achadosNecropsia", "");
+      setValue("presencaTumores", undefined);
+      setValue("descricaoTumores", "");
+      setValue("causaMortis", "");
+      setValue("amostrasPostmortem", "");
+      // Limpa os erros associados a esses campos
+      clearErrors(["responsavelNecropsia", "dataObito", "descricaoTumores"]);
     }
   }, [watchedStatusAnimal, setValue, clearErrors]);
 
@@ -103,12 +151,19 @@ export function OccurrenceForm() {
           watchedGenero={watchedGenero}
           watchedEspecie={watchedEspecie}
         />
+        <ClinicalEvaluationSection
+          control={form.control}
+          watchedClasse={watchedClasse}
+        />
+        <NecropsySection
+          control={form.control}
+          watchedStatusAnimal={watchedStatusAnimal}
+          watchedPresencaTumores={watchedPresencaTumores}
+        />
+
+        <ComplementaryExamsSection control={form.control} />
 
         {/* Placeholders para as futuras seções (ainda precisam receber 'control' quando implementadas)
-        <ClassificationSection />
-        <ClinicalEvaluationSection />
-        <NecropsySection />
-        <ComplementaryExamsSection />
         <CaseOutcomeSection /> 
         */}
 

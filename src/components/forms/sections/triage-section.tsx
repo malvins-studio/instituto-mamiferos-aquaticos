@@ -142,8 +142,14 @@ const TriageSection = ({
                         type="number"
                         min="1"
                         max="5"
-                        placeholder="1-5"
+                        placeholder={
+                          watchedStatusAnimal === "Morto"
+                            ? "1-5"
+                            : "N/A (Animal Vivo)"
+                        }
+                        disabled={watchedStatusAnimal !== "Morto"}
                         {...field}
+                        value={field.value ?? ""}
                       />
                     </FormControl>
                     <FormMessage />
