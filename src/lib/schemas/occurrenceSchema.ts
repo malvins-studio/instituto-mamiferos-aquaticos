@@ -65,20 +65,38 @@ export const formSchema = z
     anilhaNumero: z.string().optional(),
 
     //Seção 4
-    pesoEntradaG: z.coerce.number().optional(),
+    pesoEntradaG: z.coerce
+      .number()
+      .nonnegative({ message: "O peso não pode ser negativo." })
+      .optional(),
     pesoEntradaGUnidade: z.enum(["g", "kg"]).optional(),
     condicaoCorporal: z.string().optional(),
     procedimentosClinicos: z.string().optional(),
     amostrasAntemortem: z.string().optional(),
 
     // Biometria
-    biometriaCt: z.coerce.number().optional(),
+    biometriaCt: z.coerce
+      .number()
+      .nonnegative({ message: "O valor não pode ser negativo." })
+      .optional(),
     biometriaCtUnidade: z.enum(["cm", "mm", "m"]).optional(),
-    biometriaCompBico: z.coerce.number().optional(),
+
+    biometriaCompBico: z.coerce
+      .number()
+      .nonnegative({ message: "O valor não pode ser negativo." })
+      .optional(),
     biometriaBicoUnidade: z.enum(["cm", "mm"]).optional(),
-    biometriaCcc: z.coerce.number().optional(),
+
+    biometriaCcc: z.coerce
+      .number()
+      .nonnegative({ message: "O valor não pode ser negativo." })
+      .optional(),
     biometriaCccUnidade: z.enum(["cm", "m"]).optional(),
-    biometriaLcc: z.coerce.number().optional(),
+
+    biometriaLcc: z.coerce
+      .number()
+      .nonnegative({ message: "O valor não pode ser negativo." })
+      .optional(),
     biometriaLccUnidade: z.enum(["cm", "m"]).optional(),
 
     //Seção 5
