@@ -42,7 +42,7 @@ const ClinicalEvaluationSection = ({
   return (
     <fieldset className="rounded-lg border p-4">
       <legend className="-ml-1 px-1 text-lg font-medium">
-        4. Avaliação Clínica e Biometria (Opcional)
+        4. Avaliação Clínica e Biometria
       </legend>
       <div className="space-y-6 pt-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -140,6 +140,7 @@ const ClinicalEvaluationSection = ({
                   <Input
                     type="number"
                     step="0.01"
+                    min="0"
                     placeholder="Ex: 10.5"
                     {...field}
                   />
@@ -188,6 +189,7 @@ const ClinicalEvaluationSection = ({
                     <Input
                       type="number"
                       step="0.01"
+                      min="0"
                       placeholder="Ex: 3.2"
                       {...field}
                     />
@@ -237,6 +239,7 @@ const ClinicalEvaluationSection = ({
                       <Input
                         type="number"
                         step="0.01"
+                        min="0"
                         placeholder="Ex: 70.5"
                         {...field}
                       />
@@ -282,6 +285,7 @@ const ClinicalEvaluationSection = ({
                       <Input
                         type="number"
                         step="0.01"
+                        min="0"
                         placeholder="Ex: 65.0"
                         {...field}
                       />
