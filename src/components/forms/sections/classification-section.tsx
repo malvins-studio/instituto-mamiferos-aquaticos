@@ -298,7 +298,7 @@ const ClassificationSection = ({
                   <SelectContent>
                     {especies.map((esp) => (
                       <SelectItem key={esp.especifico} value={esp.especifico}>
-                        {`${esp.especifico} (${esp.comum})`}
+                        {`${esp.especifico}`}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -326,7 +326,7 @@ const ClassificationSection = ({
           />
         </div>{" "}
         {/* ========================================================== */}
-        {/* === Bloco 2: Características (Layout Corrigido) ===        */}
+        {/* === Bloco 2: Características  ===        */}
         {/* ========================================================== */}
         {/* Renderização Condicional do Layout */}
         {isAnilhaVisible ? (
