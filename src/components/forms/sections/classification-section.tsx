@@ -1,4 +1,3 @@
-// src/components/forms/sections/classification-section.tsx
 "use client";
 
 import { Control, UseFormSetValue } from "react-hook-form";
@@ -21,7 +20,6 @@ import {
 import { useState, useEffect } from "react";
 import speciesData from "@/data/species-data.json";
 
-// --- INÍCIO DA TIPIFICAÇÃO SEGURA ---
 interface EspecieInfo {
   especifico: string;
   comum: string;
@@ -31,7 +29,6 @@ type FamiliaData = { [familia: string]: GeneroData };
 type OrdemData = { [ordem: string]: FamiliaData };
 type SpeciesJson = { [classe: string]: OrdemData };
 const typedSpeciesData: SpeciesJson = speciesData;
-// --- FIM DA TIPIFICAÇÃO SEGURA ---
 
 interface ClassificationSectionProps {
   control: Control<OccurrenceFormValues>;
@@ -57,13 +54,12 @@ const ClassificationSection = ({
   watchedGenero,
   watchedEspecie,
 }: ClassificationSectionProps) => {
-  // Estados locais para as listas
   const [ordens, setOrdens] = useState<string[]>([]);
   const [familias, setFamilias] = useState<string[]>([]);
   const [generos, setGeneros] = useState<string[]>([]);
   const [especies, setEspecies] = useState<EspecieInfo[]>([]);
 
-  // --- LÓGICA DOS useEffects (Sem alterações) ---
+  // --- useEffects (Lógica de Cascata) ---
   useEffect(() => {
     let ordensData: string[] = [];
     if (watchedClasse && typedSpeciesData[watchedClasse]) {
@@ -150,9 +146,7 @@ const ClassificationSection = ({
       setFormValue("nomeComum", "");
     }
   }, [watchedEspecie, especies, setFormValue]);
-  // --- FIM DA LÓGICA ---
 
-  // Determina se o campo Anilha/Tag estará visível
   const isAnilhaVisible =
     watchedClasse === "Aves" || watchedClasse === "Reptilia";
 
@@ -161,12 +155,8 @@ const ClassificationSection = ({
       <legend className="-ml-1 px-1 text-lg font-medium">
         3. Classificação biológica
       </legend>
-      {/* Container principal da seção com espaçamento vertical entre os blocos */}
       <div className="flex flex-col gap-6 pt-6">
-        {/* ========================================================== */}
-        {/* === Bloco 1: Taxonomia (Grid 1x3) ===                      */}
-        {/* ========================================================== */}
-        {/* 'grid-cols-1' (mobile 1-em-1) e 'md:grid-cols-3' (desktop 3 colunas) */}
+        {/* === Bloco 1: Taxonomia === */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <FormField
             control={control}
@@ -174,6 +164,7 @@ const ClassificationSection = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Classe</FormLabel>
+                {/* CORREÇÃO: Removido defaultValue={field.value} */}
                 <Select
                   onValueChange={field.onChange}
                   value={field.value || undefined}
@@ -201,6 +192,7 @@ const ClassificationSection = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Ordem</FormLabel>
+                {/* CORREÇÃO: Removido defaultValue */}
                 <Select
                   onValueChange={field.onChange}
                   value={field.value || ""}
@@ -229,6 +221,7 @@ const ClassificationSection = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Família</FormLabel>
+                {/* CORREÇÃO: Removido defaultValue */}
                 <Select
                   onValueChange={field.onChange}
                   value={field.value || ""}
@@ -257,6 +250,7 @@ const ClassificationSection = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Gênero</FormLabel>
+                {/* CORREÇÃO: Removido defaultValue */}
                 <Select
                   onValueChange={field.onChange}
                   value={field.value || ""}
@@ -285,6 +279,7 @@ const ClassificationSection = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Espécie</FormLabel>
+                {/* CORREÇÃO: Removido defaultValue */}
                 <Select
                   onValueChange={field.onChange}
                   value={field.value || ""}
@@ -298,7 +293,7 @@ const ClassificationSection = ({
                   <SelectContent>
                     {especies.map((esp) => (
                       <SelectItem key={esp.especifico} value={esp.especifico}>
-                        {`${esp.especifico}`}
+                        {esp.especifico}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -324,20 +319,22 @@ const ClassificationSection = ({
               </FormItem>
             )}
           />
-        </div>{" "}
-        {/* ========================================================== */}
-        {/* === Bloco 2: Características  ===        */}
-        {/* ========================================================== */}
-        {/* Renderização Condicional do Layout */}
-        {isAnilhaVisible ? (
-          /* --- SE ANILHA VISÍVEL: Renderiza um grid de 3 colunas (alinha com o bloco de cima) --- */
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        </div>
+
+        {/* === Bloco 2: Características === */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div
+            className={`${
+              isAnilhaVisible ? "md:col-start-1" : "md:col-start-2"
+            }`}
+          >
             <FormField
               control={control}
               name="sexo"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Sexo</FormLabel>
+                  {/* CORREÇÃO: Removido defaultValue */}
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || undefined}
@@ -348,23 +345,25 @@ const ClassificationSection = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="sexo_macho">Macho</SelectItem>
-                      <SelectItem value="sexo_femea">Fêmea</SelectItem>
-                      <SelectItem value="sexo_indefinido">
-                        Indefinido
-                      </SelectItem>
+                      <SelectItem value="M">Macho</SelectItem>
+                      <SelectItem value="F">Fêmea</SelectItem>
+                      <SelectItem value="IN">Indefinido</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
+          </div>
+
+          <div>
             <FormField
               control={control}
               name="faixaEtaria"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Faixa Etária</FormLabel>
+                  {/* CORREÇÃO: Removido defaultValue */}
                   <Select
                     onValueChange={field.onChange}
                     value={field.value || undefined}
@@ -375,93 +374,43 @@ const ClassificationSection = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="faixa_filhote">Filhote</SelectItem>
-                      <SelectItem value="faixa_juvenil">Juvenil</SelectItem>
-                      <SelectItem value="faixa_subadulto">Subadulto</SelectItem>
-                      <SelectItem value="faixa_adulto">Adulto</SelectItem>
+                      <SelectItem value="feto">Feto</SelectItem>
+                      <SelectItem value="filhote">Filhote</SelectItem>
+                      <SelectItem value="juvenil">Juvenil</SelectItem>
+                      <SelectItem value="subadulto">Subadulto</SelectItem>
+                      <SelectItem value="adulto">Adulto</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
-              control={control}
-              name="anilhaNumero"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Anilha / Tag Nº</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Digite o número..." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </div>
-        ) : (
-          <div className="flex justify-center">
-            {/* 2. Grid interno que ocupa 2/3 da largura no desktop, alinhando-se visualmente com o grid de cima */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full md:w-2/3">
-              <FormField
-                control={control}
-                name="sexo"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Sexo</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      value={field.value || undefined}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Selecione..." />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="sexo_macho">Macho</SelectItem>
-                        <SelectItem value="sexo_femea">Fêmea</SelectItem>
-                        <SelectItem value="sexo_indefinido">
-                          Indefinido
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={control}
-                name="faixaEtaria"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Faixa Etária</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      value={field.value || undefined}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Selecione..." />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="faixa_filhote">Filhote</SelectItem>
-                        <SelectItem value="faixa_juvenil">Juvenil</SelectItem>
-                        <SelectItem value="faixa_subadulto">
-                          Subadulto
-                        </SelectItem>
-                        <SelectItem value="faixa_adulto">Adulto</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
-        )}{" "}
-        {/* Fim do Bloco 2 (Condicional) */}
+
+          {/* Anilha (Desabilitada) */}
+          <FormField
+            control={control}
+            name="anilhaNumero"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Anilha / Tag Nº</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder={
+                      isAnilhaVisible
+                        ? "Digite o número..."
+                        : "N/A (outra classe)"
+                    }
+                    disabled={!isAnilhaVisible}
+                    {...field}
+                    value={field.value ?? ""}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
       </div>
     </fieldset>
   );

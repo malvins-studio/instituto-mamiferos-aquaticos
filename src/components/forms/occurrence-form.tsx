@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -149,8 +150,18 @@ export function OccurrenceForm() {
   }, [watchedClasse, setValue, clearErrors]);
 
   const onSubmit: SubmitHandler<OccurrenceFormValues> = (data) => {
+    // Log para debug (mantemos por enquanto)
     console.log("DADOS VALIDADOS:", JSON.stringify(data, null, 2));
-    alert("Sucesso! Verifique o console.");
+
+    // Dispara a notificação Toast
+    toast.success("Formulário enviado com sucesso!", {
+      description: `O registro ${data.tomboIma} foi salvo localmente (Mockup).`,
+      duration: 5000,
+      action: {
+        label: "Ver Console",
+        onClick: () => console.log(data),
+      },
+    });
   };
 
   return (
