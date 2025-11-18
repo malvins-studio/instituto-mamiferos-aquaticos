@@ -1,13 +1,15 @@
-// src/lib/schemas/occurrenceSchema.ts
 import { z } from "zod";
 
-/**
- * Define o schema de validação e a tipagem para o formulário de ocorrência.
- */
 export const formSchema = z
   .object({
-    // Seção 1: Identificação
-    tomboIma: z.string().min(1, { message: "O Tombo IMA é obrigatório." }),
+    // === Seção 1: Identificação ===
+    tomboIma: z
+      .string()
+      .regex(/^IMA\d{5}$/, {
+        message:
+          "Formato inválido. Deve ser IMA seguido de 5 dígitos (ex: IMA00001).",
+      })
+      .min(1, { message: "O Tombo IMA é obrigatório." }),
     responsavelRegistro: z
       .string()
       .min(1, { message: "O responsável é obrigatório." }),
@@ -18,97 +20,86 @@ export const formSchema = z
     localEspecifico: z.string().min(1, { message: "O local é obrigatório." }),
     latitude: z.string().min(1, { message: "A latitude é obrigatória." }),
     longitude: z.string().min(1, { message: "A longitude é obrigatória." }),
+    nomeFoto: z.string().optional(),
 
-    // Seção 2: Triagem e Status
-    tipoEntrada: z.enum(["Pronto Atendimento", "Repasse por terceiros"], {
-      message: "O tipo de entrada é obrigatório.",
-    }),
+    // === Seção 2: Triagem e Status ===
+    tipoEntrada: z.enum(
+      ["Entrega voluntária", "Repasse por terceiros", "Pronto Atendimento"],
+      { message: "O tipo de entrada é obrigatório." }
+    ),
     statusAnimal: z.enum(["Vivo", "Morto"], {
       message: "É obrigatório selecionar o status do animal.",
     }),
     classificacaoOcorrencia: z.enum(
-      ["Resgate e Reabilitação", "Coleta", "Registro"],
-      {
-        message: "A classificação da ocorrência é obrigatória.",
-      }
+      ["Resgate e Reabilitação", "Coleta", "Registro", "Manutenção", "Encalhe"],
+      { message: "A classificação da ocorrência é obrigatória." }
     ),
+
     codeDecomposicao: z.coerce
       .number({ message: "O CODE deve ser um número válido." })
-      .min(1, { message: "O CODE é obrigatório e deve ser entre 1 e 5." })
-      .max(5, { message: "O CODE deve ser entre 1 e 5." })
-      .optional(),
+      .int()
+      .min(1, "Mínimo 1")
+      .max(5, "Máximo 5"),
+
     interacaoPesca: z.enum(["Sim", "Nao"], {
       message: "Informe sobre a interação com a pesca.",
     }),
+    interacaoPescaDescricao: z.string().optional(),
 
-    //  Seção 3: Classificação
+    // === Seção 3: Classificação ===
     classe: z.enum(
       ["Amphibia", "Aves", "Elasmobranchii", "Mammalia", "Reptilia"],
       {
         message: "A classe é obrigatória.",
       }
     ),
-    ordem: z.string().min(1, { message: "A ordem é obrigatória." }),
-    familia: z.string().min(1, { message: "A família é obrigatória." }),
-    genero: z.string().min(1, { message: "O gênero é obrigatório." }),
-    especie: z.string().min(1, { message: "A espécie é obrigatória." }),
+    ordem: z.string().min(1, "A ordem é obrigatória."),
+    familia: z.string().min(1, "A família é obrigatória."),
+    genero: z.string().min(1, "O gênero é obrigatório."),
+    especie: z.string().min(1, "A espécie é obrigatória."),
     nomeComum: z.string().optional(),
-    sexo: z.enum(["sexo_macho", "sexo_femea", "sexo_indefinido"], {
-      message: "O sexo é obrigatório.",
+    sexo: z.enum(["M", "F", "IN"], { message: "O sexo é obrigatório." }),
+    faixaEtaria: z.enum(["feto", "filhote", "juvenil", "subadulto", "adulto"], {
+      message: "A faixa etária é obrigatória.",
     }),
-    faixaEtaria: z.enum(
-      ["faixa_filhote", "faixa_juvenil", "faixa_subadulto", "faixa_adulto"],
-      {
-        message: "A faixa etária é obrigatória.",
-      }
-    ),
     anilhaNumero: z.string().optional(),
 
-    //Seção 4
-    pesoEntradaG: z.coerce
-      .number()
-      .nonnegative({ message: "O peso não pode ser negativo." })
-      .optional(),
+    // === Seção 4: Avaliação Clínica ===
+    pesoEntradaG: z.coerce.number().nonnegative().optional(),
     pesoEntradaGUnidade: z.enum(["g", "kg"]).optional(),
-    condicaoCorporal: z.string().optional(),
+    condicaoCorporal: z.enum(["boa", "regular", "péssima"]).optional(),
     procedimentosClinicos: z.string().optional(),
     amostrasAntemortem: z.string().optional(),
 
     // Biometria
-    biometriaCt: z.coerce
-      .number()
-      .nonnegative({ message: "O valor não pode ser negativo." })
-      .optional(),
+    biometriaCt: z.coerce.number().nonnegative().optional(),
     biometriaCtUnidade: z.enum(["cm", "mm", "m"]).optional(),
-
-    biometriaCompBico: z.coerce
-      .number()
-      .nonnegative({ message: "O valor não pode ser negativo." })
-      .optional(),
+    biometriaCompBico: z.coerce.number().nonnegative().optional(),
     biometriaBicoUnidade: z.enum(["cm", "mm"]).optional(),
-
-    biometriaCcc: z.coerce
-      .number()
-      .nonnegative({ message: "O valor não pode ser negativo." })
-      .optional(),
+    biometriaCcc: z.coerce.number().nonnegative().optional(),
     biometriaCccUnidade: z.enum(["cm", "m"]).optional(),
-
-    biometriaLcc: z.coerce
-      .number()
-      .nonnegative({ message: "O valor não pode ser negativo." })
-      .optional(),
+    biometriaLcc: z.coerce.number().nonnegative().optional(),
     biometriaLccUnidade: z.enum(["cm", "m"]).optional(),
 
-    //Seção 5
+    // === Seção 5: Necropsia ===
     responsavelNecropsia: z.string().optional(),
     dataObito: z.string().optional(),
     achadosNecropsia: z.string().optional(),
     presencaTumores: z.enum(["sim", "nao"]).optional(),
     descricaoTumores: z.string().optional(),
-    causaMortis: z.string().optional(),
+    causaMortisDiagnostico: z.string().optional(),
+    causaMortisCategoria: z
+      .enum([
+        "Antrópica",
+        "Patológica",
+        "Fisiológica",
+        "Desconhecida",
+        "Indeterminada",
+      ])
+      .optional(),
     amostrasPostmortem: z.string().optional(),
 
-    //Seção 6
+    // === Seção 6: Exames Complementares ===
     resultadoRadiografia: z.string().optional(),
     resultadoToxicologico: z.string().optional(),
     resultadoHistopatologico: z.string().optional(),
@@ -117,8 +108,8 @@ export const formSchema = z
     achadosFezesUrina: z.string().optional(),
     resultadoMicrobiologico: z.string().optional(),
 
-    // seção 7
-    pesoFinal: z.coerce.number().optional(),
+    // === Seção 7: Desfecho do Caso ===
+    pesoFinal: z.coerce.number().nonnegative().optional(),
     pesoFinalUnidade: z.enum(["g", "kg"]).optional(),
     dataSaida: z.string().optional(),
     destinoFinal: z
@@ -127,66 +118,76 @@ export const formSchema = z
         "transferencia",
         "obito",
         "colecao_cientifica",
+        "enterro",
+        "incineracao",
+        "maceracao",
+        "doacao",
+        "colecao cientifica IMA",
         "outro",
       ])
       .optional(),
     outroDestinoEspecificar: z.string().optional(),
     observacoes: z.string().optional(),
   })
-
   .superRefine((data, ctx) => {
+    if (data.statusAnimal === "Vivo" && data.codeDecomposicao !== 1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Para animais "Vivo", o CODE deve ser 1.',
+        path: ["codeDecomposicao"],
+      });
+    }
     if (
       data.statusAnimal === "Morto" &&
-      (!data.codeDecomposicao || data.codeDecomposicao < 1)
+      (data.codeDecomposicao < 2 || data.codeDecomposicao > 5)
     ) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "O CODE de decomposição é obrigatório para animais mortos.",
+        message: 'Para animais "Morto", o CODE deve ser entre 2 e 5.',
         path: ["codeDecomposicao"],
       });
     }
 
-    if (data.statusAnimal === "Morto") {
-      if (
-        !data.responsavelNecropsia ||
-        data.responsavelNecropsia.trim() === ""
-      ) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "O responsável pela necropsia é obrigatório.",
-          path: ["responsavelNecropsia"],
-        });
-      }
-      if (!data.dataObito || data.dataObito.trim() === "") {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "A data do óbito é obrigatória.",
-          path: ["dataObito"],
-        });
-      }
-    }
-
-    // Se 'presencaTumores' for 'sim', 'descricaoTumores' se torna obrigatório
-    if (
-      data.presencaTumores === "sim" &&
-      (!data.descricaoTumores || data.descricaoTumores.trim() === "")
-    ) {
+    // Interação Pesca
+    if (data.interacaoPesca === "Sim" && !data.interacaoPescaDescricao) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "A descrição dos tumores é obrigatória.",
-        path: ["descricaoTumores"],
+        message: "A descrição da interação é obrigatória.",
+        path: ["interacaoPescaDescricao"],
       });
     }
 
-    if (
-      data.destinoFinal === "outro" &&
-      (!data.outroDestinoEspecificar ||
-        data.outroDestinoEspecificar.trim() === "")
-    ) {
+    // Necropsia Obrigatória se Morto
+    if (data.statusAnimal === "Morto") {
+      if (!data.responsavelNecropsia)
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Obrigatório.",
+          path: ["responsavelNecropsia"],
+        });
+      if (!data.dataObito)
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Obrigatório.",
+          path: ["dataObito"],
+        });
+    }
+
+    // Desfecho Outro
+    if (data.destinoFinal === "outro" && !data.outroDestinoEspecificar) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: "Por favor, especifique o destino.",
+        message: "Especifique o destino.",
         path: ["outroDestinoEspecificar"],
+      });
+    }
+
+    // Tumores
+    if (data.presencaTumores === "sim" && !data.descricaoTumores) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Descreva os tumores.",
+        path: ["descricaoTumores"],
       });
     }
   });

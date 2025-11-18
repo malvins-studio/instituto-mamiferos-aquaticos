@@ -20,21 +20,25 @@ import {
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 interface TriageSectionProps {
   control: Control<OccurrenceFormValues>;
-  watchedStatusAnimal: "Vivo" | "Morto" | undefined;
+  watchedStatusAnimal: OccurrenceFormValues["statusAnimal"];
+  watchedInteracaoPesca: OccurrenceFormValues["interacaoPesca"];
 }
 
 const TriageSection = ({
   control,
   watchedStatusAnimal,
+  watchedInteracaoPesca,
 }: TriageSectionProps) => {
   return (
     <fieldset className="rounded-lg border p-4">
       <legend className="-ml-1 px-1 text-lg font-medium">
         2. Triagem e status do animal
       </legend>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 pt-6">
         {/* === COLUNA ESQUERDA === */}
         <div className="space-y-6">
@@ -54,11 +58,14 @@ const TriageSection = ({
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Pronto Atendimento">
-                      Pronto atendimento
+                    <SelectItem value="Entrega voluntária">
+                      Entrega voluntária
                     </SelectItem>
                     <SelectItem value="Repasse por terceiros">
                       Repasse por terceiros
+                    </SelectItem>
+                    <SelectItem value="Pronto Atendimento">
+                      Pronto Atendimento
                     </SelectItem>
                   </SelectContent>
                 </Select>
@@ -88,6 +95,8 @@ const TriageSection = ({
                     </SelectItem>
                     <SelectItem value="Coleta">Coleta</SelectItem>
                     <SelectItem value="Registro">Registro</SelectItem>
+                    <SelectItem value="Manutenção">Manutenção</SelectItem>
+                    <SelectItem value="Encalhe">Encalhe</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -130,33 +139,29 @@ const TriageSection = ({
               )}
             />
 
-            {watchedStatusAnimal === "Morto" && (
-              <FormField
-                control={control}
-                name="codeDecomposicao"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>CODE (Decomposição)</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        min="1"
-                        max="5"
-                        placeholder={
-                          watchedStatusAnimal === "Morto"
-                            ? "1-5"
-                            : "N/A (Animal Vivo)"
-                        }
-                        disabled={watchedStatusAnimal !== "Morto"}
-                        {...field}
-                        value={field.value ?? ""}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
+            <FormField
+              control={control}
+              name="codeDecomposicao"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>CODE (Decomposição)</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min="1"
+                      max="5"
+                      placeholder={
+                        watchedStatusAnimal === "Morto" ? "2-5" : "1 (Vivo)"
+                      }
+                      disabled={watchedStatusAnimal === "Vivo"}
+                      {...field}
+                      value={field.value ?? ""}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
 
           <FormField
@@ -189,6 +194,27 @@ const TriageSection = ({
               </FormItem>
             )}
           />
+
+          {watchedInteracaoPesca === "Sim" && (
+            <FormField
+              control={control}
+              name="interacaoPescaDescricao"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Descrição da Interação com a Pesca</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Descrever sinais, marcas de rede, petrechos, etc..."
+                      rows={3}
+                      {...field}
+                      value={field.value ?? ""}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
         </div>
       </div>
     </fieldset>
