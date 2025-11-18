@@ -4,6 +4,7 @@ import { Montserrat as FontSans } from "next/font/google";
 import Header from "@/components/layout/header";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -26,9 +27,12 @@ export default function RootLayout({
     <html lang="pt-BR" suppressHydrationWarning>
       <body
         className={cn("min-h-screen font-sans antialiased", fontSans.variable)}
+        suppressHydrationWarning={true}
       >
         <Header />
         <main className="pt-20 md:pt-24">{children}</main>
+
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );
