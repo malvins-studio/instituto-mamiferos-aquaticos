@@ -200,7 +200,7 @@ const ClassificationSection = ({
                 >
                   <FormControl>
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Selecione..." />
+                      <SelectValue placeholder="Selecione a classe antes..." />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -229,7 +229,7 @@ const ClassificationSection = ({
                 >
                   <FormControl>
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Selecione..." />
+                      <SelectValue placeholder="Selecione a ordem antes..." />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -258,7 +258,7 @@ const ClassificationSection = ({
                 >
                   <FormControl>
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Selecione..." />
+                      <SelectValue placeholder="Selecione a família antes..." />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -287,7 +287,7 @@ const ClassificationSection = ({
                 >
                   <FormControl>
                     <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Selecione..." />
+                      <SelectValue placeholder="Selecione o gênero antes..." />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -310,7 +310,7 @@ const ClassificationSection = ({
                 <FormLabel>Nome Comum</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Preenchido automaticamente..."
+                    placeholder="Preenchimento automático..."
                     {...field}
                     readOnly
                   />
@@ -323,11 +323,6 @@ const ClassificationSection = ({
 
         {/* === Bloco 2: Características === */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div
-            className={`${
-              isAnilhaVisible ? "md:col-start-1" : "md:col-start-2"
-            }`}
-          >
             <FormField
               control={control}
               name="sexo"
@@ -354,7 +349,6 @@ const ClassificationSection = ({
                 </FormItem>
               )}
             />
-          </div>
 
           <div>
             <FormField
@@ -388,6 +382,10 @@ const ClassificationSection = ({
           </div>
 
           {/* Anilha (Desabilitada) */}
+           <div className={`${
+                isAnilhaVisible ? "md:visible" : "md:hidden"
+            }`}
+           >
           <FormField
             control={control}
             name="anilhaNumero"
@@ -396,12 +394,7 @@ const ClassificationSection = ({
                 <FormLabel>Anilha / Tag Nº</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder={
-                      isAnilhaVisible
-                        ? "Digite o número..."
-                        : "N/A (outra classe)"
-                    }
-                    disabled={!isAnilhaVisible}
+                    placeholder={"Digite o número..."}
                     {...field}
                     value={field.value ?? ""}
                   />
@@ -410,6 +403,7 @@ const ClassificationSection = ({
               </FormItem>
             )}
           />
+          </div>
         </div>
       </div>
     </fieldset>
