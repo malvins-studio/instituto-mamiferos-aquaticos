@@ -13,6 +13,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 
 interface NecropsySectionProps {
@@ -34,17 +41,11 @@ const NecropsySection = ({
   const isEnabled = watchedStatusAnimal === "Morto";
 
   return (
-    // Aplicamos 'disabled' no fieldset, que desabilita todos os campos filhos
     <fieldset className="rounded-lg border p-4" disabled={!isEnabled}>
       <legend className="-ml-1 px-1 text-lg font-medium">
         5. Dados de Necropsia (Animal Morto)
       </legend>
-      {/* Adicionamos uma sobreposição visual para indicar que está desabilitado */}
-      <div
-        className={`space-y-6 pt-6 ${
-          !isEnabled ? "opacity-50 cursor-not-allowed" : ""
-        }`}
-      >
+      <div className={`space-y-6 pt-6 ${!isEnabled ? "opacity-50" : ""}`}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormField
             control={control}
@@ -55,10 +56,12 @@ const NecropsySection = ({
                 <FormControl>
                   <Input
                     placeholder={
-                      isEnabled ? "Nome do profissional" : "N/A (Animal Vivo)"
+                      isEnabled
+                        ? "Nome e CRMV do veterinário"
+                        : "N/A (Animal Vivo)"
                     }
                     {...field}
-                    value={field.value ?? ""} // Garante que o campo limpo (undefined) não mostre 'NaN' ou 'null'
+                    value={field.value ?? ""}
                   />
                 </FormControl>
                 <FormMessage />
@@ -91,10 +94,10 @@ const NecropsySection = ({
                 <Textarea
                   placeholder={
                     isEnabled
-                      ? "Descrição detalhada das lesões..."
+                      ? "Principais achados macroscópicos..."
                       : "N/A (Animal Vivo)"
                   }
-                  rows={6}
+                  rows={5}
                   {...field}
                   value={field.value ?? ""}
                 />
@@ -117,23 +120,20 @@ const NecropsySection = ({
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                     className="flex items-center space-x-4"
+                    disabled={!isEnabled}
                   >
-                    <FormItem className="flex items-center space-x-2">
-                      <FormControl>
-                        <RadioGroupItem value="sim" id="tumor_sim" />
-                      </FormControl>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="sim" id="tumor_sim" />
                       <Label htmlFor="tumor_sim" className="font-normal">
                         Sim
                       </Label>
-                    </FormItem>
-                    <FormItem className="flex items-center space-x-2">
-                      <FormControl>
-                        <RadioGroupItem value="nao" id="tumor_nao" />
-                      </FormControl>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <RadioGroupItem value="nao" id="tumor_nao" />
                       <Label htmlFor="tumor_nao" className="font-normal">
                         Não
                       </Label>
-                    </FormItem>
+                    </div>
                   </RadioGroup>
                 </FormControl>
                 <FormMessage />
@@ -164,26 +164,71 @@ const NecropsySection = ({
           )}
         </div>
 
-        <FormField
-          control={control}
-          name="causaMortis"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Causa Mortis</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder={
-                    isEnabled ? "Conclusão do laudo..." : "N/A (Animal Vivo)"
-                  }
-                  rows={3}
-                  {...field}
-                  value={field.value ?? ""}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={control}
+            name="causaMortisCategoria"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Causa Mortis (Categoria)</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value || undefined}
+                  disabled={!isEnabled}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue
+                        placeholder={
+                          isEnabled ? "Selecione a categoria..." : "N/A"
+                        }
+                      />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Antrópica">
+                      Antrópica (Ação humana)
+                    </SelectItem>
+                    <SelectItem value="Patológica">
+                      Patológica (Doenças)
+                    </SelectItem>
+                    <SelectItem value="Fisiológica">
+                      Fisiológica (Estresse, exaustão)
+                    </SelectItem>
+                    <SelectItem value="Desconhecida">
+                      Desconhecida (Sem necropsia)
+                    </SelectItem>
+                    <SelectItem value="Indeterminada">
+                      Indeterminada (Inconclusiva)
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={control}
+            name="causaMortisDiagnostico"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Diagnóstico da Causa Mortis</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder={
+                      isEnabled ? "Descreva o diagnóstico detalhado..." : "N/A"
+                    }
+                    rows={3}
+                    {...field}
+                    value={field.value ?? ""}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={control}
@@ -194,7 +239,7 @@ const NecropsySection = ({
               <FormControl>
                 <Textarea
                   placeholder={
-                    isEnabled ? "Ex: Tecidos, órgãos..." : "N/A (Animal Vivo)"
+                    isEnabled ? "Ex: Tecidos, órgãos para análise..." : "N/A"
                   }
                   rows={3}
                   {...field}

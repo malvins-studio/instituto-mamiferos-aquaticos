@@ -22,19 +22,9 @@ import { Textarea } from "@/components/ui/textarea";
 
 interface CaseOutcomeSectionProps {
   control: Control<OccurrenceFormValues>;
-  watchedDestinoFinal:
-    | "soltura"
-    | "transferencia"
-    | "obito"
-    | "colecao_cientifica"
-    | "outro"
-    | undefined;
+  watchedDestinoFinal: OccurrenceFormValues["destinoFinal"];
 }
 
-/**
- * Renderiza a seção "7. Desfecho do Caso".
- * Campos opcionais, com lógica condicional para 'outroDestinoEspecificar'.
- */
 const CaseOutcomeSection = ({
   control,
   watchedDestinoFinal,
@@ -45,9 +35,8 @@ const CaseOutcomeSection = ({
         7. Desfecho do Caso (Opcional)
       </legend>
       <div className="space-y-6 pt-6">
-        {/* Layout em grid para Peso e Destino, como no HTML de referência */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Campo Peso Final (com unidade) */}
+          {/* Peso Final */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <FormField
               control={control}
@@ -59,8 +48,10 @@ const CaseOutcomeSection = ({
                     <Input
                       type="number"
                       step="0.01"
+                      min="0"
                       placeholder="Ex: 1.5"
                       {...field}
+                      value={field.value ?? ""}
                     />
                   </FormControl>
                   <FormMessage />
@@ -93,7 +84,7 @@ const CaseOutcomeSection = ({
             />
           </div>
 
-          {/* Campo Destino Final (com campo 'Outro' condicional) */}
+          {/* Destino Final */}
           <div className="space-y-4">
             <FormField
               control={control}
@@ -119,6 +110,13 @@ const CaseOutcomeSection = ({
                       <SelectItem value="colecao_cientifica">
                         Coleção Científica
                       </SelectItem>
+                      <SelectItem value="enterro">Enterro</SelectItem>
+                      <SelectItem value="incineracao">Incineração</SelectItem>
+                      <SelectItem value="maceracao">Maceração</SelectItem>
+                      <SelectItem value="doacao">Doação</SelectItem>
+                      <SelectItem value="colecao cientifica IMA">
+                        Coleção Científica IMA
+                      </SelectItem>
                       <SelectItem value="outro">Outro (especificar)</SelectItem>
                     </SelectContent>
                   </Select>
@@ -127,7 +125,6 @@ const CaseOutcomeSection = ({
               )}
             />
 
-            {/* Este campo SÓ aparece se 'destinoFinal' for 'outro' */}
             {watchedDestinoFinal === "outro" && (
               <FormField
                 control={control}
@@ -140,6 +137,7 @@ const CaseOutcomeSection = ({
                         placeholder="Descreva o destino final..."
                         rows={2}
                         {...field}
+                        value={field.value ?? ""}
                       />
                     </FormControl>
                     <FormMessage />
@@ -157,7 +155,7 @@ const CaseOutcomeSection = ({
             <FormItem className="w-full md:w-1/2">
               <FormLabel>Data da Saída</FormLabel>
               <FormControl>
-                <Input type="date" {...field} />
+                <Input type="date" {...field} value={field.value ?? ""} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -175,6 +173,7 @@ const CaseOutcomeSection = ({
                   placeholder="Qualquer informação adicional relevante sobre o desfecho do caso..."
                   rows={5}
                   {...field}
+                  value={field.value ?? ""}
                 />
               </FormControl>
               <FormMessage />

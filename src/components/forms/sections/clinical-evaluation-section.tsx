@@ -31,10 +31,6 @@ interface ClinicalEvaluationSectionProps {
     | undefined;
 }
 
-/**
- * Renderiza a seção "4. Avaliação Clínica e Biometria".
- * Esta seção está sempre visível e os seus campos são opcionais.
- */
 const ClinicalEvaluationSection = ({
   control,
   watchedClasse,
@@ -45,6 +41,7 @@ const ClinicalEvaluationSection = ({
         4. Avaliação Clínica e Biometria
       </legend>
       <div className="space-y-6 pt-6">
+        {/* Peso + Unidade */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <FormField
             control={control}
@@ -56,8 +53,10 @@ const ClinicalEvaluationSection = ({
                   <Input
                     type="number"
                     step="0.01"
+                    min="0"
                     placeholder="Ex: 500.50"
                     {...field}
+                    value={field.value ?? ""}
                   />
                 </FormControl>
                 <FormMessage />
@@ -90,6 +89,33 @@ const ClinicalEvaluationSection = ({
           />
         </div>
 
+        {/* CORREÇÃO: Condição Corporal agora é SELECT */}
+        <FormField
+          control={control}
+          name="condicaoCorporal"
+          render={({ field }) => (
+            <FormItem className="w-full md:w-1/2">
+              <FormLabel>Condição Corporal</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                value={field.value || undefined}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione a condição..." />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="boa">Boa</SelectItem>
+                  <SelectItem value="regular">Regular</SelectItem>
+                  <SelectItem value="péssima">Péssima</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={control}
           name="procedimentosClinicos"
@@ -98,9 +124,10 @@ const ClinicalEvaluationSection = ({
               <FormLabel>Procedimentos Clínicos Realizados</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Descrição dos tratamentos iniciais..."
+                  placeholder="Descrição..."
                   rows={4}
                   {...field}
+                  value={field.value ?? ""}
                 />
               </FormControl>
               <FormMessage />
@@ -116,9 +143,10 @@ const ClinicalEvaluationSection = ({
               <FormLabel>Amostras Coletadas (Antemortem)</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Ex: Sangue, fezes, swab..."
+                  placeholder="Ex: Sangue..."
                   rows={3}
                   {...field}
+                  value={field.value ?? ""}
                 />
               </FormControl>
               <FormMessage />
@@ -126,9 +154,7 @@ const ClinicalEvaluationSection = ({
           )}
         />
 
-        {/* --- Campos de Biometria (sem alteração) --- */}
-
-        {/* Campo Biometria CT */}
+        {/* Biometria CT */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <FormField
             control={control}
@@ -143,6 +169,7 @@ const ClinicalEvaluationSection = ({
                     min="0"
                     placeholder="Ex: 10.5"
                     {...field}
+                    value={field.value ?? ""}
                   />
                 </FormControl>
                 <FormMessage />
@@ -176,7 +203,7 @@ const ClinicalEvaluationSection = ({
           />
         </div>
 
-        {/* Campo condicional para Aves */}
+        {/* Condicional Aves */}
         {watchedClasse === "Aves" && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <FormField
@@ -192,6 +219,7 @@ const ClinicalEvaluationSection = ({
                       min="0"
                       placeholder="Ex: 3.2"
                       {...field}
+                      value={field.value ?? ""}
                     />
                   </FormControl>
                   <FormMessage />
@@ -225,7 +253,7 @@ const ClinicalEvaluationSection = ({
           </div>
         )}
 
-        {/* Campos condicionais para Répteis (Quelônios) */}
+        {/* Condicional Répteis */}
         {watchedClasse === "Reptilia" && (
           <>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -242,6 +270,7 @@ const ClinicalEvaluationSection = ({
                         min="0"
                         placeholder="Ex: 70.5"
                         {...field}
+                        value={field.value ?? ""}
                       />
                     </FormControl>
                     <FormMessage />
@@ -273,7 +302,6 @@ const ClinicalEvaluationSection = ({
                 )}
               />
             </div>
-
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <FormField
                 control={control}
@@ -288,6 +316,7 @@ const ClinicalEvaluationSection = ({
                         min="0"
                         placeholder="Ex: 65.0"
                         {...field}
+                        value={field.value ?? ""}
                       />
                     </FormControl>
                     <FormMessage />

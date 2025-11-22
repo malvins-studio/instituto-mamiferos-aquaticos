@@ -1,15 +1,13 @@
-// src/components/forms/occurrence-form.tsx
 "use client";
 
 import { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
-// Componentes de UI
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 
-// Componentes de Seção
 import IdentificationSection from "./sections/identification-section";
 import TriageSection from "./sections/triage-section";
 import ClassificationSection from "./sections/classification-section";
@@ -27,7 +25,7 @@ export function OccurrenceForm() {
   const form = useForm<OccurrenceFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      // Seção 1
+      // 1. Identificação
       tomboIma: "",
       responsavelRegistro: "",
       dataOcorrencia: "",
@@ -37,15 +35,17 @@ export function OccurrenceForm() {
       localEspecifico: "",
       latitude: "",
       longitude: "",
+      nomeFoto: "",
 
-      // Seção 2
+      // 2. Triagem
       tipoEntrada: undefined,
       statusAnimal: undefined,
       classificacaoOcorrencia: undefined,
-      codeDecomposicao: undefined,
+      codeDecomposicao: 1, // Padrão inicial
       interacaoPesca: undefined,
+      interacaoPescaDescricao: "",
 
-      // Seção 3
+      // 3. Classificação
       classe: undefined,
       ordem: "",
       familia: "",
@@ -56,10 +56,10 @@ export function OccurrenceForm() {
       faixaEtaria: undefined,
       anilhaNumero: "",
 
-      //seção 4
+      // 4. Clínica
       pesoEntradaG: undefined,
       pesoEntradaGUnidade: undefined,
-      condicaoCorporal: "",
+      condicaoCorporal: undefined, // Agora é undefined (enum)
       procedimentosClinicos: "",
       amostrasAntemortem: "",
       biometriaCt: undefined,
@@ -71,16 +71,17 @@ export function OccurrenceForm() {
       biometriaLcc: undefined,
       biometriaLccUnidade: undefined,
 
-      //Seção 5
+      // 5. Necropsia
       responsavelNecropsia: "",
       dataObito: "",
       achadosNecropsia: "",
       presencaTumores: undefined,
       descricaoTumores: "",
-      causaMortis: "",
+      causaMortisDiagnostico: "", // Novo campo
+      causaMortisCategoria: undefined, // Novo campo
       amostrasPostmortem: "",
 
-      //Seção 6
+      // 6. Exames
       resultadoRadiografia: "",
       resultadoToxicologico: "",
       resultadoHistopatologico: "",
@@ -89,9 +90,9 @@ export function OccurrenceForm() {
       achadosFezesUrina: "",
       resultadoMicrobiologico: "",
 
-      //Seção 7
+      // 7. Desfecho
       pesoFinal: undefined,
-      pesoFinalUnidade: undefined,
+      pesoFinalUnidade: undefined, // Novos campos
       dataSaida: "",
       destinoFinal: undefined,
       outroDestinoEspecificar: "",
@@ -99,44 +100,68 @@ export function OccurrenceForm() {
     },
   });
 
-  // "Observa" todos os valores necessários para a lógica condicional
   const watchedStatusAnimal = form.watch("statusAnimal");
   const watchedUf = form.watch("uf");
   const watchedClasse = form.watch("classe");
-  const watchedOrdem = form.watch("ordem");
-  const watchedFamilia = form.watch("familia");
-  const watchedGenero = form.watch("genero");
   const watchedEspecie = form.watch("especie");
   const watchedPresencaTumores = form.watch("presencaTumores");
   const watchedDestinoFinal = form.watch("destinoFinal");
+  const watchedInteracaoPesca = form.watch("interacaoPesca");
+
   const { setValue, clearErrors } = form;
 
-  // Efeito para limpar o campo CODE
+  // Lógica do CODE
   useEffect(() => {
     if (watchedStatusAnimal === "Vivo") {
-      setValue("codeDecomposicao", undefined);
+      setValue("codeDecomposicao", 1);
       clearErrors("codeDecomposicao");
+    } else if (watchedStatusAnimal === "Morto") {
+      setValue("codeDecomposicao", 0); // 0 força erro no Zod (min 1/2), obrigando escolha
     }
   }, [watchedStatusAnimal, setValue, clearErrors]);
 
+  // Limpeza de campos condicionais
   useEffect(() => {
     if (watchedStatusAnimal === "Vivo") {
-      // Limpa todos os campos da seção de necropsia
       setValue("responsavelNecropsia", "");
       setValue("dataObito", "");
       setValue("achadosNecropsia", "");
       setValue("presencaTumores", undefined);
       setValue("descricaoTumores", "");
-      setValue("causaMortis", "");
+      setValue("causaMortisDiagnostico", "");
+      setValue("causaMortisCategoria", undefined);
       setValue("amostrasPostmortem", "");
-      // Limpa os erros associados a esses campos
-      clearErrors(["responsavelNecropsia", "dataObito", "descricaoTumores"]);
+      clearErrors();
     }
   }, [watchedStatusAnimal, setValue, clearErrors]);
 
+  useEffect(() => {
+    if (watchedInteracaoPesca === "Nao") {
+      setValue("interacaoPescaDescricao", "");
+      clearErrors("interacaoPescaDescricao");
+    }
+  }, [watchedInteracaoPesca, setValue, clearErrors]);
+
+  useEffect(() => {
+    if (watchedClasse !== "Aves" && watchedClasse !== "Reptilia") {
+      setValue("anilhaNumero", "");
+      clearErrors("anilhaNumero");
+    }
+  }, [watchedClasse, setValue, clearErrors]);
+
   const onSubmit: SubmitHandler<OccurrenceFormValues> = (data) => {
+    // Log para debug (mantemos por enquanto)
     console.log("DADOS VALIDADOS:", JSON.stringify(data, null, 2));
-    alert("Formulário enviado com sucesso! Verifique o console.");
+
+    // Dispara a notificação Toast
+    toast.success("Formulário enviado com sucesso!", {
+      description: `O registro ${data.tomboIma} foi salvo localmente (Mockup).`,
+      duration: 5000,
+      action: {
+        label: "Ver Console",
+        onClick: () => console.log(data),
+      },
+    });
   };
 
   return (
@@ -147,20 +172,18 @@ export function OccurrenceForm() {
           watchedUf={watchedUf}
           setFormValue={setValue}
         />
-
         <TriageSection
           control={form.control}
           watchedStatusAnimal={watchedStatusAnimal}
+          watchedInteracaoPesca={watchedInteracaoPesca}
         />
-
-        {/* Passa todas as props necessárias para a Seção 3 */}
         <ClassificationSection
           control={form.control}
           setFormValue={setValue}
           watchedClasse={watchedClasse}
-          watchedOrdem={watchedOrdem}
-          watchedFamilia={watchedFamilia}
-          watchedGenero={watchedGenero}
+          watchedOrdem={form.watch("ordem")}
+          watchedFamilia={form.watch("familia")}
+          watchedGenero={form.watch("genero")}
           watchedEspecie={watchedEspecie}
         />
         <ClinicalEvaluationSection
@@ -172,14 +195,11 @@ export function OccurrenceForm() {
           watchedStatusAnimal={watchedStatusAnimal}
           watchedPresencaTumores={watchedPresencaTumores}
         />
-
         <ComplementaryExamsSection control={form.control} />
-
         <CaseOutcomeSection
           control={form.control}
           watchedDestinoFinal={watchedDestinoFinal}
         />
-
         <Button
           type="submit"
           className="bg-brand-button-primary-bg text-brand-button-primary-fg hover:bg-brand-button-primary-bg/90"
