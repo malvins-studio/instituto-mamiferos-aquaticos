@@ -6,14 +6,20 @@ export function useEffectSkipFirst(
   effect: () => void,
   deps: React.DependencyList
 ) {
-  const isFirstRender = useRef(true);
+  const isMounted = useRef(false);
 
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted.current) {
+      isMounted.current = true;
       return;
     }
-    effect();
+    return effect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 }
