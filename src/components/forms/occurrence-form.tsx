@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useTransition } from "react";
+import { useTransition } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -21,6 +21,7 @@ import {
   OccurrenceFormValues,
 } from "@/lib/schemas/occurrenceSchema";
 import { createOccurrence } from "@/lib/actions/occurrence";
+import { useEffectSkipFirst } from "@/hooks/use-effect-skip-first";
 
 export function OccurrenceForm() {
   const form = useForm<OccurrenceFormValues>({
@@ -114,7 +115,7 @@ export function OccurrenceForm() {
   const [isPending, startTransition] = useTransition();
 
   // Lógica do CODE
-  useEffect(() => {
+  useEffectSkipFirst(() => {
     if (watchedStatusAnimal === "Vivo") {
       setValue("codeDecomposicao", 1);
       clearErrors("codeDecomposicao");
@@ -124,7 +125,7 @@ export function OccurrenceForm() {
   }, [watchedStatusAnimal, setValue, clearErrors]);
 
   // Limpeza de campos condicionais
-  useEffect(() => {
+  useEffectSkipFirst(() => {
     if (watchedStatusAnimal === "Vivo") {
       setValue("responsavelNecropsia", "");
       setValue("dataObito", "");
@@ -138,14 +139,14 @@ export function OccurrenceForm() {
     }
   }, [watchedStatusAnimal, setValue, clearErrors]);
 
-  useEffect(() => {
+  useEffectSkipFirst(() => {
     if (watchedInteracaoPesca === "Nao") {
       setValue("interacaoPescaDescricao", "");
       clearErrors("interacaoPescaDescricao");
     }
   }, [watchedInteracaoPesca, setValue, clearErrors]);
 
-  useEffect(() => {
+  useEffectSkipFirst(() => {
     if (watchedClasse !== "Aves" && watchedClasse !== "Reptilia") {
       setValue("anilhaNumero", "");
       clearErrors("anilhaNumero");

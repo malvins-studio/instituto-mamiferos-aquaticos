@@ -21,6 +21,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 
 import { useState, useEffect } from "react";
+import { useEffectSkipFirst } from "@/hooks/use-effect-skip-first";
 import localidadesData from "@/data/location-data.json";
 
 interface IdentificationSectionProps {
@@ -48,13 +49,14 @@ const IdentificationSection = ({
     if (watchedUf) {
       const estadoSelecionado = estados.find((e) => e.uf === watchedUf);
       setMunicipios(estadoSelecionado ? estadoSelecionado.municipios : []);
-
-      setFormValue("municipio", "");
     } else {
       setMunicipios([]);
-      setFormValue("municipio", "");
     }
-  }, [watchedUf, setFormValue, estados]);
+  }, [watchedUf, estados]);
+
+  useEffectSkipFirst(() => {
+    setFormValue("municipio", "");
+  }, [watchedUf, setFormValue]);
 
   return (
     <fieldset className="rounded-lg border p-4">
