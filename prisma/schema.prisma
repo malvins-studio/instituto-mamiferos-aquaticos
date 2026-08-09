@@ -19,10 +19,10 @@ enum StatusAnimal {
 
 enum ClassificacaoOcorrencia {
   RESGATE_REABILITACAO @map("Resgate e Reabilitação")
-  COLETA
-  REGISTRO
+  COLETA               @map("Coleta")
+  REGISTRO             @map("Registro")
   MANUTENCAO           @map("Manutenção")
-  ENCALHE
+  ENCALHE              @map("Encalhe")
 }
 
 enum SimNao {
@@ -96,7 +96,7 @@ model Occurrence {
   // Identificação
   tomboIma            String   @unique
   responsavelRegistro String
-  dataOcorrencia      DateTime
+  dataOcorrencia      DateTime @db.Date
   horarioColeta       String
   uf                  String
   municipio           String
@@ -141,7 +141,7 @@ model Occurrence {
 
   // Necropsia
   responsavelNecropsia   String?
-  dataObito              DateTime?
+  dataObito              DateTime?             @db.Date
   achadosNecropsia       String?               @db.Text
   presencaTumores        SimNao?
   descricaoTumores       String?               @db.Text
@@ -161,7 +161,7 @@ model Occurrence {
   // Desfecho do caso
   pesoFinal               Float?
   pesoFinalUnidade        UnidadePeso?
-  dataSaida               DateTime?
+  dataSaida               DateTime?     @db.Date
   destinoFinal            DestinoFinal?
   outroDestinoEspecificar String?
   observacoes             String?       @db.Text

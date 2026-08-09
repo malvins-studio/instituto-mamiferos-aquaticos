@@ -1,3 +1,4 @@
+import "dotenv/config";
 import assert from "node:assert/strict";
 import { prisma } from "@/lib/prisma";
 import { createOccurrence } from "@/lib/actions/occurrence";
