@@ -15,6 +15,7 @@ const basePayload: OccurrenceFormValues = {
   localEspecifico: "Praia Teste",
   latitude: "-1.4558",
   longitude: "-48.4902",
+  nomeFoto: "", // Test empty-string → undefined conversion
   tipoEntrada: "Entrega voluntária",
   statusAnimal: "Vivo",
   classificacaoOcorrencia: "Manutenção",
@@ -30,6 +31,8 @@ const basePayload: OccurrenceFormValues = {
   presencaTumores: "sim",
   condicaoCorporal: "péssima",
   destinoFinal: "colecao cientifica IMA",
+  dataObito: "2026-08-09",
+  causaMortisCategoria: "Patológica",
 };
 
 const result = toOccurrenceCreateInput(basePayload);
@@ -44,11 +47,32 @@ assert.equal(result.destinoFinal, "colecao_cientifica_ima");
 assert.equal(result.latitude, -1.4558);
 assert.equal(result.longitude, -48.4902);
 assert.deepEqual(result.dataOcorrencia, new Date("2026-08-08"));
-assert.equal(result.nomeFoto, undefined);
+assert.equal(result.nomeFoto, undefined); // Empty string → undefined conversion
+assert.deepEqual(result.dataObito, new Date("2026-08-09"));
+assert.equal(result.causaMortisCategoria, "Patologica");
 
+// Test latitude error handling with field property verification
 assert.throws(
   () => toOccurrenceCreateInput({ ...basePayload, latitude: "não é número" }),
   OccurrenceMappingError
 );
+
+// Verify latitude error details
+try {
+  toOccurrenceCreateInput({ ...basePayload, latitude: "invalid" });
+  assert.fail("Should have thrown OccurrenceMappingError");
+} catch (error) {
+  assert(error instanceof OccurrenceMappingError, "Error should be OccurrenceMappingError");
+  assert.equal((error as OccurrenceMappingError).field, "latitude", "Error field should be latitude");
+}
+
+// Test longitude error handling
+try {
+  toOccurrenceCreateInput({ ...basePayload, longitude: "abc" });
+  assert.fail("Should have thrown OccurrenceMappingError");
+} catch (error) {
+  assert(error instanceof OccurrenceMappingError, "Error should be OccurrenceMappingError");
+  assert.equal((error as OccurrenceMappingError).field, "longitude", "Error field should be longitude");
+}
 
 console.log("OK: mapeadores de ocorrência validados.");
