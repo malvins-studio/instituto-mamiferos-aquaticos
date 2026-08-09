@@ -53,6 +53,7 @@ async function main() {
     presencaTumores: "sim",
     descricaoTumores: "Nódulo na nadadeira",
     causaMortisCategoria: "Antrópica",
+    destinoFinal: "colecao cientifica IMA",
   };
 
   const created = await createOccurrence(payload);
@@ -83,6 +84,8 @@ async function main() {
   assert.equal(formValues.biometriaCccUnidade, payload.biometriaCccUnidade);
   assert.equal(formValues.biometriaLccUnidade, payload.biometriaLccUnidade);
   assert.equal(formValues.nomeFoto, "");
+  assert.equal(formValues.destinoFinal, payload.destinoFinal);
+  assert.equal(formValues.dataSaida, "");
 
   await cleanup();
   await prisma.$disconnect();
