@@ -1,0 +1,171 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TipoEntrada {
+  ENTREGA_VOLUNTARIA @map("Entrega voluntária")
+  REPASSE_TERCEIROS  @map("Repasse por terceiros")
+  PRONTO_ATENDIMENTO @map("Pronto Atendimento")
+}
+
+enum StatusAnimal {
+  Vivo
+  Morto
+}
+
+enum ClassificacaoOcorrencia {
+  RESGATE_REABILITACAO @map("Resgate e Reabilitação")
+  COLETA
+  REGISTRO
+  MANUTENCAO           @map("Manutenção")
+  ENCALHE
+}
+
+enum SimNao {
+  Sim
+  Nao
+}
+
+enum Classe {
+  Amphibia
+  Aves
+  Elasmobranchii
+  Mammalia
+  Reptilia
+}
+
+enum Sexo {
+  M
+  F
+  IN
+}
+
+enum FaixaEtaria {
+  feto
+  filhote
+  juvenil
+  subadulto
+  adulto
+}
+
+enum UnidadePeso {
+  g
+  kg
+}
+
+enum CondicaoCorporal {
+  boa
+  regular
+  pessima @map("péssima")
+}
+
+enum UnidadeComprimento {
+  mm
+  cm
+  m
+}
+
+enum CausaMortisCategoria {
+  Antropica     @map("Antrópica")
+  Patologica    @map("Patológica")
+  Fisiologica   @map("Fisiológica")
+  Desconhecida
+  Indeterminada
+}
+
+enum DestinoFinal {
+  soltura
+  transferencia
+  obito
+  colecao_cientifica
+  enterro
+  incineracao
+  maceracao
+  doacao
+  colecao_cientifica_ima @map("colecao cientifica IMA")
+  outro
+}
+
+model Occurrence {
+  id String @id @default(cuid())
+
+  // Identificação
+  tomboIma            String   @unique
+  responsavelRegistro String
+  dataOcorrencia      DateTime
+  horarioColeta       String
+  uf                  String
+  municipio           String
+  localEspecifico     String
+  latitude            Float
+  longitude           Float
+  nomeFoto            String?
+
+  // Triagem
+  tipoEntrada             TipoEntrada
+  statusAnimal            StatusAnimal
+  classificacaoOcorrencia ClassificacaoOcorrencia
+  codeDecomposicao        Int
+  interacaoPesca          SimNao
+  interacaoPescaDescricao String?
+
+  // Classificação biológica
+  classe       Classe
+  ordem        String
+  familia      String
+  genero       String
+  especie      String
+  nomeComum    String?
+  sexo         Sexo
+  faixaEtaria  FaixaEtaria
+  anilhaNumero String?
+
+  // Avaliação clínica
+  pesoEntradaG          Float?
+  pesoEntradaGUnidade   UnidadePeso?
+  condicaoCorporal      CondicaoCorporal?
+  procedimentosClinicos String?             @db.Text
+  amostrasAntemortem    String?             @db.Text
+  biometriaCt           Float?
+  biometriaCtUnidade    UnidadeComprimento?
+  biometriaCcc          Float?
+  biometriaCccUnidade   UnidadeComprimento?
+  biometriaCompBico     Float?
+  biometriaBicoUnidade  UnidadeComprimento?
+  biometriaLcc          Float?
+  biometriaLccUnidade   UnidadeComprimento?
+
+  // Necropsia
+  responsavelNecropsia   String?
+  dataObito              DateTime?
+  achadosNecropsia       String?               @db.Text
+  presencaTumores        SimNao?
+  descricaoTumores       String?               @db.Text
+  causaMortisDiagnostico String?               @db.Text
+  causaMortisCategoria   CausaMortisCategoria?
+  amostrasPostmortem     String?               @db.Text
+
+  // Exames complementares
+  resultadoRadiografia     String? @db.Text
+  resultadoToxicologico    String? @db.Text
+  resultadoHistopatologico String? @db.Text
+  achadosBioquimica        String? @db.Text
+  achadosHemograma         String? @db.Text
+  achadosFezesUrina        String? @db.Text
+  resultadoMicrobiologico  String? @db.Text
+
+  // Desfecho do caso
+  pesoFinal               Float?
+  pesoFinalUnidade        UnidadePeso?
+  dataSaida               DateTime?
+  destinoFinal            DestinoFinal?
+  outroDestinoEspecificar String?
+  observacoes             String?       @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
