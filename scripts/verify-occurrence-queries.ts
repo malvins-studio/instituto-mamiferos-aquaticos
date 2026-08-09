@@ -57,17 +57,35 @@ async function main() {
   const abertos = await listOccurrences({ situacao: "aberto" });
   assert.ok(abertos.some((o) => o.tomboIma === TOMBO_ABERTO));
   assert.ok(!abertos.some((o) => o.tomboIma === TOMBO_ENCERRADO));
-  console.log("1/4 OK: listOccurrences(aberto) filtra corretamente");
+  console.log("1/7 OK: listOccurrences(aberto) filtra corretamente");
 
   const encerrados = await listOccurrences({ situacao: "encerrado" });
   assert.ok(encerrados.some((o) => o.tomboIma === TOMBO_ENCERRADO));
   assert.ok(!encerrados.some((o) => o.tomboIma === TOMBO_ABERTO));
-  console.log("2/4 OK: listOccurrences(encerrado) filtra corretamente");
+  console.log("2/7 OK: listOccurrences(encerrado) filtra corretamente");
 
   const busca = await listOccurrences({ busca: "Trichechus inunguis" });
   assert.ok(busca.some((o) => o.tomboIma === TOMBO_ABERTO));
   assert.ok(busca.some((o) => o.tomboIma === TOMBO_ENCERRADO));
-  console.log("3/4 OK: listOccurrences busca por espécie");
+  console.log("3/7 OK: listOccurrences busca por espécie");
+
+  const buscaSemResultado = await listOccurrences({
+    busca: "no-existe-nada-parecido",
+  });
+  assert.equal(buscaSemResultado.length, 0);
+  console.log("4/7 OK: listOccurrences busca sem correspondência retorna vazio");
+
+  const buscaPorTombo = await listOccurrences({ busca: TOMBO_ABERTO });
+  assert.ok(buscaPorTombo.some((o) => o.tomboIma === TOMBO_ABERTO));
+  assert.ok(!buscaPorTombo.some((o) => o.tomboIma === TOMBO_ENCERRADO));
+  console.log("5/7 OK: listOccurrences busca por tomboIma filtra corretamente");
+
+  const buscaCaseInsensitive = await listOccurrences({ busca: "belém" });
+  assert.ok(buscaCaseInsensitive.some((o) => o.tomboIma === TOMBO_ABERTO));
+  assert.ok(buscaCaseInsensitive.some((o) => o.tomboIma === TOMBO_ENCERRADO));
+  console.log(
+    "6/7 OK: listOccurrences busca é case-insensitive (município em minúsculas)"
+  );
 
   const fetched = await getOccurrence(aberto.id);
   assert.ok(fetched);
@@ -75,7 +93,7 @@ async function main() {
   const missing = await getOccurrence("id-que-nao-existe");
   assert.equal(missing, null);
   console.log(
-    "4/4 OK: getOccurrence retorna o registro certo e null quando não existe"
+    "7/7 OK: getOccurrence retorna o registro certo e null quando não existe"
   );
 
   await cleanup();
