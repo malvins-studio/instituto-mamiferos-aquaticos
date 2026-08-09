@@ -1,8 +1,14 @@
 // src/components/forms/occurrence-form.tsx
 "use client";
 
-import { useTransition } from "react";
-import { useForm, SubmitHandler, type DefaultValues } from "react-hook-form";
+import { useState, useTransition } from "react";
+import {
+  useForm,
+  SubmitHandler,
+  type DefaultValues,
+  type FieldErrors,
+} from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
@@ -93,6 +99,17 @@ const DEFAULT_VALUES: DefaultValues<OccurrenceFormValues> = {
   observacoes: "",
 };
 
+const DEFAULT_OPEN_SECTIONS = ["identificacao", "triagem", "classificacao"];
+const ALL_SECTIONS = [
+  "identificacao",
+  "triagem",
+  "classificacao",
+  "clinica",
+  "necropsia",
+  "exames",
+  "desfecho",
+];
+
 interface OccurrenceFormProps {
   initialValues?: OccurrenceFormValues;
   occurrenceId?: string;
@@ -102,6 +119,7 @@ export function OccurrenceForm({
   initialValues,
   occurrenceId,
 }: OccurrenceFormProps) {
+  const router = useRouter();
   const form = useForm<OccurrenceFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialValues ?? DEFAULT_VALUES,
@@ -114,6 +132,7 @@ export function OccurrenceForm({
   const { setValue, clearErrors } = form;
 
   const [isPending, startTransition] = useTransition();
+  const [openSections, setOpenSections] = useState<string[]>(DEFAULT_OPEN_SECTIONS);
 
   // Lógica do CODE
   useEffectSkipFirst(() => {
@@ -165,6 +184,7 @@ export function OccurrenceForm({
           Object.entries(result.errors).forEach(([field, message]) => {
             form.setError(field as keyof OccurrenceFormValues, { message });
           });
+          setOpenSections(ALL_SECTIONS);
           toast.error("Não foi possível salvar o registro.", {
             description: "Verifique os campos indicados no formulário.",
           });
@@ -180,10 +200,9 @@ export function OccurrenceForm({
             duration: 5000,
           }
         );
-        if (!occurrenceId) {
-          form.reset();
-        }
+        router.push("/");
       } catch {
+        setOpenSections(ALL_SECTIONS);
         toast.error("Ocorreu um erro inesperado ao salvar o registro.", {
           description: "Tente novamente em instantes.",
         });
@@ -191,10 +210,23 @@ export function OccurrenceForm({
     });
   };
 
+  const onInvalid = (errors: FieldErrors<OccurrenceFormValues>) => {
+    if (Object.keys(errors).length === 0) return;
+    setOpenSections(ALL_SECTIONS);
+    toast.error("Não foi possível salvar o registro.", {
+      description: "Verifique os campos indicados nas seções abaixo.",
+    });
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <OccurrenceSections control={form.control} setFormValue={setValue} />
+      <form onSubmit={form.handleSubmit(onSubmit, onInvalid)} className="space-y-8">
+        <OccurrenceSections
+          control={form.control}
+          setFormValue={setValue}
+          value={openSections}
+          onValueChange={setOpenSections}
+        />
         <Button
           type="submit"
           disabled={isPending}

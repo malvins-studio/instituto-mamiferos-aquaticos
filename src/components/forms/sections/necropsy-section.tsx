@@ -29,7 +29,7 @@ interface NecropsySectionProps {
 }
 
 /**
- * Renderiza a seção "5. Dados de Necropsia".
+ * Renderiza a seção "Dados de Necropsia".
  * Esta seção está sempre visível, mas desabilitada se o animal estiver "Vivo".
  */
 const NecropsySection = ({

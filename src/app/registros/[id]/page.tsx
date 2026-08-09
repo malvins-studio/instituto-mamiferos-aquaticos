@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getOccurrence } from "@/lib/actions/occurrence-queries";
 import { toOccurrenceFormValues } from "@/lib/actions/occurrence-mappers";
@@ -20,7 +21,13 @@ export default async function EditarRegistroPage({
   return (
     <>
       <div className="sticky top-20 md:top-24 z-40 w-full border-b bg-background shadow-sm">
-        <div className="container mx-auto flex h-14 items-center px-4">
+        <div className="container mx-auto flex h-14 items-center gap-4 px-4">
+          <Link
+            href="/"
+            className="text-sm text-muted-foreground hover:underline"
+          >
+            ← Voltar aos registros
+          </Link>
           <h1 className="text-xl font-bold tracking-tight text-brand-title-bar-fg">
             Editar Registro — {occurrence.tomboIma}
           </h1>

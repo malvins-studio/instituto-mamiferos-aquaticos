@@ -22,6 +22,8 @@ import CaseOutcomeSection from "./sections/case-outcome-section";
 interface OccurrenceSectionsProps {
   control: Control<OccurrenceFormValues>;
   setFormValue: UseFormSetValue<OccurrenceFormValues>;
+  value: string[];
+  onValueChange: (value: string[]) => void;
 }
 
 type SectionStatus = "completo" | "pendente" | "opcional" | "naoAplicavel";
@@ -58,7 +60,7 @@ function SectionBadge({ status }: { status: SectionStatus }) {
 
 function isIdentificationComplete(values: OccurrenceFormValues): boolean {
   return Boolean(
-    values.tomboIma &&
+    /^IMA\d{5}$/.test(values.tomboIma) &&
       values.responsavelRegistro &&
       values.dataOcorrencia &&
       values.horarioColeta &&
@@ -70,10 +72,19 @@ function isIdentificationComplete(values: OccurrenceFormValues): boolean {
   );
 }
 
+function isCodeDecomposicaoValid(values: OccurrenceFormValues): boolean {
+  if (values.statusAnimal === "Vivo") return values.codeDecomposicao === 1;
+  if (values.statusAnimal === "Morto") {
+    return values.codeDecomposicao >= 2 && values.codeDecomposicao <= 5;
+  }
+  return false;
+}
+
 function isTriagemComplete(values: OccurrenceFormValues): boolean {
   return Boolean(
     values.tipoEntrada &&
       values.statusAnimal &&
+      isCodeDecomposicaoValid(values) &&
       values.classificacaoOcorrencia &&
       values.interacaoPesca &&
       (values.interacaoPesca !== "Sim" || values.interacaoPescaDescricao)
@@ -95,6 +106,8 @@ function isClassificacaoComplete(values: OccurrenceFormValues): boolean {
 const OccurrenceSections = ({
   control,
   setFormValue,
+  value,
+  onValueChange,
 }: OccurrenceSectionsProps) => {
   const watchedValues = useWatch({ control }) as OccurrenceFormValues;
 
@@ -117,7 +130,8 @@ const OccurrenceSections = ({
   return (
     <Accordion
       type="multiple"
-      defaultValue={["identificacao", "triagem", "classificacao"]}
+      value={value}
+      onValueChange={onValueChange}
       className="space-y-4"
     >
       <AccordionItem value="identificacao" className="rounded-lg border px-4">

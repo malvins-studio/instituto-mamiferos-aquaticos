@@ -17,7 +17,7 @@ interface ComplementaryExamsSectionProps {
 }
 
 /**
- * Renderiza a seção "6. Resultados de Exames Complementares".
+ * Renderiza a seção "Resultados de Exames Complementares".
  * Esta seção está sempre visível e os seus campos são opcionais.
  */
 const ComplementaryExamsSection = ({
