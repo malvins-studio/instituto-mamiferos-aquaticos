@@ -60,7 +60,13 @@ export async function updateOccurrence(
   id: string,
   values: OccurrenceFormValues
 ): Promise<CreateOccurrenceResult> {
-  return persistOccurrence(values, (data) =>
-    prisma.occurrence.update({ where: { id }, data })
-  );
+  return persistOccurrence(values, (data) => {
+    const updateData = Object.fromEntries(
+      Object.entries(data).map(([key, value]) => [
+        key,
+        value === undefined ? null : value,
+      ])
+    ) as Prisma.OccurrenceUpdateInput;
+    return prisma.occurrence.update({ where: { id }, data: updateData });
+  });
 }

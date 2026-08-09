@@ -57,9 +57,18 @@ async function main() {
   const afterUpdate = await getOccurrence(created.id);
   assert.equal(afterUpdate?.destinoFinal, "soltura");
   assert.equal(afterUpdate?.observacoes, "Solto após reabilitação");
-  console.log("1/2 OK: updateOccurrence persiste as alterações");
+  console.log("1/3 OK: updateOccurrence persiste as alterações");
 
-  // 2. Duplicidade de tomboIma também é tratada na atualização
+  // 2. Limpar um campo opcional previamente setado deve gravar null no banco
+  //    (não deve deixar o valor antigo intacto — undefined em update() do Prisma
+  //    significa "não alterar", por isso precisa virar null explicitamente).
+  const cleared = await updateOccurrence(created.id, basePayload(TOMBO_A));
+  assert.equal(cleared.success, true);
+  const afterClear = await getOccurrence(created.id);
+  assert.equal(afterClear?.destinoFinal, null);
+  console.log("2/3 OK: updateOccurrence limpa campo opcional removido (undefined -> null)");
+
+  // 3. Duplicidade de tomboIma também é tratada na atualização
   const other = await createOccurrence(basePayload(TOMBO_B));
   if (!other.success) throw new Error("falha ao criar segundo registro");
 
@@ -68,7 +77,7 @@ async function main() {
   });
   assert.equal(duplicate.success, false);
   assert.ok(!duplicate.success && duplicate.errors.tomboIma);
-  console.log("2/2 OK: updateOccurrence detecta tomboIma duplicado");
+  console.log("3/3 OK: updateOccurrence detecta tomboIma duplicado");
 
   await cleanup();
   await prisma.$disconnect();
