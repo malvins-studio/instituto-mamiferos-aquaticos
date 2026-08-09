@@ -41,11 +41,8 @@ const NecropsySection = ({
   const isEnabled = watchedStatusAnimal === "Morto";
 
   return (
-    <fieldset className="rounded-lg border p-4" disabled={!isEnabled}>
-      <legend className="-ml-1 px-1 text-lg font-medium">
-        5. Dados de Necropsia (Animal Morto)
-      </legend>
-      <div className={`space-y-6 pt-6 ${!isEnabled ? "opacity-50" : ""}`}>
+    <fieldset disabled={!isEnabled}>
+      <div className={`space-y-6 ${!isEnabled ? "opacity-50" : ""}`}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormField
             control={control}

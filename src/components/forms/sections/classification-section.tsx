@@ -164,11 +164,8 @@ const ClassificationSection = ({
     watchedClasse === "Aves" || watchedClasse === "Reptilia";
 
   return (
-    <fieldset className="rounded-lg border p-4">
-      <legend className="-ml-1 px-1 text-lg font-medium">
-        3. Classificação biológica
-      </legend>
-      <div className="flex flex-col gap-6 pt-6">
+    <fieldset>
+      <div className="flex flex-col gap-6">
         {/* === Bloco 1: Taxonomia === */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <FormField

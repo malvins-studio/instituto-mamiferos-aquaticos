@@ -59,11 +59,8 @@ const IdentificationSection = ({
   }, [watchedUf, setFormValue]);
 
   return (
-    <fieldset className="rounded-lg border p-4">
-      <legend className="-ml-1 px-1 text-lg font-medium">
-        1. Identificação e local da ocorrência
-      </legend>
-      <div className="space-y-6 pt-6">
+    <fieldset>
+      <div className="space-y-6">
         <FormField
           control={control}
           name="tomboIma"
