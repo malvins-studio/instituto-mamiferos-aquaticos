@@ -154,23 +154,29 @@ export function OccurrenceForm() {
 
   const onSubmit: SubmitHandler<OccurrenceFormValues> = (data) => {
     startTransition(async () => {
-      const result = await createOccurrence(data);
+      try {
+        const result = await createOccurrence(data);
 
-      if (!result.success) {
-        Object.entries(result.errors).forEach(([field, message]) => {
-          form.setError(field as keyof OccurrenceFormValues, { message });
+        if (!result.success) {
+          Object.entries(result.errors).forEach(([field, message]) => {
+            form.setError(field as keyof OccurrenceFormValues, { message });
+          });
+          toast.error("Não foi possível salvar o registro.", {
+            description: "Verifique os campos indicados no formulário.",
+          });
+          return;
+        }
+
+        toast.success("Formulário enviado com sucesso!", {
+          description: `O registro ${data.tomboIma} foi salvo (ID: ${result.id}).`,
+          duration: 5000,
         });
-        toast.error("Não foi possível salvar o registro.", {
-          description: "Verifique os campos indicados no formulário.",
+        form.reset();
+      } catch {
+        toast.error("Ocorreu um erro inesperado ao salvar o registro.", {
+          description: "Tente novamente em instantes.",
         });
-        return;
       }
-
-      toast.success("Formulário enviado com sucesso!", {
-        description: `O registro ${data.tomboIma} foi salvo (ID: ${result.id}).`,
-        duration: 5000,
-      });
-      form.reset();
     });
   };
 
