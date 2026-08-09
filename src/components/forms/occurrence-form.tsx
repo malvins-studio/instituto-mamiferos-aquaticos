@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useTransition } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -20,6 +20,7 @@ import {
   formSchema,
   OccurrenceFormValues,
 } from "@/lib/schemas/occurrenceSchema";
+import { createOccurrence } from "@/lib/actions/occurrence";
 
 export function OccurrenceForm() {
   const form = useForm<OccurrenceFormValues>({
@@ -110,6 +111,8 @@ export function OccurrenceForm() {
 
   const { setValue, clearErrors } = form;
 
+  const [isPending, startTransition] = useTransition();
+
   // Lógica do CODE
   useEffect(() => {
     if (watchedStatusAnimal === "Vivo") {
@@ -150,17 +153,24 @@ export function OccurrenceForm() {
   }, [watchedClasse, setValue, clearErrors]);
 
   const onSubmit: SubmitHandler<OccurrenceFormValues> = (data) => {
-    // Log para debug (mantemos por enquanto)
-    console.log("DADOS VALIDADOS:", JSON.stringify(data, null, 2));
+    startTransition(async () => {
+      const result = await createOccurrence(data);
 
-    // Dispara a notificação Toast
-    toast.success("Formulário enviado com sucesso!", {
-      description: `O registro ${data.tomboIma} foi salvo localmente (Mockup).`,
-      duration: 5000,
-      action: {
-        label: "Ver Console",
-        onClick: () => console.log(data),
-      },
+      if (!result.success) {
+        Object.entries(result.errors).forEach(([field, message]) => {
+          form.setError(field as keyof OccurrenceFormValues, { message });
+        });
+        toast.error("Não foi possível salvar o registro.", {
+          description: "Verifique os campos indicados no formulário.",
+        });
+        return;
+      }
+
+      toast.success("Formulário enviado com sucesso!", {
+        description: `O registro ${data.tomboIma} foi salvo (ID: ${result.id}).`,
+        duration: 5000,
+      });
+      form.reset();
     });
   };
 
@@ -202,9 +212,10 @@ export function OccurrenceForm() {
         />
         <Button
           type="submit"
+          disabled={isPending}
           className="bg-brand-button-primary-bg text-brand-button-primary-fg hover:bg-brand-button-primary-bg/90"
         >
-          Enviar Formulário
+          {isPending ? "Enviando..." : "Enviar Formulário"}
         </Button>
       </form>
     </Form>
