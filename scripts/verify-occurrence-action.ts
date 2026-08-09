@@ -34,6 +34,10 @@ async function main() {
   assert.equal(invalidResult.success, false);
   assert.ok(!invalidResult.success && invalidResult.errors.tomboIma);
 
+  const mappingErrorResult = await createOccurrence({ ...payload, latitude: "not-a-number" });
+  assert.equal(mappingErrorResult.success, false);
+  assert.ok(!mappingErrorResult.success && mappingErrorResult.errors.latitude);
+
   const created = await createOccurrence(payload);
   assert.equal(created.success, true);
   assert.ok(created.success && created.id);
@@ -46,7 +50,7 @@ async function main() {
   await prisma.$disconnect();
 
   console.log(
-    "OK: createOccurrence validada (payload inválido, sucesso e tomboIma duplicado)."
+    "OK: createOccurrence validada (Zod validation, OccurrenceMappingError, sucesso e tomboIma duplicado)."
   );
 }
 
