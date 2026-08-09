@@ -7,6 +7,7 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: process.env["DATABASE_URL"],
+    // Migrations precisam da conexão direta (sem pooler em modo transaction).
+    url: process.env["DIRECT_URL"],
   },
 });

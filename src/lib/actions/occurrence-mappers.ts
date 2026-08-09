@@ -6,6 +6,7 @@ import {
   Prisma,
   SimNao,
   TipoEntrada,
+  type Occurrence,
 } from "@prisma/client";
 import type { OccurrenceFormValues } from "@/lib/schemas/occurrenceSchema";
 
@@ -162,5 +163,162 @@ export function toOccurrenceCreateInput(
     destinoFinal: values.destinoFinal ? DESTINO_FINAL_MAP[values.destinoFinal] : undefined,
     outroDestinoEspecificar: emptyToUndefined(values.outroDestinoEspecificar),
     observacoes: emptyToUndefined(values.observacoes),
+  };
+}
+
+const TIPO_ENTRADA_REVERSE_MAP: Record<TipoEntrada, OccurrenceFormValues["tipoEntrada"]> = {
+  [TipoEntrada.ENTREGA_VOLUNTARIA]: "Entrega voluntária",
+  [TipoEntrada.REPASSE_TERCEIROS]: "Repasse por terceiros",
+  [TipoEntrada.PRONTO_ATENDIMENTO]: "Pronto Atendimento",
+};
+
+const CLASSIFICACAO_OCORRENCIA_REVERSE_MAP: Record<
+  ClassificacaoOcorrencia,
+  OccurrenceFormValues["classificacaoOcorrencia"]
+> = {
+  [ClassificacaoOcorrencia.RESGATE_REABILITACAO]: "Resgate e Reabilitação",
+  [ClassificacaoOcorrencia.COLETA]: "Coleta",
+  [ClassificacaoOcorrencia.REGISTRO]: "Registro",
+  [ClassificacaoOcorrencia.MANUTENCAO]: "Manutenção",
+  [ClassificacaoOcorrencia.ENCALHE]: "Encalhe",
+};
+
+const CONDICAO_CORPORAL_REVERSE_MAP: Record<
+  CondicaoCorporal,
+  NonNullable<OccurrenceFormValues["condicaoCorporal"]>
+> = {
+  [CondicaoCorporal.boa]: "boa",
+  [CondicaoCorporal.regular]: "regular",
+  [CondicaoCorporal.pessima]: "péssima",
+};
+
+const CAUSA_MORTIS_CATEGORIA_REVERSE_MAP: Record<
+  CausaMortisCategoria,
+  NonNullable<OccurrenceFormValues["causaMortisCategoria"]>
+> = {
+  [CausaMortisCategoria.Antropica]: "Antrópica",
+  [CausaMortisCategoria.Patologica]: "Patológica",
+  [CausaMortisCategoria.Fisiologica]: "Fisiológica",
+  [CausaMortisCategoria.Desconhecida]: "Desconhecida",
+  [CausaMortisCategoria.Indeterminada]: "Indeterminada",
+};
+
+const DESTINO_FINAL_REVERSE_MAP: Record<
+  DestinoFinal,
+  NonNullable<OccurrenceFormValues["destinoFinal"]>
+> = {
+  [DestinoFinal.soltura]: "soltura",
+  [DestinoFinal.transferencia]: "transferencia",
+  [DestinoFinal.obito]: "obito",
+  [DestinoFinal.colecao_cientifica]: "colecao_cientifica",
+  [DestinoFinal.enterro]: "enterro",
+  [DestinoFinal.incineracao]: "incineracao",
+  [DestinoFinal.maceracao]: "maceracao",
+  [DestinoFinal.doacao]: "doacao",
+  [DestinoFinal.colecao_cientifica_ima]: "colecao cientifica IMA",
+  [DestinoFinal.outro]: "outro",
+};
+
+function formatDateOnly(date: Date): string {
+  return date.toISOString().slice(0, 10);
+}
+
+function toFormString(value: string | null): string {
+  return value ?? "";
+}
+
+function mapPresencaTumoresToForm(
+  value: SimNao | null
+): OccurrenceFormValues["presencaTumores"] {
+  if (value === null) return undefined;
+  return value === SimNao.Sim ? "sim" : "nao";
+}
+
+export function toOccurrenceFormValues(
+  occurrence: Occurrence
+): OccurrenceFormValues {
+  return {
+    tomboIma: occurrence.tomboIma,
+    responsavelRegistro: occurrence.responsavelRegistro,
+    dataOcorrencia: formatDateOnly(occurrence.dataOcorrencia),
+    horarioColeta: occurrence.horarioColeta,
+    uf: occurrence.uf,
+    municipio: occurrence.municipio,
+    localEspecifico: occurrence.localEspecifico,
+    latitude: String(occurrence.latitude),
+    longitude: String(occurrence.longitude),
+    nomeFoto: toFormString(occurrence.nomeFoto),
+
+    tipoEntrada: TIPO_ENTRADA_REVERSE_MAP[occurrence.tipoEntrada],
+    statusAnimal: occurrence.statusAnimal,
+    classificacaoOcorrencia:
+      CLASSIFICACAO_OCORRENCIA_REVERSE_MAP[occurrence.classificacaoOcorrencia],
+    codeDecomposicao: occurrence.codeDecomposicao,
+    interacaoPesca: occurrence.interacaoPesca,
+    interacaoPescaDescricao: toFormString(occurrence.interacaoPescaDescricao),
+
+    classe: occurrence.classe,
+    ordem: occurrence.ordem,
+    familia: occurrence.familia,
+    genero: occurrence.genero,
+    especie: occurrence.especie,
+    nomeComum: toFormString(occurrence.nomeComum),
+    sexo: occurrence.sexo,
+    faixaEtaria: occurrence.faixaEtaria,
+    anilhaNumero: toFormString(occurrence.anilhaNumero),
+
+    pesoEntradaG: occurrence.pesoEntradaG ?? undefined,
+    pesoEntradaGUnidade: occurrence.pesoEntradaGUnidade ?? undefined,
+    condicaoCorporal: occurrence.condicaoCorporal
+      ? CONDICAO_CORPORAL_REVERSE_MAP[occurrence.condicaoCorporal]
+      : undefined,
+    procedimentosClinicos: toFormString(occurrence.procedimentosClinicos),
+    amostrasAntemortem: toFormString(occurrence.amostrasAntemortem),
+    biometriaCt: occurrence.biometriaCt ?? undefined,
+    biometriaCtUnidade: occurrence.biometriaCtUnidade ?? undefined,
+    biometriaCompBico: occurrence.biometriaCompBico ?? undefined,
+    // UnidadeComprimento no Prisma é "mm"|"cm"|"m" para os 4 campos de
+    // biometria, mas o Zod restringe cada campo a um subconjunto (bico:
+    // "cm"|"mm"; ccc/lcc: "cm"|"m") — decisão já registrada, o Zod
+    // revalida no submit se o valor não fizer sentido para o campo.
+    biometriaBicoUnidade: occurrence.biometriaBicoUnidade as
+      | OccurrenceFormValues["biometriaBicoUnidade"]
+      | undefined ?? undefined,
+    biometriaCcc: occurrence.biometriaCcc ?? undefined,
+    biometriaCccUnidade: occurrence.biometriaCccUnidade as
+      | OccurrenceFormValues["biometriaCccUnidade"]
+      | undefined ?? undefined,
+    biometriaLcc: occurrence.biometriaLcc ?? undefined,
+    biometriaLccUnidade: occurrence.biometriaLccUnidade as
+      | OccurrenceFormValues["biometriaLccUnidade"]
+      | undefined ?? undefined,
+
+    responsavelNecropsia: toFormString(occurrence.responsavelNecropsia),
+    dataObito: occurrence.dataObito ? formatDateOnly(occurrence.dataObito) : "",
+    achadosNecropsia: toFormString(occurrence.achadosNecropsia),
+    presencaTumores: mapPresencaTumoresToForm(occurrence.presencaTumores),
+    descricaoTumores: toFormString(occurrence.descricaoTumores),
+    causaMortisDiagnostico: toFormString(occurrence.causaMortisDiagnostico),
+    causaMortisCategoria: occurrence.causaMortisCategoria
+      ? CAUSA_MORTIS_CATEGORIA_REVERSE_MAP[occurrence.causaMortisCategoria]
+      : undefined,
+    amostrasPostmortem: toFormString(occurrence.amostrasPostmortem),
+
+    resultadoRadiografia: toFormString(occurrence.resultadoRadiografia),
+    resultadoToxicologico: toFormString(occurrence.resultadoToxicologico),
+    resultadoHistopatologico: toFormString(occurrence.resultadoHistopatologico),
+    achadosBioquimica: toFormString(occurrence.achadosBioquimica),
+    achadosHemograma: toFormString(occurrence.achadosHemograma),
+    achadosFezesUrina: toFormString(occurrence.achadosFezesUrina),
+    resultadoMicrobiologico: toFormString(occurrence.resultadoMicrobiologico),
+
+    pesoFinal: occurrence.pesoFinal ?? undefined,
+    pesoFinalUnidade: occurrence.pesoFinalUnidade ?? undefined,
+    dataSaida: occurrence.dataSaida ? formatDateOnly(occurrence.dataSaida) : "",
+    destinoFinal: occurrence.destinoFinal
+      ? DESTINO_FINAL_REVERSE_MAP[occurrence.destinoFinal]
+      : undefined,
+    outroDestinoEspecificar: toFormString(occurrence.outroDestinoEspecificar),
+    observacoes: toFormString(occurrence.observacoes),
   };
 }

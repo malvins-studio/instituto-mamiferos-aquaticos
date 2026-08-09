@@ -157,22 +157,6 @@ export const formSchema = z
       });
     }
 
-    // Necropsia Obrigatória se Morto
-    if (data.statusAnimal === "Morto") {
-      if (!data.responsavelNecropsia)
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Obrigatório.",
-          path: ["responsavelNecropsia"],
-        });
-      if (!data.dataObito)
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "Obrigatório.",
-          path: ["dataObito"],
-        });
-    }
-
     // Desfecho Outro
     if (data.destinoFinal === "outro" && !data.outroDestinoEspecificar) {
       ctx.addIssue({

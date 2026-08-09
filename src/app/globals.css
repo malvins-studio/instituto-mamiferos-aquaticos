@@ -1,6 +1,7 @@
 /* src/app/globals.css */
 
 @import "tailwindcss";
+@import "tw-animate-css";
 
 :root {
   /* Cores da Nova Identidade Visual */

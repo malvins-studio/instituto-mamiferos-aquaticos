@@ -12,8 +12,9 @@ export type CreateOccurrenceResult =
   | { success: true; id: string }
   | { success: false; errors: Record<string, string> };
 
-export async function createOccurrence(
-  values: OccurrenceFormValues
+async function persistOccurrence(
+  values: OccurrenceFormValues,
+  persist: (data: Prisma.OccurrenceCreateInput) => Promise<{ id: string }>
 ): Promise<CreateOccurrenceResult> {
   const parsed = formSchema.safeParse(values);
 
@@ -30,7 +31,7 @@ export async function createOccurrence(
 
   try {
     const data = toOccurrenceCreateInput(parsed.data);
-    const occurrence = await prisma.occurrence.create({ data });
+    const occurrence = await persist(data);
     return { success: true, id: occurrence.id };
   } catch (error) {
     if (error instanceof OccurrenceMappingError) {
@@ -47,4 +48,25 @@ export async function createOccurrence(
     }
     throw error;
   }
+}
+
+export async function createOccurrence(
+  values: OccurrenceFormValues
+): Promise<CreateOccurrenceResult> {
+  return persistOccurrence(values, (data) => prisma.occurrence.create({ data }));
+}
+
+export async function updateOccurrence(
+  id: string,
+  values: OccurrenceFormValues
+): Promise<CreateOccurrenceResult> {
+  return persistOccurrence(values, (data) => {
+    const updateData = Object.fromEntries(
+      Object.entries(data).map(([key, value]) => [
+        key,
+        value === undefined ? null : value,
+      ])
+    ) as Prisma.OccurrenceUpdateInput;
+    return prisma.occurrence.update({ where: { id }, data: updateData });
+  });
 }
