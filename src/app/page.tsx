@@ -29,20 +29,25 @@ export default async function Home({
 
   return (
     <>
-      <div className="sticky top-20 md:top-24 z-40 w-full border-b bg-background shadow-sm">
-        <div className="container mx-auto flex h-14 items-center justify-between px-4">
-          <h1 className="text-xl font-bold tracking-tight text-brand-title-bar-fg">
-            Registros de Ocorrência
-          </h1>
+      <div className="sticky top-20 md:top-24 z-40 w-full bg-white border-b border-brand-border">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-brand-primary">
+              Registros de Ocorrência
+            </h1>
+            <p className="text-sm text-brand-text-secondary mt-0.5">
+              Consulte e gerencie todos os registros do instituto
+            </p>
+          </div>
           <Link
             href="/registros/novo"
-            className="rounded-md bg-brand-button-primary-bg px-4 py-2 text-sm font-medium text-brand-button-primary-fg hover:bg-brand-button-primary-bg/90"
+            className="rounded-lg bg-brand-primary text-white px-5 py-2.5 text-sm font-semibold hover:bg-brand-primary/90 transition-colors duration-200 shadow-sm"
           >
-            Novo Registro
+            + Novo Registro
           </Link>
         </div>
       </div>
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-8">
         <OccurrenceList
           occurrences={occurrences}
           situacao={situacao}

@@ -1,5 +1,6 @@
 // src/components/registros/occurrence-list.tsx
 import Link from "next/link";
+import { Search } from "lucide-react";
 import type {
   OccurrenceListItem,
   OccurrenceSituacao,
@@ -18,9 +19,6 @@ const TABS: { value: OccurrenceSituacao; label: string }[] = [
 ];
 
 function formatDate(date: Date): string {
-  // A data é armazenada como @db.Date (UTC, sem hora) — forçar timeZone
-  // "UTC" aqui é obrigatório, senão o dia exibido pode ficar um dia
-  // atrasado dependendo do fuso do navegador/servidor.
   return date.toLocaleDateString("pt-BR", { timeZone: "UTC" });
 }
 
@@ -30,72 +28,89 @@ export function OccurrenceList({
   busca,
 }: OccurrenceListProps) {
   return (
-    <div className="space-y-4">
-      <div className="flex flex-wrap items-center gap-2">
-        {TABS.map((tab) => (
-          <Link
-            key={tab.value}
-            href={`/?situacao=${tab.value}${
-              busca ? `&busca=${encodeURIComponent(busca)}` : ""
-            }`}
-            className={`rounded-full px-3 py-1 text-sm font-medium ${
-              situacao === tab.value
-                ? "bg-brand-button-primary-bg text-brand-button-primary-fg"
-                : "bg-muted text-muted-foreground hover:bg-muted/80"
-            }`}
+    <div className="space-y-6">
+      {/* Filtros */}
+      <div className="space-y-4">
+        <div className="flex flex-wrap items-center gap-2">
+          {TABS.map((tab) => (
+            <Link
+              key={tab.value}
+              href={`/?situacao=${tab.value}${
+                busca ? `&busca=${encodeURIComponent(busca)}` : ""
+              }`}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                situacao === tab.value
+                  ? "bg-brand-primary text-white shadow-md"
+                  : "bg-brand-bg-secondary text-brand-text-secondary hover:bg-brand-border"
+              }`}
+            >
+              {tab.label}
+            </Link>
+          ))}
+        </div>
+
+        {/* Busca */}
+        <form method="get" className="flex gap-2">
+          <input type="hidden" name="situacao" value={situacao} />
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-brand-text-secondary" />
+            <input
+              type="text"
+              name="busca"
+              defaultValue={busca}
+              placeholder="Buscar por tombo, espécie ou município..."
+              className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-brand-border bg-white text-brand-text-primary placeholder:text-brand-text-secondary focus:outline-none focus:ring-2 focus:ring-brand-accent focus:border-transparent transition-all"
+            />
+          </div>
+          <button
+            type="submit"
+            className="px-4 py-2.5 rounded-lg bg-brand-primary text-white font-medium hover:bg-brand-primary/90 transition-colors duration-200 shadow-sm"
           >
-            {tab.label}
-          </Link>
-        ))}
+            Buscar
+          </button>
+        </form>
       </div>
 
-      <form method="get" className="flex gap-2">
-        <input type="hidden" name="situacao" value={situacao} />
-        <input
-          type="text"
-          name="busca"
-          defaultValue={busca}
-          placeholder="Buscar por tombo, espécie ou município..."
-          className="flex-1 rounded-md border px-3 py-2 text-sm"
-        />
-        <button
-          type="submit"
-          className="rounded-md bg-brand-button-primary-bg px-4 py-2 text-sm font-medium text-brand-button-primary-fg"
-        >
-          Buscar
-        </button>
-      </form>
-
+      {/* Lista de Registros */}
       {occurrences.length === 0 ? (
-        <p className="py-8 text-center text-muted-foreground">
-          Nenhum registro encontrado.
-        </p>
+        <div className="py-12 text-center">
+          <p className="text-brand-text-secondary text-base">
+            Nenhum registro encontrado.
+          </p>
+        </div>
       ) : (
-        <div className="divide-y rounded-lg border">
+        <div className="space-y-3">
           {occurrences.map((occurrence) => (
             <Link
               key={occurrence.id}
               href={`/registros/${occurrence.id}`}
-              className="flex items-center justify-between gap-4 px-4 py-3 hover:bg-muted/50"
+              className="block rounded-lg border border-brand-border bg-white p-4 transition-all duration-200 hover:shadow-md hover:border-brand-accent group"
             >
-              <div className="flex min-w-0 flex-1 items-center gap-4">
-                <span className="font-medium">{occurrence.tomboIma}</span>
-                <span className="truncate text-sm italic text-muted-foreground">
-                  {occurrence.especie}
+              <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-baseline gap-2 mb-2">
+                    <h3 className="text-lg font-bold text-brand-primary">
+                      {occurrence.tomboIma}
+                    </h3>
+                    <span className="text-sm text-brand-text-secondary">
+                      {formatDate(occurrence.dataOcorrencia)}
+                    </span>
+                  </div>
+                  <p className="text-sm italic text-brand-text-secondary">
+                    {occurrence.especie}
+                  </p>
+                </div>
+
+                <span
+                  className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-semibold ${
+                    occurrence.destinoFinal
+                      ? "bg-brand-status-success/15 text-brand-status-success"
+                      : "bg-brand-status-warning/15 text-brand-status-warning"
+                  }`}
+                >
+                  {occurrence.destinoFinal ? "Encerrado" : "Em aberto"}
                 </span>
               </div>
-              <span className="shrink-0 text-sm text-muted-foreground">
-                {formatDate(occurrence.dataOcorrencia)}
-              </span>
-              <span
-                className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${
-                  occurrence.destinoFinal
-                    ? "bg-slate-100 text-slate-700"
-                    : "bg-amber-100 text-amber-800"
-                }`}
-              >
-                {occurrence.destinoFinal ? "Encerrado" : "Em aberto"}
-              </span>
             </Link>
           ))}
         </div>

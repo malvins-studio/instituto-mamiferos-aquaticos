@@ -32,15 +32,15 @@ const STATUS_CONFIG: Record<
   SectionStatus,
   { label: string; className: string }
 > = {
-  completo: { label: "Completo", className: "bg-emerald-100 text-emerald-800" },
+  completo: { label: "Completo", className: "bg-brand-status-success/15 text-brand-status-success" },
   pendente: {
     label: "Obrigatório pendente",
-    className: "bg-amber-100 text-amber-800",
+    className: "bg-brand-status-warning/15 text-brand-status-warning",
   },
-  opcional: { label: "Opcional", className: "bg-slate-100 text-slate-700" },
+  opcional: { label: "Opcional", className: "bg-brand-bg-secondary text-brand-text-secondary" },
   naoAplicavel: {
     label: "Não aplicável",
-    className: "bg-slate-100 text-slate-400",
+    className: "bg-brand-bg-secondary text-brand-border",
   },
 };
 
