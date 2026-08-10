@@ -30,9 +30,9 @@ export default async function Home({
   return (
     <>
       <div className="sticky top-20 md:top-24 z-40 w-full bg-gradient-to-r from-brand-primary to-brand-accent shadow-md">
-        <div className="container mx-auto px-4 py-6 flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold text-white">
+        <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex-1">
+            <h1 className="text-2xl md:text-3xl font-bold text-white leading-tight">
               Registros de Ocorrência
             </h1>
             <p className="text-sm text-white/80 mt-1">
@@ -41,7 +41,7 @@ export default async function Home({
           </div>
           <Link
             href="/registros/novo"
-            className="rounded-lg bg-white text-brand-primary px-6 py-2.5 text-sm font-semibold hover:bg-white/90 transition-all duration-200 shadow-lg hover:shadow-xl"
+            className="shrink-0 rounded-lg bg-white text-brand-primary px-6 py-2.5 text-sm font-semibold hover:bg-white/90 transition-all duration-200 shadow-lg hover:shadow-xl whitespace-nowrap text-center md:text-left"
           >
             + Novo Registro
           </Link>
