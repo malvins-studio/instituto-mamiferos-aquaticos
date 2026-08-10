@@ -29,19 +29,19 @@ export default async function Home({
 
   return (
     <>
-      <div className="sticky top-20 md:top-24 z-40 w-full bg-white border-b border-brand-border">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="sticky top-20 md:top-24 z-40 w-full bg-gradient-to-r from-brand-primary to-brand-accent shadow-md">
+        <div className="container mx-auto px-4 py-6 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-brand-primary">
+            <h1 className="text-3xl font-bold text-white">
               Registros de Ocorrência
             </h1>
-            <p className="text-sm text-brand-text-secondary mt-0.5">
+            <p className="text-sm text-white/80 mt-1">
               Consulte e gerencie todos os registros do instituto
             </p>
           </div>
           <Link
             href="/registros/novo"
-            className="rounded-lg bg-brand-primary text-white px-5 py-2.5 text-sm font-semibold hover:bg-brand-primary/90 transition-colors duration-200 shadow-sm"
+            className="rounded-lg bg-white text-brand-primary px-6 py-2.5 text-sm font-semibold hover:bg-white/90 transition-all duration-200 shadow-lg hover:shadow-xl"
           >
             + Novo Registro
           </Link>
