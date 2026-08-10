@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "db:studio": "prisma studio",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "prebuild": "prisma db push"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
