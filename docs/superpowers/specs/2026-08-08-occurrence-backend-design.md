@@ -1,7 +1,14 @@
 # Backend de Persistência de Ocorrências (SIIMA)
 
 Data: 2026-08-08
-Status: Aprovado para planejamento
+Status: Implementado (branch `feat/occurrence-backend`)
+
+> **Atualização (2026-08-09):** a decisão original de usar Postgres local
+> via Docker foi revisada após dificuldades de acesso ao Docker no ambiente
+> de desenvolvimento. O projeto passou a usar **Supabase** (Postgres
+> gerenciado) tanto em desenvolvimento quanto, futuramente, em produção —
+> substituindo a opção original (Neon) cogitada no stack inicial. As seções
+> "Arquitetura" e "Conexão com o banco" abaixo já refletem essa decisão.
 
 ## Contexto
 
@@ -19,7 +26,7 @@ tabela do banco.
 
 Dentro do escopo:
 - Modelo Prisma para a tabela de ocorrências.
-- Conexão com Postgres local (Docker) via Prisma.
+- Conexão com Postgres gerenciado (Supabase) via Prisma.
 - Server Action que valida (novamente, no servidor) e persiste o payload do
   formulário.
 - Integração do `onSubmit` do formulário com a Server Action, incluindo
@@ -29,15 +36,15 @@ Fora de escopo (ficam para rodadas futuras):
 - Autenticação/Clerk (nenhuma tabela `User`, nenhuma sessão).
 - Multi-tenancy (sem `Organization`/`organizationId` — instância única do
   IMA).
-- Upload real de arquivo/foto (`nomeFoto` continua sendo apenas uma string).
-- Neon (usamos Postgres local via Docker; trocar para Neon depois é só
-  trocar a `DATABASE_URL`).
+- Upload real de arquivo/foto (`nomeFoto` continua sendo apenas uma string;
+  Supabase Storage é a opção mais provável quando isso entrar em escopo).
 - Testes automatizados (não há Jest/Vitest configurado no projeto).
 - Telas de listagem/edição de ocorrências (só criação, via o form existente).
 
 ## Arquitetura
 
-- **ORM**: Prisma, contra Postgres local (Docker Compose).
+- **ORM**: Prisma, contra Postgres gerenciado (Supabase), tanto em
+  desenvolvimento quanto em produção — sem Postgres local.
 - **Modelo**: uma única tabela `Occurrence`, espelhando 1:1 o `formSchema`
   do Zod (um objeto plano com ~60 campos, a maioria nullable nas seções
   clínica/necropsia/exames/desfecho — igual ao Zod já trata como opcional).
@@ -161,14 +168,24 @@ Arquivo: `src/lib/actions/occurrence.ts`.
 
 ## Conexão com o banco
 
-- `src/lib/prisma.ts`: singleton do `PrismaClient` (padrão Next.js para
-  evitar exaustão de conexões durante hot-reload em dev).
-- `docker-compose.yml` na raiz do projeto com um serviço Postgres para
-  desenvolvimento local.
-- `.env` com `DATABASE_URL` apontando para o Postgres local; `.env.example`
-  versionado sem credenciais reais.
+- Banco: um único projeto Supabase, usado tanto em desenvolvimento quanto
+  em produção (sem Postgres local/Docker).
+- `src/lib/prisma.ts`: singleton do `PrismaClient`, usando
+  `@prisma/adapter-pg` (driver adapter — exigido pelo Prisma 7) apontando
+  para a connection string **pooled** (`DATABASE_URL`, porta 6543, via
+  Supavisor). Falha rápido (`throw`) se `DATABASE_URL` não estiver
+  definida, em vez de cair silenciosamente em um Postgres local por
+  padrão.
+- `prisma.config.ts`: usado pela Prisma CLI (migrations, `db pull`,
+  `studio`) apontando para a connection string **direta**
+  (`DIRECT_URL`, porta 5432) — o pooler em modo transaction não suporta
+  os comandos que `prisma migrate` precisa rodar.
+- `.env` com `DATABASE_URL` (pooled) e `DIRECT_URL` (direta), ambas
+  copiadas do painel do Supabase (Settings > Database > Connect);
+  `.env.example` versionado com placeholders, sem credenciais reais.
 - `prisma/schema.prisma` + primeira migration via `prisma migrate dev`.
-- Novas dependências: `prisma` (dev), `@prisma/client`.
+- Novas dependências: `prisma`, `@prisma/client`, `@prisma/adapter-pg`,
+  `pg`, `dotenv`.
 
 ## Integração no formulário
 
@@ -192,7 +209,9 @@ Prisma Studio.
 - Sem Clerk/auth nesta rodada.
 - Single-tenant (sem `organizationId`).
 - `nomeFoto` continua String simples, sem upload real.
-- Postgres local via Docker nesta rodada (não Neon).
+- Supabase (Postgres gerenciado) para desenvolvimento e produção — sem
+  Postgres local/Docker (decisão revisada em 2026-08-09; originalmente
+  era Docker local nesta rodada, com Neon cogitado para produção).
 - Tabela única `Occurrence`, não normalizada por seção.
 - Enums nativos do Postgres para campos de opção fechada.
 - Server Action normaliza a inconsistência `Sim/Nao` vs `sim/nao` do Zod.

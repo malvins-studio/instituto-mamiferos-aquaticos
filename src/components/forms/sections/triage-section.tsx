@@ -34,12 +34,8 @@ const TriageSection = ({
   watchedInteracaoPesca,
 }: TriageSectionProps) => {
   return (
-    <fieldset className="rounded-lg border p-4">
-      <legend className="-ml-1 px-1 text-lg font-medium">
-        2. Triagem e status do animal
-      </legend>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 pt-6">
+    <fieldset>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
         {/* === COLUNA ESQUERDA === */}
         <div className="space-y-6">
           <FormField

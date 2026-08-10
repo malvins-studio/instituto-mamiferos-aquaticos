@@ -17,18 +17,15 @@ interface ComplementaryExamsSectionProps {
 }
 
 /**
- * Renderiza a seção "6. Resultados de Exames Complementares".
+ * Renderiza a seção "Resultados de Exames Complementares".
  * Esta seção está sempre visível e os seus campos são opcionais.
  */
 const ComplementaryExamsSection = ({
   control,
 }: ComplementaryExamsSectionProps) => {
   return (
-    <fieldset className="rounded-lg border p-4">
-      <legend className="-ml-1 px-1 text-lg font-medium">
-        6. Resultados de Exames Complementares (Opcional)
-      </legend>
-      <div className="space-y-6 pt-6">
+    <fieldset>
+      <div className="space-y-6">
         <FormField
           control={control}
           name="resultadoRadiografia"

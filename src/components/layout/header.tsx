@@ -6,50 +6,39 @@ import { Button } from "@/components/ui/button";
 
 const Header = () => {
   return (
-    <header className="fixed top-0 left-0 w-full h-20 md:h-24 bg-brand-header-bg text-brand-header-fg shadow-sm z-50 border-b border-white/10">
-      <div className="container h-full mx-auto px-4 flex items-center justify-between">
+    <header className="fixed top-0 left-0 w-full bg-white border-b border-brand-border shadow-sm z-50">
+      <div className="container mx-auto px-4 h-20 md:h-24 flex items-center justify-between">
         {/* Esquerda: Menu */}
         <div className="flex-1 flex justify-start">
           <Button
             variant="ghost"
             size="icon"
             aria-label="Abrir menu"
-            className="text-brand-header-fg hover:bg-white/10 focus-visible:ring-white/50"
+            className="text-brand-primary hover:bg-brand-bg-secondary focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
           >
-            <Menu className="size-8" />
+            <Menu className="size-6" />
           </Button>
         </div>
 
-        {/* Centro: Logo + Título (sem encolher) */}
-        <div className="shrink-0">
-          <div className="flex items-center gap-3">
-            <Link href="/" aria-label="Página Inicial">
-              <Image
-                src="/ima-logo.png"
-                alt="Logo do SIIMA"
-                width={200}
-                height={71}
-                className="h-12 w-auto md:h-16"
-                priority
-              />
-            </Link>
-
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-brand-header-fg tracking-tight leading-none">
-                SIIMA
-              </h1>
-              <p className="hidden md:block text-sm font-normal text-brand-header-fg leading-tight">
-                Sistema de Informações do Instituto Mamíferos Aquáticos
-              </p>
-            </div>
-          </div>
+        {/* Centro: Logo */}
+        <div className="shrink-0 flex items-center">
+          <Link href="/" aria-label="Página Inicial" className="hover:opacity-75 transition-opacity">
+            <Image
+              src="/ima-logo.png"
+              alt="Logo Instituto Mamíferos Aquáticos"
+              width={200}
+              height={71}
+              className="h-14 w-auto md:h-16"
+              priority
+            />
+          </Link>
         </div>
 
         {/* Direita: Login */}
         <div className="flex-1 flex justify-end">
           <Link
             href="/login"
-            className="text-sm font-medium hover:underline text-brand-header-fg"
+            className="text-sm font-medium text-brand-primary hover:text-brand-accent transition-colors duration-200"
           >
             Login
           </Link>

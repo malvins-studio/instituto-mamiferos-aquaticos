@@ -1,17 +1,26 @@
 /* src/app/globals.css */
 
 @import "tailwindcss";
+@import "tw-animate-css";
 
 :root {
-  /* Cores da Nova Identidade Visual */
-  --brand-header-bg-hsl: 202 39% 18%;
+  /* Cores da Identidade Visual — Instituto Mamíferos Aquáticos */
+  --brand-primary-hsl: 196 59% 27%;
+  --brand-accent-hsl: 188 78% 56%;
+  --brand-header-bg-hsl: 196 59% 27%;
   --brand-header-fg-hsl: 0 0% 100%;
-  --brand-bg-page-hsl: 206 100% 94%;
-  --brand-title-bar-fg-hsl: 200 58% 28%;
-  --brand-text-primary-hsl: 202 39% 18%;
-  --brand-border-hsl: 207 50% 71%;
-  --brand-button-primary-bg-hsl: 202 39% 18%;
+  --brand-bg-page-hsl: 195 80% 95%;
+  --brand-bg-secondary-hsl: 195 85% 88%;
+  --brand-text-primary-hsl: 196 59% 27%;
+  --brand-text-secondary-hsl: 217 11% 42%;
+  --brand-border-hsl: 217 17% 78%;
+  --brand-button-primary-bg-hsl: 196 59% 27%;
   --brand-button-primary-fg-hsl: 0 0% 100%;
+  --brand-button-secondary-bg-hsl: 188 78% 56%;
+  --brand-button-secondary-fg-hsl: 196 59% 27%;
+  --brand-status-success-hsl: 160 84% 39%;
+  --brand-status-warning-hsl: 38 92% 50%;
+  --brand-status-error-hsl: 0 84% 60%;
 
   /* Variáveis base do ShadCN */
   --background: 0 0% 100%;
@@ -41,14 +50,22 @@
 }
 @theme {
   /* Cores da Marca */
+  --color-brand-primary: hsl(var(--brand-primary-hsl));
+  --color-brand-accent: hsl(var(--brand-accent-hsl));
   --color-brand-header-bg: hsl(var(--brand-header-bg-hsl));
   --color-brand-header-fg: hsl(var(--brand-header-fg-hsl));
   --color-brand-bg-page: hsl(var(--brand-bg-page-hsl));
-  --color-brand-title-bar-fg: hsl(var(--brand-title-bar-fg-hsl));
+  --color-brand-bg-secondary: hsl(var(--brand-bg-secondary-hsl));
   --color-brand-text-primary: hsl(var(--brand-text-primary-hsl));
+  --color-brand-text-secondary: hsl(var(--brand-text-secondary-hsl));
   --color-brand-border: hsl(var(--brand-border-hsl));
   --color-brand-button-primary-bg: hsl(var(--brand-button-primary-bg-hsl));
   --color-brand-button-primary-fg: hsl(var(--brand-button-primary-fg-hsl));
+  --color-brand-button-secondary-bg: hsl(var(--brand-button-secondary-bg-hsl));
+  --color-brand-button-secondary-fg: hsl(var(--brand-button-secondary-fg-hsl));
+  --color-brand-status-success: hsl(var(--brand-status-success-hsl));
+  --color-brand-status-warning: hsl(var(--brand-status-warning-hsl));
+  --color-brand-status-error: hsl(var(--brand-status-error-hsl));
 
   /* Cores Base (ShadCN/Tailwind) mapeadas para nossas variáveis CSS */
   --color-background: hsl(var(--background));
