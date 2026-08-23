@@ -17,3 +17,21 @@ export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter });
 if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;
 }
+
+export {
+  Prisma,
+  PrismaClient,
+  type Occurrence,
+  TipoEntrada,
+  StatusAnimal,
+  ClassificacaoOcorrencia,
+  SimNao,
+  Classe,
+  Sexo,
+  FaixaEtaria,
+  UnidadePeso,
+  CondicaoCorporal,
+  UnidadeComprimento,
+  CausaMortisCategoria,
+  DestinoFinal,
+} from "@prisma/client";

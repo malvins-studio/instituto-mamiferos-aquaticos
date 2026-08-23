@@ -1,3 +1,4 @@
+import { Injectable } from "@nestjs/common";
 import {
   CausaMortisCategoria,
   ClassificacaoOcorrencia,
@@ -7,10 +8,20 @@ import {
   SimNao,
   TipoEntrada,
   type Occurrence,
-} from "@prisma/client";
-import type { OccurrenceFormValues } from "@/lib/schemas/occurrenceSchema";
+} from "@siima/database";
+import { formSchema, type OccurrenceFormValues } from "@siima/shared";
+import {
+  OccurrenceListItem,
+  OccurrenceRepository,
+} from "./occurrence.repository";
 
-export class OccurrenceMappingError extends Error {
+export type OccurrenceSituacao = "aberto" | "encerrado" | "todos";
+
+export type CreateOccurrenceResult =
+  | { success: true; id: string }
+  | { success: false; errors: Record<string, string> };
+
+class OccurrenceMappingError extends Error {
   constructor(public readonly field: string, message: string) {
     super(message);
     this.name = "OccurrenceMappingError";
@@ -70,6 +81,59 @@ const DESTINO_FINAL_MAP: Record<
   outro: DestinoFinal.outro,
 };
 
+const TIPO_ENTRADA_REVERSE_MAP: Record<TipoEntrada, OccurrenceFormValues["tipoEntrada"]> = {
+  [TipoEntrada.ENTREGA_VOLUNTARIA]: "Entrega voluntária",
+  [TipoEntrada.REPASSE_TERCEIROS]: "Repasse por terceiros",
+  [TipoEntrada.PRONTO_ATENDIMENTO]: "Pronto Atendimento",
+};
+
+const CLASSIFICACAO_OCORRENCIA_REVERSE_MAP: Record<
+  ClassificacaoOcorrencia,
+  OccurrenceFormValues["classificacaoOcorrencia"]
+> = {
+  [ClassificacaoOcorrencia.RESGATE_REABILITACAO]: "Resgate e Reabilitação",
+  [ClassificacaoOcorrencia.COLETA]: "Coleta",
+  [ClassificacaoOcorrencia.REGISTRO]: "Registro",
+  [ClassificacaoOcorrencia.MANUTENCAO]: "Manutenção",
+  [ClassificacaoOcorrencia.ENCALHE]: "Encalhe",
+};
+
+const CONDICAO_CORPORAL_REVERSE_MAP: Record<
+  CondicaoCorporal,
+  NonNullable<OccurrenceFormValues["condicaoCorporal"]>
+> = {
+  [CondicaoCorporal.boa]: "boa",
+  [CondicaoCorporal.regular]: "regular",
+  [CondicaoCorporal.pessima]: "péssima",
+};
+
+const CAUSA_MORTIS_CATEGORIA_REVERSE_MAP: Record<
+  CausaMortisCategoria,
+  NonNullable<OccurrenceFormValues["causaMortisCategoria"]>
+> = {
+  [CausaMortisCategoria.Antropica]: "Antrópica",
+  [CausaMortisCategoria.Patologica]: "Patológica",
+  [CausaMortisCategoria.Fisiologica]: "Fisiológica",
+  [CausaMortisCategoria.Desconhecida]: "Desconhecida",
+  [CausaMortisCategoria.Indeterminada]: "Indeterminada",
+};
+
+const DESTINO_FINAL_REVERSE_MAP: Record<
+  DestinoFinal,
+  NonNullable<OccurrenceFormValues["destinoFinal"]>
+> = {
+  [DestinoFinal.soltura]: "soltura",
+  [DestinoFinal.transferencia]: "transferencia",
+  [DestinoFinal.obito]: "obito",
+  [DestinoFinal.colecao_cientifica]: "colecao_cientifica",
+  [DestinoFinal.enterro]: "enterro",
+  [DestinoFinal.incineracao]: "incineracao",
+  [DestinoFinal.maceracao]: "maceracao",
+  [DestinoFinal.doacao]: "doacao",
+  [DestinoFinal.colecao_cientifica_ima]: "colecao cientifica IMA",
+  [DestinoFinal.outro]: "outro",
+};
+
 function parseCoordinate(field: "latitude" | "longitude", raw: string): number {
   const value = Number(raw);
   if (!Number.isFinite(value)) {
@@ -90,7 +154,7 @@ function mapPresencaTumores(
   return value === "sim" ? SimNao.Sim : SimNao.Nao;
 }
 
-export function toOccurrenceCreateInput(
+function toOccurrenceCreateInput(
   values: OccurrenceFormValues
 ): Prisma.OccurrenceCreateInput {
   return {
@@ -166,59 +230,6 @@ export function toOccurrenceCreateInput(
   };
 }
 
-const TIPO_ENTRADA_REVERSE_MAP: Record<TipoEntrada, OccurrenceFormValues["tipoEntrada"]> = {
-  [TipoEntrada.ENTREGA_VOLUNTARIA]: "Entrega voluntária",
-  [TipoEntrada.REPASSE_TERCEIROS]: "Repasse por terceiros",
-  [TipoEntrada.PRONTO_ATENDIMENTO]: "Pronto Atendimento",
-};
-
-const CLASSIFICACAO_OCORRENCIA_REVERSE_MAP: Record<
-  ClassificacaoOcorrencia,
-  OccurrenceFormValues["classificacaoOcorrencia"]
-> = {
-  [ClassificacaoOcorrencia.RESGATE_REABILITACAO]: "Resgate e Reabilitação",
-  [ClassificacaoOcorrencia.COLETA]: "Coleta",
-  [ClassificacaoOcorrencia.REGISTRO]: "Registro",
-  [ClassificacaoOcorrencia.MANUTENCAO]: "Manutenção",
-  [ClassificacaoOcorrencia.ENCALHE]: "Encalhe",
-};
-
-const CONDICAO_CORPORAL_REVERSE_MAP: Record<
-  CondicaoCorporal,
-  NonNullable<OccurrenceFormValues["condicaoCorporal"]>
-> = {
-  [CondicaoCorporal.boa]: "boa",
-  [CondicaoCorporal.regular]: "regular",
-  [CondicaoCorporal.pessima]: "péssima",
-};
-
-const CAUSA_MORTIS_CATEGORIA_REVERSE_MAP: Record<
-  CausaMortisCategoria,
-  NonNullable<OccurrenceFormValues["causaMortisCategoria"]>
-> = {
-  [CausaMortisCategoria.Antropica]: "Antrópica",
-  [CausaMortisCategoria.Patologica]: "Patológica",
-  [CausaMortisCategoria.Fisiologica]: "Fisiológica",
-  [CausaMortisCategoria.Desconhecida]: "Desconhecida",
-  [CausaMortisCategoria.Indeterminada]: "Indeterminada",
-};
-
-const DESTINO_FINAL_REVERSE_MAP: Record<
-  DestinoFinal,
-  NonNullable<OccurrenceFormValues["destinoFinal"]>
-> = {
-  [DestinoFinal.soltura]: "soltura",
-  [DestinoFinal.transferencia]: "transferencia",
-  [DestinoFinal.obito]: "obito",
-  [DestinoFinal.colecao_cientifica]: "colecao_cientifica",
-  [DestinoFinal.enterro]: "enterro",
-  [DestinoFinal.incineracao]: "incineracao",
-  [DestinoFinal.maceracao]: "maceracao",
-  [DestinoFinal.doacao]: "doacao",
-  [DestinoFinal.colecao_cientifica_ima]: "colecao cientifica IMA",
-  [DestinoFinal.outro]: "outro",
-};
-
 function formatDateOnly(date: Date): string {
   return date.toISOString().slice(0, 10);
 }
@@ -234,9 +245,7 @@ function mapPresencaTumoresToForm(
   return value === SimNao.Sim ? "sim" : "nao";
 }
 
-export function toOccurrenceFormValues(
-  occurrence: Occurrence
-): OccurrenceFormValues {
+function toOccurrenceFormValues(occurrence: Occurrence): OccurrenceFormValues {
   return {
     tomboIma: occurrence.tomboIma,
     responsavelRegistro: occurrence.responsavelRegistro,
@@ -321,4 +330,96 @@ export function toOccurrenceFormValues(
     outroDestinoEspecificar: toFormString(occurrence.outroDestinoEspecificar),
     observacoes: toFormString(occurrence.observacoes),
   };
+}
+
+@Injectable()
+export class OccurrenceService {
+  constructor(private readonly repository: OccurrenceRepository) {}
+
+  async list(params: {
+    situacao?: OccurrenceSituacao;
+    busca?: string;
+  }): Promise<OccurrenceListItem[]> {
+    const { situacao = "todos", busca } = params;
+
+    const where: Prisma.OccurrenceWhereInput = {};
+
+    if (situacao === "aberto") {
+      where.destinoFinal = null;
+    } else if (situacao === "encerrado") {
+      where.destinoFinal = { not: null };
+    }
+
+    if (busca) {
+      where.OR = [
+        { tomboIma: { contains: busca, mode: "insensitive" } },
+        { especie: { contains: busca, mode: "insensitive" } },
+        { municipio: { contains: busca, mode: "insensitive" } },
+      ];
+    }
+
+    return this.repository.findMany(where);
+  }
+
+  async getFormValues(id: string): Promise<OccurrenceFormValues | null> {
+    const occurrence = await this.repository.findById(id);
+    return occurrence ? toOccurrenceFormValues(occurrence) : null;
+  }
+
+  async create(values: OccurrenceFormValues): Promise<CreateOccurrenceResult> {
+    return this.persist(values, (data) => this.repository.create(data));
+  }
+
+  async update(
+    id: string,
+    values: OccurrenceFormValues
+  ): Promise<CreateOccurrenceResult> {
+    return this.persist(values, (data) => {
+      const updateData = Object.fromEntries(
+        Object.entries(data).map(([key, value]) => [
+          key,
+          value === undefined ? null : value,
+        ])
+      ) as Prisma.OccurrenceUpdateInput;
+      return this.repository.update(id, updateData);
+    });
+  }
+
+  private async persist(
+    values: OccurrenceFormValues,
+    persist: (data: Prisma.OccurrenceCreateInput) => Promise<{ id: string }>
+  ): Promise<CreateOccurrenceResult> {
+    const parsed = formSchema.safeParse(values);
+
+    if (!parsed.success) {
+      const errors: Record<string, string> = {};
+      for (const issue of parsed.error.issues) {
+        const field = issue.path[0];
+        if (typeof field === "string" && !(field in errors)) {
+          errors[field] = issue.message;
+        }
+      }
+      return { success: false, errors };
+    }
+
+    try {
+      const data = toOccurrenceCreateInput(parsed.data);
+      const occurrence = await persist(data);
+      return { success: true, id: occurrence.id };
+    } catch (error) {
+      if (error instanceof OccurrenceMappingError) {
+        return { success: false, errors: { [error.field]: error.message } };
+      }
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2002"
+      ) {
+        return {
+          success: false,
+          errors: { tomboIma: "Já existe um registro com este Tombo IMA." },
+        };
+      }
+      throw error;
+    }
+  }
 }
