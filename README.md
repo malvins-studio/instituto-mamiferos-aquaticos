@@ -1,24 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+SIIMA é um monorepo (npm workspaces) com três camadas:
+
+- `apps/web` — frontend Next.js.
+- `apps/api` — backend NestJS (REST).
+- `packages/database` — Prisma Client e migrations.
+- `packages/shared` — schemas Zod e tipos compartilhados entre `web` e `api`.
 
 ## Getting Started
 
-First, run the development server:
+Instale as dependências uma vez na raiz (o npm resolve todos os workspaces):
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Depois, rode cada app no seu próprio workspace:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run dev --workspace=@siima/web    # http://localhost:3000
+npm run start:dev --workspace=@siima/api  # http://localhost:3001
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+O frontend consome a API via `NEXT_PUBLIC_API_URL` (ver `.env.example`).
 
 ## Learn More
 
