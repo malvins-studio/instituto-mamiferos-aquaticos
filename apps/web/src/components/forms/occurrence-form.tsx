@@ -17,11 +17,8 @@ import { Form } from "@/components/ui/form";
 
 import OccurrenceSections from "./occurrence-sections";
 
-import {
-  formSchema,
-  OccurrenceFormValues,
-} from "@/lib/schemas/occurrenceSchema";
-import { createOccurrence, updateOccurrence } from "@/lib/actions/occurrence";
+import { formSchema, type OccurrenceFormValues } from "@siima/shared";
+import { createOccurrence, updateOccurrence } from "@/services/api";
 import { useEffectSkipFirst } from "@/hooks/use-effect-skip-first";
 
 const DEFAULT_VALUES: DefaultValues<OccurrenceFormValues> = {

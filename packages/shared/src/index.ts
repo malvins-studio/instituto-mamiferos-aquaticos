@@ -1,1 +1,1 @@
-export * from "./schemas/occurrenceSchema";
+export * from "./schemas/occurrenceSchema.ts";

@@ -2,7 +2,7 @@
 "use client";
 
 import { Control, UseFormSetValue, useWatch } from "react-hook-form";
-import { OccurrenceFormValues } from "@/lib/schemas/occurrenceSchema";
+import type { OccurrenceFormValues } from "@siima/shared";
 import {
   Accordion,
   AccordionContent,

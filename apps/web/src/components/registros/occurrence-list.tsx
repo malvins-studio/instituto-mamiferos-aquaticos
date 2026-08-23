@@ -1,10 +1,7 @@
 // src/components/registros/occurrence-list.tsx
 import Link from "next/link";
 import { Search } from "lucide-react";
-import type {
-  OccurrenceListItem,
-  OccurrenceSituacao,
-} from "@/lib/actions/occurrence-queries";
+import type { OccurrenceListItem, OccurrenceSituacao } from "@/services/api";
 
 interface OccurrenceListProps {
   occurrences: OccurrenceListItem[];
@@ -18,8 +15,8 @@ const TABS: { value: OccurrenceSituacao; label: string }[] = [
   { value: "todos", label: "Todos" },
 ];
 
-function formatDate(date: Date): string {
-  return date.toLocaleDateString("pt-BR", { timeZone: "UTC" });
+function formatDate(date: string): string {
+  return new Date(date).toLocaleDateString("pt-BR", { timeZone: "UTC" });
 }
 
 export function OccurrenceList({

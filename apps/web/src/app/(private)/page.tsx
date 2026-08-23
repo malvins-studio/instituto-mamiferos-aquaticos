@@ -1,9 +1,6 @@
 // src/app/page.tsx
 import Link from "next/link";
-import {
-  listOccurrences,
-  type OccurrenceSituacao,
-} from "@/lib/actions/occurrence-queries";
+import { listOccurrences, type OccurrenceSituacao } from "@/services/api";
 import { OccurrenceList } from "@/components/registros/occurrence-list";
 
 function parseSituacao(value: string | undefined): OccurrenceSituacao {

@@ -33,6 +33,9 @@
     "testEnvironment": "node",
     "testRegex": ".*\\.test\\.ts$",
     "moduleFileExtensions": ["ts", "js", "json"],
-    "setupFiles": ["<rootDir>/jest.setup.ts"]
+    "setupFiles": ["<rootDir>/jest.setup.ts"],
+    "moduleNameMapper": {
+      "^(\\.{1,2}/.*)\\.js$": "$1"
+    }
   }
 }

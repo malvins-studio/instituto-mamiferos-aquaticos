@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getOccurrence } from "@/lib/actions/occurrence-queries";
-import { toOccurrenceFormValues } from "@/lib/actions/occurrence-mappers";
+import { getOccurrence } from "@/services/api";
 import { OccurrenceForm } from "@/components/forms/occurrence-form";
 
 export default async function EditarRegistroPage({
@@ -10,13 +9,11 @@ export default async function EditarRegistroPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const occurrence = await getOccurrence(id);
+  const initialValues = await getOccurrence(id);
 
-  if (!occurrence) {
+  if (!initialValues) {
     notFound();
   }
-
-  const initialValues = toOccurrenceFormValues(occurrence);
 
   return (
     <>
@@ -33,17 +30,14 @@ export default async function EditarRegistroPage({
               Editar Registro
             </h1>
             <p className="text-sm text-white/80 mt-1 truncate">
-              {occurrence.tomboIma} • {occurrence.especie}
+              {initialValues.tomboIma} • {initialValues.especie}
             </p>
           </div>
         </div>
       </div>
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl bg-white p-6 md:p-8 rounded-xl border-2 border-brand-accent/30 shadow-lg">
-          <OccurrenceForm
-            initialValues={initialValues}
-            occurrenceId={occurrence.id}
-          />
+          <OccurrenceForm initialValues={initialValues} occurrenceId={id} />
         </div>
       </div>
     </>
