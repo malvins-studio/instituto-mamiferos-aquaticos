@@ -10,10 +10,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "db:studio": "prisma studio",
-    "postinstall": "prisma generate",
-    "prebuild": "prisma db push"
+    "lint": "eslint"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
